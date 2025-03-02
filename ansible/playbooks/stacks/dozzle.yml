@@ -1,0 +1,22 @@
+---
+- name: Deploy Dozzle Service
+  hosts: docker
+  vars:
+    service_name: dozzle
+    additional_directories:
+      - data
+    secret_files:
+      - { template: "{{ compose_dir }}/users.yml.tpl", dest: "{{ compose_dir }}/users.yml" }
+
+  tasks:
+    - name: Clone repository
+      include_tasks: ../../tasks/clone-repo.yml
+    
+    - name: Service prerequisites
+      include_tasks: ../../tasks/service-prerequisites.yml
+
+    - name: Deploy service
+      include_tasks: ../../tasks/deploy-service.yml
+    
+    - name: Cleanup repository
+      include_tasks: ../../tasks/cleanup-repo.yml

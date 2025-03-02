@@ -1,0 +1,40 @@
+---
+secrets:
+  users:
+    file: users.yml
+
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    networks:
+      - proxy
+    environment:
+      - DOZZLE_AUTH_PROVIDER=simple
+      - DOZZLE_ENABLE_ACTIONS=true
+    secrets:
+      - source: users
+        target: /data/users.yml
+    volumes:
+      - /home/mgrsys/docker/dozzle/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
+      - "traefik.http.routers.dozzle.rule=Host(`dozzle.darksaber.fyi`)"
+      - "traefik.http.routers.dozzle.entrypoints=https"
+      - "traefik.http.routers.dozzle.tls=true"
+      - "traefik.http.routers.dozzle.middlewares=default-whitelist@file"
+      - "traefik.docker.network=proxy"
+      # Homepage
+      - "homepage.group=Monitoring"
+      - "homepage.name=Dozzle"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/dozzle.svg"
+      - "homepage.href=https://dozzle.darksaber.fyi"
+      - "homepage.description=Logs viewer for Docker"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true

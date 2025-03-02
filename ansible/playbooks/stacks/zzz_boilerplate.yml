@@ -27,7 +27,7 @@
       include_tasks: ../../tasks/service-prerequisites.yml
 
     - name: Deploy service
-      include_tasks:../../tasks/deploy-service.yml
+      include_tasks: ../../tasks/deploy-service.yml
     
     - name: Cleanup repository
       include_tasks: ../../tasks/cleanup-repo.yml
