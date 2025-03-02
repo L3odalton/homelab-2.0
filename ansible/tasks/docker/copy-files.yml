@@ -4,9 +4,7 @@
     src: "{{ repo_dir }}/docker/{{ service_name }}/compose/"
     dest: "{{ compose_dir }}/"
     remote_src: yes
-  notify:
-  - process secrets
-  - docker service
+  notify: "{{ ['process secrets', 'docker service'] if secret_files is defined else ['docker service'] }}"
 
 
 - name: Copy additional directories
@@ -16,6 +14,4 @@
     remote_src: yes
   loop: "{{ copy_directories | default([]) }}"
   when: copy_directories is defined
-  notify:
-  - process secrets
-  - docker service
+  notify: "{{ ['process secrets', 'docker service'] if secret_files is defined else ['docker service'] }}"
