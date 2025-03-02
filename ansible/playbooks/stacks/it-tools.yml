@@ -14,8 +14,8 @@
     - name: Copy service files
       include_tasks: ../../tasks/docker/copy-files.yml 
 
-    - name: Deploy service
-      include_tasks: ../../tasks/docker/deploy-service.yml
-    
     - name: Cleanup repository
       include_tasks: ../../tasks/docker/cleanup-repo.yml
+  
+  handlers:
+    - import_tasks: ../../handlers/docker/docker-service.yml
