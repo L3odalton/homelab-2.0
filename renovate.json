@@ -7,10 +7,11 @@
     {
       "fileMatch": ["^docker/traefik-stack/traefik/config/traefik\\.yml$"],
       "matchStrings": [
-        "\\s+moduleName: \"?(?<depName>[^\"\\s]+)\"?[\\r\\n\\s]+version: \"?(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)\"?"
+        "\\s+moduleName: \"?(?<depName>github\\.com\\/[^\\/\"\\s]+\\/[^\\/\"\\s]+)\"?[\\r\\n\\s]+version: \"?(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)\"?"
       ],
       "datasourceTemplate": "github-releases",
-      "versioningTemplate": "semver"
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "depNameTemplate": "{{depName.replace('github.com/', '')}}"
     }
   ]
 }
