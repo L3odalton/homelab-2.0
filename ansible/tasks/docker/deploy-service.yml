@@ -1,5 +1,5 @@
 ---
-- name: Deploy service
+- name: deploy/restart service
   community.docker.docker_compose_v2:
     project_src: "{{ compose_dir }}"
     files:
@@ -7,3 +7,4 @@
     state: present
     pull: policy
     recreate: always
+    when: files_copied.changed == True

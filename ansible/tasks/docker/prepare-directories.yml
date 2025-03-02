@@ -1,0 +1,24 @@
+---
+- name: Set base service path
+  set_fact:
+    base_dir: "{{ base_path }}/{{ service_name }}"
+    compose_dir: "{{ base_path }}/{{ service_name }}/compose"
+
+- name: Ensure default directories exist
+  file:
+    path: "{{ compose_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Ensure additional directories exist (if specified)
+  file:
+    path: "{{ base_dir }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ additional_directories | default([]) }}"
+  when: additional_directories is defined
+
+- name: Ensure docker network exists
+  docker_network:
+    name: "{{ docker_network }}"
+    state: present

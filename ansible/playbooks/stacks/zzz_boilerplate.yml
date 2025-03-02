@@ -21,13 +21,19 @@
 
   tasks:
     - name: Clone repository
-      include_tasks: ../../tasks/clone-repo.yml
+      include_tasks: ../../tasks/docker/clone-repo.yml
+
+    - name: Prepare directories
+      include_tasks: ../../tasks/docker/prepare-directories.yml
     
-    - name: Service prerequisites
-      include_tasks: ../../tasks/service-prereq.yml
+    - name: Copy service files
+      include_tasks: ../../tasks/docker/copy-files.yml
+
+    - name: Process secrets
+      include_tasks: ../../tasks/docker/process-secrets.yml
 
     - name: Deploy service
-      include_tasks: ../../tasks/deploy-service.yml
+      include_tasks: ../../tasks/docker/deploy-service.yml
     
     - name: Cleanup repository
-      include_tasks: ../../tasks/cleanup-repo.yml
+      include_tasks: ../../tasks/docker/cleanup-repo.yml

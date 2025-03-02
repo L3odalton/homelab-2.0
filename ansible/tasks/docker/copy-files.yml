@@ -1,0 +1,17 @@
+---
+- name: Copy compose files from repo
+  copy:
+    src: "{{ repo_dir }}/docker/{{ service_name }}/compose/"
+    dest: "{{ compose_dir }}/"
+    remote_src: yes
+  changed_when: true
+  register: files_copied
+
+- name: Copy additional directories
+  copy:
+    src: "{{ repo_dir }}/docker/{{ service_name }}/{{ item.src }}/"
+    dest: "{{ base_dir }}/{{ item.dest }}/"
+    remote_src: yes
+  loop: "{{ copy_directories | default([]) }}"
+  when: copy_directories is defined
+  register: files_copied
