@@ -12,10 +12,12 @@
       include_tasks: ../../tasks/docker/prepare-directories.yml
 
     - name: Copy service files
-      include_tasks: ../../tasks/docker/copy-files.yml   
+      include_tasks: ../../tasks/docker/copy-files.yml
+      register: copy_result   
 
     - name: Deploy service
       include_tasks: ../../tasks/docker/deploy-service.yml
+      when: copy_result.changed
     
     - name: Cleanup repository
       include_tasks: ../../tasks/docker/cleanup-repo.yml

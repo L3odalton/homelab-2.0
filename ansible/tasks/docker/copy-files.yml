@@ -5,7 +5,6 @@
     dest: "{{ compose_dir }}/"
     remote_src: yes
   changed_when: true
-  register: files_copied
 
 - name: Copy additional directories
   copy:
@@ -14,4 +13,3 @@
     remote_src: yes
   loop: "{{ copy_directories | default([]) }}"
   when: copy_directories is defined
-  register: files_copied
