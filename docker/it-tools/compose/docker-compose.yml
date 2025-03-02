@@ -14,7 +14,7 @@ services:
       - "traefik.http.routers.it-tools.rule=Host(`tools.darksaber.fyi`)"
       - "traefik.http.routers.it-tools.entrypoints=https"
       - "traefik.http.routers.it-tools.tls=true"
-      - "traefik.http.routers.it-tools.middlewares=secured@file,pocket-id-2@file"
+      - "traefik.http.routers.it-tools.middlewares=default-whitelist@file,pocket-id-2@file"
       - "traefik.docker.network=proxy"
       # Homepage
       - "homepage.group=Misc"
