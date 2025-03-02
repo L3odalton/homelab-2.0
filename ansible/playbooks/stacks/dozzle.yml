@@ -13,7 +13,7 @@
       include_tasks: ../../tasks/clone-repo.yml
     
     - name: Service prerequisites
-      include_tasks: ../../tasks/service-prerequisites.yml
+      include_tasks: ../../tasks/service-prereq.yml
 
     - name: Deploy service
       include_tasks: ../../tasks/deploy-service.yml
