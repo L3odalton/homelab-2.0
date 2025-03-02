@@ -25,7 +25,7 @@ services:
       - "traefik.http.routers.dozzle.rule=Host(`dozzle.darksaber.fyi`)"
       - "traefik.http.routers.dozzle.entrypoints=https"
       - "traefik.http.routers.dozzle.tls=true"
-      - "traefik.http.routers.dozzle.middlewares=default-whitelist@file"
+      - "traefik.http.routers.dozzle.middlewares=secured@file"
       - "traefik.docker.network=proxy"
       # Homepage
       - "homepage.group=Monitoring"
