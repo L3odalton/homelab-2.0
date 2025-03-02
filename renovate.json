@@ -2,5 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^docker/traefik-stack/traefik/config/traefik\\.yml$"],
+      "matchStrings": [
+        "\\s+version: \"?(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)\"?\\s+moduleName: \"?(?<depName>[^\"\\s]+)\"?"
+      ],
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    }
   ]
 }
