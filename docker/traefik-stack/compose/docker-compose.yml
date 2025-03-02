@@ -4,8 +4,8 @@ secrets:
 
 services:
   traefik:
-    container_name: traefik:v3.3.4
-    image: traefik:latest
+    container_name: traefik
+    image: traefik:v3.3.4
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
