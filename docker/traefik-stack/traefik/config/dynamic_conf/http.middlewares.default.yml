@@ -1,0 +1,58 @@
+http:
+  middlewares:
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    gzip:
+      compress: {}
+
+    https-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    default-whitelist:
+      ipAllowList:
+        sourceRange:
+        - "10.0.0.0/8"
+        - "192.168.0.0/16"
+        - "172.16.0.0/12"
+  
+    pocket-id:
+      plugin:
+        traefik-oidc-auth:
+          Secret: "{{ env `POCKET_ID_SECRET` }}"
+          Provider:
+            Url: "https://id.darksaber.fyi/"
+            ClientId: 4a6cbb74-10e6-4644-a3f6-92e23c67c56a
+            ClientSecretEnv: "POCKET_ID_CLIENT_SECRET"
+            TokenValidation: "IdToken"
+          Scopes: ["openid", "profile", "email"]
+
+    pocket-id-2:
+      plugin:
+        traefikoidc:
+          providerURL: "https://id.darksaber.fyi"
+          clientID: 4a6cbb74-10e6-4644-a3f6-92e23c67c56a
+          clientSecret: "{{ env `POCKET_ID_CLIENT_SECRET` }}"
+          sessionEncryptionKey: "{{ env `POCKET_ID_SECRET` }}"
+          callbackURL: /oidc/callback
+          logoutURL: "https://id.darksaber.fyi/api/oidc/end-session"
+          scopes: ["openid", "profile", "email"]
+
+    secured:
+      chain:
+        middlewares:
+        - default-whitelist
+        - default-headers
+        - gzip
