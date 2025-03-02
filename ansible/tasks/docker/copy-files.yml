@@ -7,7 +7,7 @@
   changed_when: true
   notify:
   - process secrets
-  - restart service
+  - docker service
 
 
 - name: Copy additional directories
@@ -19,4 +19,4 @@
   when: copy_directories is defined
   notify:
   - process secrets
-  - restart service
+  - docker service

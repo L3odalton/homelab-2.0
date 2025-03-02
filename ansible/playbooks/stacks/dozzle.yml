@@ -8,10 +8,6 @@
     secret_files:
       - { template: "{{ compose_dir }}/users.yml.tpl", dest: "{{ compose_dir }}/users.yml" }
 
-  handlers:
-    - import_tasks: ../../handlers/docker/process-secrets.yml
-    - import_tasks: ../../handlers/docker/docker-service.yml
-
   tasks:
     - name: Clone repository
       include_tasks: ../../tasks/docker/clone-repo.yml
@@ -24,3 +20,7 @@
 
     - name: Cleanup repository
       include_tasks: ../../tasks/docker/cleanup-repo.yml
+
+  handlers:
+    - import_tasks: ../../handlers/docker/process-secrets.yml
+    - import_tasks: ../../handlers/docker/docker-service.yml
