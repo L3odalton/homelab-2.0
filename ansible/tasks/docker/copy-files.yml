@@ -4,7 +4,6 @@
     src: "{{ repo_dir }}/docker/{{ service_name }}/compose/"
     dest: "{{ compose_dir }}/"
     remote_src: yes
-  changed_when: true
   notify:
   - process secrets
   - docker service
