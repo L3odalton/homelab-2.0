@@ -5,6 +5,10 @@
     dest: "{{ compose_dir }}/"
     remote_src: yes
   changed_when: true
+  notify:
+  - process secrets
+  - restart service
+
 
 - name: Copy additional directories
   copy:
@@ -13,3 +17,6 @@
     remote_src: yes
   loop: "{{ copy_directories | default([]) }}"
   when: copy_directories is defined
+  notify:
+  - process secrets
+  - restart service

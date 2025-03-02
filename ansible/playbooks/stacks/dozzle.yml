@@ -17,9 +17,6 @@
     
     - name: Copy service files
       include_tasks: ../../tasks/docker/copy-files.yml
-      notify:
-        - process secrets
-        - restart service
 
     - name: Cleanup repository
       include_tasks: ../../tasks/docker/cleanup-repo.yml
