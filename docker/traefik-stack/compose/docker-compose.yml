@@ -1,2 +1,51 @@
-include:
-  - traefik.yml
+secrets:
+  cf-token:
+    file: ./cf-token
+
+services:
+  traefik:
+    container_name: traefik:v3.3.4
+    image: traefik:latest
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - CF_API_EMAIL=${CF_API_EMAIL}
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf-token
+      - POCKET_ID_SECRET=${POCKET_ID_SECRET}
+      - POCKET_ID_CLIENT_SECRET=${POCKET_ID_CLIENT_SECRET}
+    secrets:
+      - cf-token
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/mgrsys/docker/traefik-stack/traefik/config/traefik.yml:/etc/traefik/traefik.yml
+      - /home/mgrsys/docker/traefik-stack/traefik/config/certs/acme.json:/etc/traefik/acme.json
+      - /home/mgrsys/docker/traefik-stack/traefik/config/dynamic_conf:/etc/traefik/dynamic_conf:ro
+      - /var/log/traefik/:/var/log/traefik/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.darksaber.fyi`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.darksaber.fyi`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=darksaber.fyi"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
+
+networks:
+  proxy:
+    external: true
