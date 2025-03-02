@@ -8,6 +8,7 @@
     secret_files:
       - { template: "{{ compose_dir }}/.env.tpl", dest: "{{ compose_dir }}/.env" }
       - { template: "{{ compose_dir }}/cf-token.tpl", dest: "{{ compose_dir }}/cf-token" }
+    certs_dir: "{{ base_path }}/traefik-stack/traefik/config/certs"
 
   tasks:
     - name: Clone repository
