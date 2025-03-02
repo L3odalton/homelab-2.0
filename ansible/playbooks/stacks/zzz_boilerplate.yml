@@ -1,0 +1,33 @@
+---
+- name: Deploy Boilerplate Service
+  hosts: docker
+  vars:
+    service_name: boilerplate
+    
+    # Additional directories beyond the default compose and config
+    additional_directories:
+      - config
+      - appdata
+
+    # Copy additional directorys if needed for config files etc.
+    copy_directories:
+      - { src: "config", dest: "config" }
+      - { src: "appdata", dest: "appdata" }
+    
+    # Secret files to process with 1Password
+    secret_files:
+      - { template: "{{ compose_dir }}/.env.tpl", dest: "{{ compose_dir }}/.env" }
+      - { template: "{{ config_dir }}/app.conf.tpl", dest: "{{ config_dir }}/app.conf" }
+
+  tasks:
+    - name: Clone repository
+      include_tasks: ../../tasks/clone-repo.yml
+    
+    - name: Service prerequisites
+      include_tasks: ../../tasks/service-prerequisites.yml
+
+    - name: Deploy service
+      include_tasks:../../tasks/deploy-service.yml
+    
+    - name: Cleanup repository
+      include_tasks: ../../tasks/cleanup-repo.yml

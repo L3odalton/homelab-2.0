@@ -1,0 +1,3 @@
+---
+base_path: "/home/mgrsys/docker"
+docker_network: proxy

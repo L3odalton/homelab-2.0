@@ -1,0 +1,5 @@
+---
+- name: Remove Git Tmp Folder
+  file:
+    path: "{{ repo_dir }}"
+    state: absent

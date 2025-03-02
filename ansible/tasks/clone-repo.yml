@@ -1,0 +1,7 @@
+---
+- name: Clone/pull latest configuration from GitHub
+  git:
+    repo: "{{ github_repo }}"
+    dest: "{{ repo_dir }}"
+    update: yes
+    force: yes
