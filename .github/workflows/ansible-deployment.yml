@@ -11,6 +11,12 @@ jobs:
   run-playbooks:
     runs-on: self-hosted
     environment: ansible
+    strategy:
+      matrix:
+        service:
+          - {name: dozzle, path: 'docker/dozzle/**'}
+          - {name: traefik, path: 'docker/traefik-stack/**'}
+          - {name: it-tools, path: 'docker/it-tools/**'}
 
     steps:
     - name: Checkout repository
@@ -21,41 +27,16 @@ jobs:
       uses: dorny/paths-filter@v3
       with:
         filters: |
-          dozzle:
-            - 'docker/dozzle/**'
-          traefik:
-            - 'docker/traefik-stack/**'
-          it-tools:
-            - 'docker/it-tools/**'
+          service:
+            - ${{ matrix.service.path }}
 
-    - name: Run Ansible Playbook for Dozzle
-      if: steps.changed-files.outputs.dozzle == 'true'
+    - name: Run Ansible Playbook
+      if: steps.changed-files.outputs.service == 'true'
       uses: dawidd6/action-ansible-playbook@v3
       with:
-        playbook: playbooks/stacks/dozzle.yml
+        playbook: playbooks/stacks/${{ matrix.service.name }}.yml
         directory: ansible
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         options: |
           --extra-vars "op_token=${{ secrets.OP_TOKEN }}"
-          --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
-
-    - name: Run Ansible Playbook for Traefik
-      if: steps.changed-files.outputs.traefik == 'true'
-      uses: dawidd6/action-ansible-playbook@v3
-      with:
-        playbook: playbooks/stacks/traefik.yml
-        directory: ansible
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        options: |
-          --extra-vars "op_token=${{ secrets.OP_TOKEN }}"
-          --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
-
-    - name: Run Ansible Playbook for IT Tools
-      if: steps.changed-files.outputs.it-tools == 'true'
-      uses: dawidd6/action-ansible-playbook@v3
-      with:
-        playbook: playbooks/stacks/it-tools.yml
-        directory: ansible
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        options: |
           --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
