@@ -23,6 +23,10 @@ jobs:
         filters: |
           dozzle:
             - 'docker/dozzle/**'
+          traefik:
+            - 'docker/traefik-stack/**'
+          it-tools:
+            - 'docker/it-tools/**'
 
     - name: Run Ansible Playbook for Dozzle
       if: steps.changed-files.outputs.dozzle == 'true'
@@ -33,4 +37,25 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         options: |
           --extra-vars "op_token=${{ secrets.OP_TOKEN }}"
+          --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
+
+    - name: Run Ansible Playbook for Traefik
+      if: steps.changed-files.outputs.traefik == 'true'
+      uses: dawidd6/action-ansible-playbook@v3
+      with:
+        playbook: playbooks/stacks/traefik.yml
+        directory: ansible
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        options: |
+          --extra-vars "op_token=${{ secrets.OP_TOKEN }}"
+          --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
+
+    - name: Run Ansible Playbook for IT Tools
+      if: steps.changed-files.outputs.it-tools == 'true'
+      uses: dawidd6/action-ansible-playbook@v3
+      with:
+        playbook: playbooks/stacks/it-tools.yml
+        directory: ansible
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        options: |
           --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
