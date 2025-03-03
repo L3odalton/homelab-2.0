@@ -1,0 +1,36 @@
+name: Run Ansible Playbooks on File Change
+
+on:
+  push:
+    paths:
+      - 'docker/**'
+  pull_request:
+    paths:
+      - 'docker/**'
+
+jobs:
+  run-playbooks:
+    runs-on: self-hosted
+    environment: ansible
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Get changed files
+      id: changed-files
+      uses: dorny/paths-filter@v2
+      with:
+        filters: |
+          dozzle:
+            - 'docker/dozzle/**'
+
+    - name: Run Ansible Playbook for Dozzle
+      if: steps.changed-files.outputs.dozzle == 'true'
+      uses: dawidd6/action-ansible-playbook@v3
+      with:
+        playbook: ansible/playbooks/stacks/dozzle.yml
+        directory: ./ansible/playbooks
+        inventory: ./ansible/inventory/inventory.ini
+        options: --verbose -e "op_token=${{ secrets.OP_TOKEN }}"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
