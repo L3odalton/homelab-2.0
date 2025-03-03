@@ -1,0 +1,32 @@
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:2.26.1
+    ports:
+      - 8000:8000
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.darksaber.fyi`)"
+      - "traefik.http.routers.portainer.entrypoints=https"
+      - "traefik.http.routers.portainer.tls=true"
+      - "traefik.http.routers.portainer.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
+      # Homepage
+      - "homepage.group=Monitoring"
+      - "homepage.name=Portainer"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/portainer.svg"
+      - "homepage.href=https://portainer.darksaber.fyi"
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  portainer_data:
+    driver: local

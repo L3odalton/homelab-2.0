@@ -17,6 +17,7 @@ jobs:
           - {name: dozzle, path: 'docker/dozzle/**'}
           - {name: traefik, path: 'docker/traefik-stack/**'}
           - {name: it-tools, path: 'docker/it-tools/**'}
+          - {name: portainer, path: 'docker/portainer/**'}
 
     steps:
     - name: Checkout repository
