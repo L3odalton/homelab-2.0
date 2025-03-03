@@ -17,7 +17,7 @@ services:
       - "traefik.http.routers.portainer.rule=Host(`portainer.darksaber.fyi`)"
       - "traefik.http.routers.portainer.entrypoints=https"
       - "traefik.http.routers.portainer.tls=true"
-      - "traefik.http.routers.portainer.middlewares=secured@file"
+      - "traefik.http.routers.portainer.middlewares=default-whitelist@file"
       - "traefik.docker.network=proxy"
       # Homepage
       - "homepage.group=Monitoring"
