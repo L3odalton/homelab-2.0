@@ -2,8 +2,6 @@ services:
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:2.27.1
-    ports:
-      - 8000:8000
     networks:
       - proxy
     restart: always
