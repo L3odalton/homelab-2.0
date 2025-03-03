@@ -2,9 +2,13 @@ name: Run Ansible Playbooks on File Change
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'docker/**'
   pull_request:
+    branches:
+      - main
     paths:
       - 'docker/**'
 
@@ -31,6 +35,8 @@ jobs:
       with:
         directory: ansible
         playbook: playbooks/stacks/dozzle.yml
-        inventory: inventory/inventory.ini
+        inventory: |
+          [docker]
+          srv-docker.local.darksaber.fyi
         options: -e "op_token=${{ secrets.OP_TOKEN }}"
         key: ${{ secrets.SSH_PRIVATE_KEY }}
