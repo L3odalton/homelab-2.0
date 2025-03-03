@@ -29,8 +29,8 @@ jobs:
       if: steps.changed-files.outputs.dozzle == 'true'
       uses: dawidd6/action-ansible-playbook@v3
       with:
-        playbook: stacks/dozzle.yml
-        directory: ansible/playbooks
-        inventory: ../inventory/inventory.ini
-        options: --verbose -e "op_token=${{ secrets.OP_TOKEN }}"
+        directory: ansible
+        playbook: playbooks/stacks/dozzle.yml
+        inventory: inventory/inventory.ini
+        options: -e "op_token=${{ secrets.OP_TOKEN }}"
         key: ${{ secrets.SSH_PRIVATE_KEY }}
