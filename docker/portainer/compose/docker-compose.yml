@@ -11,7 +11,7 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.rule=Host(`portainer.darksaber.fyi`)"
       - "traefik.http.routers.portainer.entrypoints=https"
       - "traefik.http.routers.portainer.tls=true"
