@@ -56,3 +56,9 @@ http:
         - default-whitelist
         - default-headers
         - gzip
+
+    secured-external:
+      chain:
+        middlewares:
+        - default-headers
+        - gzip
