@@ -11,7 +11,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.it-tools.loadbalancer.server.port=80"
-      - "traefik.http.routers.it-tools.rule=Host(`tools.darksaber.fyi`)"
+      - "traefik.http.routers.it-tools.rule=Host(`tools.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.it-tools.entrypoints=https"
       - "traefik.http.routers.it-tools.tls=true"
       - "traefik.http.routers.it-tools.middlewares=secured@file,pocket-id-2@file"
@@ -20,7 +20,7 @@ services:
       - "homepage.group=Misc"
       - "homepage.name=IT-Tools"
       - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/it-tools.svg"
-      - "homepage.href=https://tools.darksaber.fyi"
+      - "homepage.href=https://tools.docker-prd.darksaber.fyi"
       - "homepage.description=Handy tools for developers"
     restart: unless-stopped
 

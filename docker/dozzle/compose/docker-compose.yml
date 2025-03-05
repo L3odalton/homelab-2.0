@@ -22,7 +22,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
-      - "traefik.http.routers.dozzle.rule=Host(`dozzle.darksaber.fyi`)"
+      - "traefik.http.routers.dozzle.rule=Host(`dozzle.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.dozzle.entrypoints=https"
       - "traefik.http.routers.dozzle.tls=true"
       - "traefik.http.routers.dozzle.middlewares=secured@file"
@@ -31,7 +31,7 @@ services:
       - "homepage.group=Monitoring"
       - "homepage.name=Dozzle"
       - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/dozzle.svg"
-      - "homepage.href=https://dozzle.darksaber.fyi"
+      - "homepage.href=https://dozzle.docker-prd.darksaber.fyi"
       - "homepage.description=Logs viewer for Docker"
     restart: unless-stopped
 
