@@ -18,6 +18,7 @@ jobs:
           - {name: traefik, path: 'docker/traefik-stack/**'}
           - {name: it-tools, path: 'docker/it-tools/**'}
           - {name: portainer, path: 'docker/portainer/**'}
+          - {name: jellyseerr, path: 'docker/jellyseerr/**'}
 
     steps:
     - name: Checkout repository
