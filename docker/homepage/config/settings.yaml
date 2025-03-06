@@ -7,13 +7,23 @@ providers:
   weatherapi: weatherapiapikey
 
 layout:
-  Home:
-    tab: First
+  Misc:
+    tab: Home
+    style: row
+    columns: 4
+  
+  Monitoring:
+    tab: Home
+    style: row
+    columns: 4
+  
+  Network:
+    tab: Home
     style: row
     columns: 4
     
   Media:
-    tab: Second
+    tab: Media
     style: row
-    columns: 4
+    columns: 2
   

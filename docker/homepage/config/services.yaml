@@ -21,11 +21,11 @@
                   service_group: Media
                   service_name: Sonarr
                   params:
-                    unmonitored: true
+                    unmonitored: false
                 - type: radarr
                   service_group: Media
                   service_name: Radarr
                   params:
-                    unmonitored: true
+                    unmonitored: false
 
 
