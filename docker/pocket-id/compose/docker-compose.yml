@@ -12,7 +12,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.pocket-id.loadbalancer.server.port=80"
-      - "traefik.http.routers.pocket-id.rule=Host(`id.darksaber.fyi`) || Host(`id.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.pocket-id.rule=Host(`id.darksaber.fyi`)"
       - "traefik.http.routers.pocket-id.entrypoints=https"
       - "traefik.http.routers.pocket-id.tls=true"
       - "traefik.http.routers.pocket-id.middlewares=secured-external@file"
@@ -21,7 +21,7 @@ services:
       - "homepage.group=Misc"
       - "homepage.name=Pocket-ID"
       - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pocket-id.svg"
-      - "homepage.href=https://id.docker-prd.darksaber.fyi"
+      - "homepage.href=https://id.darksaber.fyi"
       - "homepage.description=Simple OIDC authentication provider"
     restart: unless-stopped
 
