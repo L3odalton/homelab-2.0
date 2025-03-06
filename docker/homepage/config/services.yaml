@@ -10,3 +10,22 @@
             url: https://dns-01.darksaber.fyi
             key: {{HOMEPAGE_VAR_TECHNITIUM_01_KEY}}
             range: LastDay
+
+- Media:
+    - Calender:
+        name: Calendar
+        widget:
+            type: calendar
+            integrations:
+                - type: sonarr
+                  service_group: Media
+                  service_name: Sonarr
+                  params:
+                    unmonitored: true
+                - type: radarr
+                  service_group: Media
+                  service_name: Radarr
+                  params:
+                    unmonitored: true
+
+
