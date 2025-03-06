@@ -1,0 +1,4 @@
+---
+srv-docker:
+  host: socket-proxy
+  port: 2375

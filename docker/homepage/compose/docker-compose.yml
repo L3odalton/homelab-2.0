@@ -1,0 +1,43 @@
+---
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    networks:
+      - proxy
+    environment:
+      PUID: 1000
+      PGID: 1000
+      HOMEPAGE_VAR_TECHNITIUM_01_KEY: ${HOMEPAGE_VAR_TECHNITIUM_01_KEY}
+    volumes:
+      - /home/mgrsys/docker/homepage/config:/app/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "traefik.http.routers.homepage.rule=Host(`homepage.darksaber.fyi`)"
+      - "traefik.http.routers.homepage.entrypoints=https"
+      - "traefik.http.routers.homepage.tls=true"
+      - "traefik.http.routers.homepage.middlewares=default-whitelist@file"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: socket-proxy
+    networks:
+      - proxy
+    environment:
+      - CONTAINERS=1
+      - SERVICES=1
+      - TASKS=1
+      - POST=0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /run   
+
+networks:
+  proxy:
+    external: true
