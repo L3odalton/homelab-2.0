@@ -19,6 +19,7 @@ jobs:
           - {name: it-tools, path: 'docker/it-tools/**'}
           - {name: portainer, path: 'docker/portainer/**'}
           - {name: jellyseerr, path: 'docker/jellyseerr/**'}
+          - {name: pocket-id, path: 'docker/pocket-id/**'}
 
     steps:
     - name: Checkout repository
