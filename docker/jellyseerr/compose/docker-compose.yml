@@ -9,7 +9,7 @@ services:
       - LOG_LEVEL=info
       - TZ=Europe/Berlin
     volumes:
-      - /home/mgrsys/docker/jellyseerr/config:/app/config
+      - jellyseerr_config:/app/config
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -30,3 +30,6 @@ services:
 networks:
   proxy:
     external: true
+
+volumes:
+  jellyseerr_config:
