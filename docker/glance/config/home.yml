@@ -32,7 +32,14 @@
       widgets:
         - type: group
           widgets:
-            - type: hacker-news      
+            - type: hacker-news   
+            - type: rss
+              limit: 10
+              collapse-after: 3
+              cache: 12h
+              feeds:
+                - url: https://selfh.st/rss/
+                  title: selfh.st   
 
     - size: small
       widgets:
@@ -44,3 +51,6 @@
           servers:
             - type: local
               name: srv-docker
+        - type: repository
+          repository: L3odalton/homelab-2.0
+
