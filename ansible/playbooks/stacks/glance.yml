@@ -1,0 +1,39 @@
+---
+- name: Deploy glance Service
+  hosts: docker
+  vars:
+    service_name: glance
+    additional_directories:
+      - config
+      - assets
+    copy_directories:
+      - { src: "config", dest: "config" }
+      - { src: "assets", dest: "assets" }
+
+  tasks:
+    - name: Clone repository
+      include_tasks: ../../tasks/docker/clone-repo.yml
+
+    - name: Prepare directories
+      include_tasks: ../../tasks/docker/prepare-directories.yml
+
+    - name: Copy compose files from repo
+      copy:
+        src: "{{ repo_dir }}/docker/{{ service_name }}/compose/"
+        dest: "{{ compose_dir }}/"
+        remote_src: yes
+      notify: "{{ ['process secrets', 'docker service'] if secret_files is defined else ['docker service'] }}"
+
+    - name: Copy additional directories
+      copy:
+        src: "{{ repo_dir }}/docker/{{ service_name }}/{{ item.src }}/"
+        dest: "{{ base_dir }}/{{ item.dest }}/"
+        remote_src: yes
+      loop: "{{ copy_directories | default([]) }}"
+      when: copy_directories is defined
+
+    - name: Cleanup repository
+      include_tasks: ../../tasks/docker/cleanup-repo.yml
+
+  handlers:
+    - import_tasks: ../../handlers/docker/docker-service.yml

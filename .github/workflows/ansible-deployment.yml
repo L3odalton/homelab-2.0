@@ -21,6 +21,7 @@ jobs:
           - {name: jellyseerr, path: 'docker/jellyseerr/**'}
           - {name: pocket-id, path: 'docker/pocket-id/**'}
           - {name: homepage, path: 'docker/homepage/**'}
+          - {name: glance, path: 'docker/glance/**'}
 
     steps:
     - name: Checkout repository
