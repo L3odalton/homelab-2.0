@@ -2,7 +2,7 @@
   # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
   # hide-desktop-navigation: true
   columns:
-    - size: small
+    - size: full
       widgets:
         - type: monitor
           cache: 1m
@@ -17,7 +17,7 @@
             - title: IT-Tools
               url: https://tools.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/it-tools.svg
-    - size: small
+    - size: full
       widgets:
         - type: monitor
           cache: 1m
