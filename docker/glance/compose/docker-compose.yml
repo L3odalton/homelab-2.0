@@ -5,8 +5,8 @@ services:
     networks:
       - proxy
     volumes:
-      - /home/docker/mgrsys/glance/config:/app/config
-      - /home/docker/mgrsys/glance/assets:/app/assets
+      - /home/mgrsys/docker/glance/config:/app/config
+      - /home/mgrsys/docker/glance/assets:/app/assets
       # - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file: .env
     restart: unless-stopped
