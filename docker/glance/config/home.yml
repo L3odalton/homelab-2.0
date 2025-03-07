@@ -12,7 +12,7 @@
               url: https://id.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pocket-id.svg
             - title: Outline
-              url: https://outline.darksaber.fyi
+              url: https://docs.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/outline.svg
             - title: IT-Tools
               url: https://tools.docker-prd.darksaber.fyi
@@ -28,4 +28,4 @@
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/dozzle.svg
             - title: Portainer
               url: https://portainer.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/dozzle.svg
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/portainer.svg

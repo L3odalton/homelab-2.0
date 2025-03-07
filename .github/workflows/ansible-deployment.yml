@@ -8,40 +8,61 @@ on:
       - 'docker/**'
 
 jobs:
-  run-playbooks:
+  detect-changes:
+    runs-on: self-hosted
+    outputs:
+      changed-services: ${{ steps.filter.outputs.changes }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate filters
+        id: generate-filters
+        run: |
+          SERVICES=$(cat << 'EOF'
+          dozzle
+          traefik
+          it-tools
+          portainer
+          jellyseerr
+          pocket-id
+          homepage
+          glance
+          EOF
+          )
+          FILTERS=""
+          for service in $SERVICES; do
+            FILTERS="${FILTERS}${service}:\n  - 'docker/${service}/**'\n"
+          done
+          echo "filters<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$FILTERS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Filter changed services
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: ${{ steps.generate-filters.outputs.filters }}
+          list-files: json
+
+  deploy-services:
+    needs: detect-changes
     runs-on: self-hosted
     environment: ansible
+    if: ${{ needs.detect-changes.outputs.changed-services != '[]' }}
     strategy:
       matrix:
-        service:
-          - {name: dozzle, path: 'docker/dozzle/**'}
-          - {name: traefik, path: 'docker/traefik-stack/**'}
-          - {name: it-tools, path: 'docker/it-tools/**'}
-          - {name: portainer, path: 'docker/portainer/**'}
-          - {name: jellyseerr, path: 'docker/jellyseerr/**'}
-          - {name: pocket-id, path: 'docker/pocket-id/**'}
-          - {name: homepage, path: 'docker/homepage/**'}
-          - {name: glance, path: 'docker/glance/**'}
-
+        service: ${{ fromJSON(needs.detect-changes.outputs.changed-services) }}
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Get changed files
-      id: changed-files
-      uses: dorny/paths-filter@v3
-      with:
-        filters: |
-          service:
-            - ${{ matrix.service.path }}
-
-    - name: Run Ansible Playbook
-      if: steps.changed-files.outputs.service == 'true'
-      uses: dawidd6/action-ansible-playbook@v3
-      with:
-        playbook: playbooks/stacks/${{ matrix.service.name }}.yml
-        directory: ansible
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        options: |
-          --extra-vars "op_token=${{ secrets.OP_TOKEN }}"
-          --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
+      - name: Run Ansible Playbook
+        uses: dawidd6/action-ansible-playbook@v3
+        with:
+          playbook: playbooks/stacks/${{ matrix.service }}.yml
+          directory: ansible
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          options: |
+            --extra-vars "op_token=${{ secrets.OP_TOKEN }}"
+            --inventory ${{ github.workspace }}/ansible/inventory/inventory.ini
