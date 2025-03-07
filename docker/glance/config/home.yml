@@ -36,6 +36,10 @@
 
     - size: small
       widgets:
+        - type: weather
+          units: metric
+          hour-format: 24
+          location: Hannover, Germany
         - type: server-stats
           servers:
             - type: local
