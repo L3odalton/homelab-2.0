@@ -1,6 +1,6 @@
 services:
   prowlarr:
-    image: ghcr.io/hotio/prowlarr:1.31.2.4975
+    image: ghcr.io/hotio/prowlarr:release-1.31.2.4975
     container_name: prowlarr
     environment:
       - PUID=1000
@@ -40,7 +40,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: ghcr.io/hotio/sonarr:4.0.13.2932
+    image: ghcr.io/hotio/sonarr:release-4.0.13.2932
     container_name: sonarr
     environment:
       - PUID=1000
@@ -81,7 +81,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: ghcr.io/hotio/radarr:5.19.3.9730
+    image: ghcr.io/hotio/radarr:release-5.19.3.9730
     container_name: radarr
     environment:
       - PUID=1000
