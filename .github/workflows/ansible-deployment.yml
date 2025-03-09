@@ -30,6 +30,7 @@ jobs:
           glance
           arr-stack
           cloudflare-ddns
+          audiobookshelf
           EOF
           )
           FILTERS=""
