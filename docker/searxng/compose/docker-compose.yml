@@ -24,11 +24,11 @@ services:
     restart: unless-stopped
     labels:
       # Traefik
-      - "traefik.http.routers.search.service=search"
+      - "traefik.enable=true"
+      - "traefik.http.services.search.loadbalancer.server.port=8080"
       - "traefik.http.routers.search.rule=Host(`search.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.search.entrypoints=https"
       - "traefik.http.routers.search.tls=true"
-      - "traefik.http.services.search.loadbalancer.server.port=8080"
       - "traefik.http.routers.search.middlewares=secured-external@file,pocket-id@file"
       - "traefik.docker.network=proxy"
 
