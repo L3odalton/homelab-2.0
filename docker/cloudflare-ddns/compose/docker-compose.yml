@@ -1,0 +1,20 @@
+services:
+  cloudflare-ddns:
+    image: favonia/cloudflare-ddns:latest
+    container_name: cloudflare-ddns
+    networks:
+      - proxy
+    restart: always
+    user: "1000:1000"
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - DOMAINS=darksaber.fyi
+      - PROXIED=true
+      - IP6_PROVIDER=none
+
+networks:
+  proxy:
+    external: true

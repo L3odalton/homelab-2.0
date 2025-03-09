@@ -29,6 +29,7 @@ jobs:
           homepage
           glance
           arr-stack
+          cloudflare-ddns
           EOF
           )
           FILTERS=""
