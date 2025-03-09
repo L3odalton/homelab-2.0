@@ -1,0 +1,144 @@
+services:
+  prowlarr:
+    image: ghcr.io/hotio/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - prowlarr_data:/config
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      # Web Service
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.prowlarr.entrypoints=https"
+      - "traefik.http.routers.prowlarr.tls=true"
+      - "traefik.http.routers.prowlarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.http.routers.prowlarr.priority=1"
+      # API Service
+      - "traefik.http.routers.prowlarr-api.rule=(Host(`prowlarr.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.prowlarr-api.entrypoints=https"
+      - "traefik.http.routers.prowlarr-api.tls=true"
+      - "traefik.http.routers.prowlarr-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.prowlarr-api.priority=3"
+      - "traefik.docker.network=proxy"
+      # Homepage
+      - "homepage.group=Media"
+      - "homepage.name=Prowlarr"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prowlarr.svg"
+      - "homepage.href=https://prowlarr.docker-prd.darksaber.fyi"
+      - "homepage.description=Indexer Manager"
+      - "homepage.widget.type=prowlarr"
+      - "homepage.widget.url=https://prowlarr.docker-prd.darksaber.fyi"
+      - "homepage.widget.key=${PROWLARR_APIKEY}"
+    restart: unless-stopped
+
+  sonarr:
+    image: ghcr.io/hotio/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - sonarr_data:/config
+      - /mnt/data:/data
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      # Web Service
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.sonarr.entrypoints=https"
+      - "traefik.http.routers.sonarr.tls=true"
+      - "traefik.http.routers.sonarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.http.routers.sonarr.priority=1"
+      # API Service
+      - "traefik.http.routers.sonarr-api.rule=(Host(`sonarr.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.sonarr-api.entrypoints=https"
+      - "traefik.http.routers.sonarr-api.tls=true"
+      - "traefik.http.routers.sonarr-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.sonarr-api.priority=3"
+      - "traefik.docker.network=proxy"
+      # Homepage
+      - "homepage.group=Media"
+      - "homepage.name=Sonarr"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr-light.svg"
+      - "homepage.href=https://sonarr.docker-prd.darksaber.fyi"
+      - "homepage.description=TV Show Manager"
+      - "homepage.widget.type=sonarr"
+      - "homepage.widget.url=https://sonarr.docker-prd.darksaber.fyi"
+      - "homepage.widget.key=${SONARR_APIKEY}"
+    restart: unless-stopped
+
+  radarr:
+    image: ghcr.io/hotio/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - radarr_data:/config
+      - /mnt/data:/data
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      # Web Service
+      - "traefik.http.routers.radarr.rule=Host(`radarr.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.radarr.entrypoints=https"
+      - "traefik.http.routers.radarr.tls=true"
+      - "traefik.http.routers.radarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.http.routers.radarr.priority=1"
+      # API Service
+      - "traefik.http.routers.radarr-api.rule=(Host(`radarr.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.radarr-api.entrypoints=https"
+      - "traefik.http.routers.radarr-api.tls=true"
+      - "traefik.http.routers.radarr-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.radarr-api.priority=3"
+      - "traefik.docker.network=proxy"
+      # Homepage
+      - "homepage.group=Media"
+      - "homepage.name=Radarr"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr-light.svg"
+      - "homepage.href=https://radarr.docker-prd.darksaber.fyi"
+      - "homepage.description=Movie Manager"
+      - "homepage.widget.type=radarr"
+      - "homepage.widget.url=https://radarr.docker-prd.darksaber.fyi"
+      - "homepage.widget.key=${RADARR_APIKEY}"
+    restart: unless-stopped
+
+  umlautadaptarr:
+    image: pcjones/umlautadaptarr:latest
+    container_name: umlautadaptarr
+    environment:
+      - TZ=Europe/Berlin
+      - SONARR__ENABLED=true
+      - SONARR__HOST=http://sonarr:8989
+      - SONARR__APIKEY=${SONARR_APIKEY}
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  prowlarr_data:
+  sonarr_data:
+  radarr_data:
+  

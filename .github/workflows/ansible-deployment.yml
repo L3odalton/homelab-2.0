@@ -28,6 +28,7 @@ jobs:
           pocket-id
           homepage
           glance
+          arr-stack
           EOF
           )
           FILTERS=""
