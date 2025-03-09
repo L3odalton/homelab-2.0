@@ -1,15 +1,15 @@
 ---
 services:
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:v2.19.5
+    image: ghcr.io/advplyr/audiobookshelf:2.19.5
     container_name: audiobookshelf
     networks:
       - proxy
     environment:
       - TZ=Europe/Berlin
     volumes:
-      - audiobookshelf_data:/config
-      - audiobookshelf_data:/metadata
+      - audiobookshelf_config:/config
+      - audiobookshelf_metadata:/metadata
       - /mnt/data/media/audiobooks:/audiobooks
       - /mnt/data/media/podcasts:/podcasts
       - /mnt/data/media/radioplays:/radioplays
@@ -28,4 +28,5 @@ networks:
     external: true
 
 volumes:
-  audiobookshelf_data:
+  audiobookshelf_config:
+  audiobookshelf_metadata:
