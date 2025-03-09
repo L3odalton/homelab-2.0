@@ -33,6 +33,7 @@ jobs:
           audiobookshelf
           calibre-web-automated
           searxng
+          plex-auto-languages
           EOF
           )
           FILTERS=""
