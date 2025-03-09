@@ -32,6 +32,7 @@ jobs:
           cloudflare-ddns
           audiobookshelf
           calibre-web-automated
+          searxng
           EOF
           )
           FILTERS=""

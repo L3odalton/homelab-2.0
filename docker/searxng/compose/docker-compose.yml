@@ -1,0 +1,37 @@
+services:  
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    environment:
+      - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME}/
+      - UWSGI_WORKERS=${SEARXNG_UWSGI_WORKERS:-4}
+      - UWSGI_THREADS=${SEARXNG_UWSGI_THREADS:-4}
+    volumes:
+      - /home/mgrsys/docker/searxng/config:/etc/searxng:rw
+    networks:
+      - proxy
+    #cap_drop:
+      #- ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    restart: unless-stopped
+    labels:
+      # Traefik
+      - "traefik.http.routers.search.service=search"
+      - "traefik.http.routers.search.rule=Host(`search.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.search.entrypoints=https"
+      - "traefik.http.routers.search.tls=true"
+      - "traefik.http.services.search.loadbalancer.server.port=8080"
+      - "traefik.http.routers.search.middlewares=secured-external@file,pocket-id@file"
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true

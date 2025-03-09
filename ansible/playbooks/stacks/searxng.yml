@@ -1,0 +1,49 @@
+---
+- name: Deploy searxng Service
+  hosts: docker
+  vars:
+    service_name: searxng
+    additional_directories:
+      - config
+    copy_directories:
+      - { src: "config", dest: "config" }
+    secret_files:
+      - { template: "{{ config_dir }}/settings.yml.tpl", dest: "{{ config_dir }}/settings.yml" }
+
+  tasks:
+    - name: Clone repository
+      include_tasks: ../../tasks/docker/clone-repo.yml
+
+    - name: Prepare directories
+      include_tasks: ../../tasks/docker/prepare-directories.yml
+    
+    - name: Copy service files
+      include_tasks: ../../tasks/docker/copy-files.yml
+
+    - name: Deploy/update and restart docker container
+      community.docker.docker_compose_v2:
+        project_src: "{{ compose_dir }}"
+        files:
+          - docker-compose.yml
+        state: present
+        pull: policy
+        recreate: always
+
+    - name: Uncomment cap_drop in docker-compose.yml
+      ansible.builtin.replace:
+        path: "{{ compose_dir }}/docker-compose.yml"
+        regexp: '^(\s*)#(\s*)cap_drop:'
+        replace: '\1\2cap_drop:'
+
+    - name: Uncomment - ALL in docker-compose.yml
+      ansible.builtin.replace:
+        path: "{{ compose_dir }}/docker-compose.yml"
+        regexp: '^(\s*)#(\s*)- ALL'
+        replace: '\1\2- ALL'
+
+    - name: Cleanup repository
+      include_tasks: ../../tasks/docker/cleanup-repo.yml
+
+  handlers:
+    - import_tasks: ../../handlers/docker/process-secrets.yml
+    - import_tasks: ../../handlers/docker/docker-service.yml
