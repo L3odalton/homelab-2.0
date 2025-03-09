@@ -22,14 +22,14 @@
       shell: |
         op inject -i "{{ item.input }}" -o "{{ item.output }}" -f
       loop:
-        - { input: "{{ config_dir }}/settings.yml.tpl", output: "{{ config_dir }}/settings.yml" }
+        - { input: "/home/mgrsys/docker/searxng/config/settings.yml.tpl", output: "/home/mgrsys/docker/searxng/config/settings.yml" }
       environment:
         OP_SERVICE_ACCOUNT_TOKEN: "{{ op_token }}"
       no_log: yes
 
     - name: Change permissions of searxng/settings.yml
       ansible.builtin.file:
-        path: "{{ config_dir }}/settings.yml"
+        path: "/home/mgrsys/docker/searxng/config/settings.yml"
         mode: "0644"
 
     - name: Deploy/update and restart docker container
