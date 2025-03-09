@@ -1,0 +1,31 @@
+---
+services:
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:3.0.4
+    container_name: calibre-web-automated
+    networks:
+      - proxy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - calibre-web-automated_config:/config
+      - /mnt/data/usenet/complete/books:/cwa-book-ingest
+      - /mnt/data/media/books:/calibre-library
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.calibre-web-automated.rule=Host(`books.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.calibre-web-automated.entrypoints=https"
+      - "traefik.http.routers.calibre-web-automated.tls=true"
+      - "traefik.http.services.calibre-web-automated.loadbalancer.server.port=8083"
+      - "traefik.http.routers.calibre-web-automated.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  calibre-web-automated_config:
