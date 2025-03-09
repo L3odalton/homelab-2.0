@@ -7,8 +7,6 @@
       - config
     copy_directories:
       - { src: "config", dest: "config" }
-    secret_files:
-      - { template: "{{ config_dir }}/settings.yml.tpl", dest: "{{ config_dir }}/settings.yml" }
 
   tasks:
     - name: Clone repository
@@ -17,29 +15,17 @@
     - name: Prepare directories
       include_tasks: ../../tasks/docker/prepare-directories.yml
     
-    - name: Copy compose files from repo
-      copy:
-        src: "{{ repo_dir }}/docker/{{ service_name }}/compose/"
-        dest: "{{ compose_dir }}/"
-        remote_src: yes
-      notify: "{{ ['docker service'] }}"
+    - name: Copy service files
+      include_tasks: ../../tasks/docker/copy-files.yml
 
-    - name: Copy additional directories
-      copy:
-        src: "{{ repo_dir }}/docker/{{ service_name }}/{{ item.src }}/"
-        dest: "{{ base_dir }}/{{ item.dest }}/"
-        remote_src: yes
-      loop: "{{ copy_directories | default([]) }}"
-      when: copy_directories is defined
-      notify: "{{ ['docker service'] }}"
-
-    - name: process secrets
+    - name: Inject Secrets from 1Password
       shell: |
-        op inject -i "{{ item.template }}" -o "{{ item.dest }}" -f
+        op inject -i "{{ item.input }}" -o "{{ item.output }}" -f
+      loop:
+        - { input: "{{ config_dir }}/settings.yml.tpl", output: "{{ config_dir }}/settings.yml" }
       environment:
         OP_SERVICE_ACCOUNT_TOKEN: "{{ op_token }}"
-      loop: "{{ secret_files }}"
-      no_log: true
+      no_log: yes
 
     - name: Change permissions of searxng/settings.yml
       ansible.builtin.file:
