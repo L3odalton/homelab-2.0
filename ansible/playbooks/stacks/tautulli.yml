@@ -1,0 +1,21 @@
+---
+- name: Deploy tautulli Service
+  hosts: docker
+  vars:
+    service_name: tautulli
+
+  tasks:
+    - name: Clone repository
+      include_tasks: ../../tasks/docker/clone-repo.yml
+
+    - name: Prepare directories
+      include_tasks: ../../tasks/docker/prepare-directories.yml
+    
+    - name: Copy service files
+      include_tasks: ../../tasks/docker/copy-files.yml
+
+    - name: Cleanup repository
+      include_tasks: ../../tasks/docker/cleanup-repo.yml
+
+  handlers:
+    - import_tasks: ../../handlers/docker/docker-service.yml

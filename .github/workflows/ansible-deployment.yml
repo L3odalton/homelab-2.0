@@ -35,6 +35,7 @@ jobs:
           searxng
           plex-auto-languages
           gluetun-stack
+          tautulli
           EOF
           )
           FILTERS=""
