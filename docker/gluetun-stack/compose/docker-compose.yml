@@ -18,7 +18,7 @@ services:
     labels:
       - "traefik.enable=true"
       # Nzb
-      - "traefik.http.routers.nzb.service=sab"
+      - "traefik.http.routers.nzb.service=nzb"
       - "traefik.http.routers.nzb.rule=Host(`nzb.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.nzb.entrypoints=https"
       - "traefik.http.routers.nzb.tls=true"
