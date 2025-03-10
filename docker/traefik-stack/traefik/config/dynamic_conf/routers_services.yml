@@ -3,7 +3,7 @@ http:
     pve-s13-01:
       entryPoints:
         - "https"
-      rule: "Host(`pve-s13-01.darksaber.fyi`)"
+      rule: "Host(`pve-s13-01.docker-prd.darksaber.fyi`)"
       middlewares:
         - default-headers
         - https-redirectscheme
@@ -15,7 +15,7 @@ http:
     pbs:
       entryPoints:
         - "https"
-      rule: "Host(`pbs.darksaber.fyi`)"
+      rule: "Host(`pbs.docker-prd.darksaber.fyi`)"
       middlewares:
         - default-headers
         - https-redirectscheme
@@ -27,7 +27,7 @@ http:
     unraid:
       entryPoints:
         - "https"
-      rule: "Host(`unraid.darksaber.fyi`)"
+      rule: "Host(`unraid.docker-prd.darksaber.fyi`)"
       middlewares:
         - default-headers
         - https-redirectscheme
@@ -39,7 +39,7 @@ http:
     dns-01:
       entryPoints:
         - "https"
-      rule: "Host(`dns-01.darksaber.fyi`)"
+      rule: "Host(`dns-01.docker-prd.darksaber.fyi`)"
       middlewares:
         - default-headers
         - https-redirectscheme
@@ -51,7 +51,7 @@ http:
     dns-02:
       entryPoints:
         - "https"
-      rule: "Host(`dns-02.darksaber.fyi`)"
+      rule: "Host(`dns-02.docker-prd.darksaber.fyi`)"
       middlewares:
         - default-headers
         - https-redirectscheme
@@ -63,7 +63,7 @@ http:
     homeassistant:
       entryPoints:
         - "https"
-      rule: "Host(`ha.darksaber.fyi`)"
+      rule: "Host(`ha.docker-prd.darksaber.fyi`)"
       middlewares:
         - default-headers
         - https-redirectscheme
@@ -75,7 +75,7 @@ http:
     semaphore:
         entryPoints:
           - "https"
-        rule: "Host(`semaphore.darksaber.fyi`)"
+        rule: "Host(`semaphore.docker-prd.darksaber.fyi`)"
         middlewares:
           - default-headers
           - https-redirectscheme
