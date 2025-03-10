@@ -19,11 +19,18 @@ services:
       - "traefik.enable=true"
       # Sab
       - "traefik.http.routers.sab.service=sab"
-      - "traefik.http.routers.sab.rule=Host(`sab.darksaber.fyi`)"
+      - "traefik.http.routers.sab.rule=Host(`sab.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.sab.entrypoints=https"
       - "traefik.http.routers.sab.tls=true"
       - "traefik.http.routers.sab.middlewares=secured@file,pocket-id@file"
       - "traefik.http.services.sab.loadbalancer.server.port=8080"
+      - "traefik.http.routers.prowlarr.priority=1"
+      # Sab Api
+      - "traefik.http.routers.sab-api.rule=(Host(`sab.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.sab-api.entrypoints=https"
+      - "traefik.http.routers.sab-api.tls=true"
+      - "traefik.http.routers.sab-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.sab-api.priority=3"
     restart: unless-stopped
 
   sabnzbd:
