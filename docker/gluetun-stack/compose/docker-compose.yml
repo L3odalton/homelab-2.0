@@ -19,7 +19,7 @@ services:
       - "traefik.enable=true"
       # Sab
       - "traefik.http.routers.sab.service=sab"
-      - "traefik.http.routers.sab.rule=Host(`sab.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.sab.rule=Host(`sab.darksaber.fyi`)"
       - "traefik.http.routers.sab.entrypoints=https"
       - "traefik.http.routers.sab.tls=true"
       - "traefik.http.routers.sab.middlewares=secured@file,pocket-id@file"
