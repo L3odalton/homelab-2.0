@@ -1,0 +1,49 @@
+---
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - proxy
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - SERVER_CITIES=${SERVER_CITIES}
+    labels:
+      - "traefik.enable=true"
+      # Nzb
+      - "traefik.http.routers.nzb.service=sab"
+      - "traefik.http.routers.nzb.rule=Host(`nzb.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.nzb.entrypoints=https"
+      - "traefik.http.routers.nzb.tls=true"
+      - "traefik.http.routers.nzb.middlewares=secured@file,pocket-id@file"
+      - "traefik.http.services.nzb.loadbalancer.server.port=6789"
+    restart: unless-stopped
+
+  nzbget:
+    image: ghcr.io/hotio/nzbget:release-24.7
+    container_name: nzbget
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - nzbget_config:/config
+      - /mnt/data/usenet/complete:/data/usenet/complete
+      - /mnt/data/usenet/incomplete:/data/usenet/incomplete
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  nzbget_config:
