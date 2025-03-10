@@ -21,7 +21,7 @@ jobs:
         run: |
           SERVICES=$(cat << 'EOF'
           dozzle
-          traefik
+          traefik-stack
           it-tools
           portainer
           jellyseerr
