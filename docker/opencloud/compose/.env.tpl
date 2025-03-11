@@ -1,3 +1,4 @@
+COMPOSE_PROJECT_NAME=opencloud
 ## OpenCloud Settings ##
 # Beside Traefik, this service must stay enabled.
 # Note: the leading colon is required to enable the service.

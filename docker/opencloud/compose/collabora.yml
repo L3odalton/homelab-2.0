@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
 
   collabora:
-    image: collabora/code:24.04.12.2.1
+    image: collabora/code:24.04.13.1
     container_name: opencloud_collabora
     networks:
       - proxy
@@ -73,7 +73,6 @@ services:
       - "traefik.http.routers.collabora.entrypoints=https"
       - "traefik.http.routers.collabora.tls=true"
       - "traefik.docker.network=proxy"
-      
     logging:
       driver: local
     restart: unless-stopped
