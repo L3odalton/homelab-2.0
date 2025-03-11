@@ -7,6 +7,7 @@ services:
 
   progressbars-init:
     image: opencloudeu/web-extensions:progress-bars-1.0.0
+    container_name: opencloud_progress-bars
     user: root
     volumes:
       - opencloud-apps:/apps

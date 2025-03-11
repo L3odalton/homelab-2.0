@@ -49,6 +49,7 @@ services:
 
   collabora:
     image: collabora/code:24.04.12.2.1
+    container_name: opencloud_collabora
     networks:
       - proxy
     environment:

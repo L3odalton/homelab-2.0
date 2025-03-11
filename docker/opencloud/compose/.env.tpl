@@ -54,7 +54,7 @@ UNZIP=:web_extensions/unzip.yml
 DRAWIO=:web_extensions/drawio.yml
 JSONVIEWER=:web_extensions/jsonviewer.yml
 PROGRESSBARS=:web_extensions/progressbars.yml
-#EXTERNALSITES=:web_extensions/externalsites.yml
+EXTERNALSITES=:web_extensions/externalsites.yml
 # External Sites needs additional config, see the following files for more details.
 # - config/opencloud/apps.yaml
 # - config/opencloud/csp.yaml
@@ -130,7 +130,7 @@ CLAMAV_DOCKER_TAG=
 
 ### OnlyOffice Settings ###
 # Note: the leading colon is required to enable the service.
-ONLYOFFICE=:onlyoffice.yml
+# ONLYOFFICE=:onlyoffice.yml
 # Domain for OnlyOffice. Defaults to "onlyoffice.opencloud.test".
 ONLYOFFICE_DOMAIN=onlyoffice.docker-prd.darksaber.fyi
 # Domain for the wopiserver which handles OnlyOffice.
