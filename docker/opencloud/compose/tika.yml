@@ -1,0 +1,17 @@
+---
+services:
+  opencloud:
+    environment:
+      # fulltext search
+      SEARCH_EXTRACTOR_TYPE: tika
+      SEARCH_EXTRACTOR_TIKA_TIKA_URL: http://tika:9998
+      FRONTEND_FULL_TEXT_SEARCH_ENABLED: "true"
+      
+  tika:
+    image: apache/tika:3.0.0.0-full
+    container_name: opencloud_tika
+    networks:
+      - proxy
+    restart: unless-stopped
+    logging:
+      driver: local

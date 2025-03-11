@@ -1,0 +1,73 @@
+---
+services:
+  collaboration-oo:
+    image: opencloudeu/opencloud-rolling:v1.0.0
+    container_name: opencloud_collaboration-oo
+    networks:
+      - proxy
+    depends_on:
+      opencloud:
+        condition: service_healthy
+      onlyoffice:
+        condition: service_healthy
+    entrypoint:
+      - /bin/sh
+    command: [ "-c", "opencloud collaboration server" ]
+    environment:
+      COLLABORATION_GRPC_ADDR: 0.0.0.0:9301
+      COLLABORATION_HTTP_ADDR: 0.0.0.0:9300
+      MICRO_REGISTRY: "nats-js-kv"
+      MICRO_REGISTRY_ADDRESS: "opencloud:9233"
+      COLLABORATION_WOPI_SRC: ${WOPISERVER_ONLYOFFICE_DOMAIN}
+      COLLABORATION_APP_NAME: "OnlyOffice"
+      COLLABORATION_APP_PRODUCT: "OnlyOffice"
+      COLLABORATION_APP_ADDR: https://${ONLYOFFICE_DOMAIN}
+      COLLABORATION_APP_ICON: https://${ONLYOFFICE_DOMAIN}/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+      COLLABORATION_APP_INSECURE: "true"
+      COLLABORATION_CS3API_DATAGATEWAY_INSECURE: "true"
+      COLLABORATION_LOG_LEVEL: info
+      COLLABORATION_APP_PROOF_DISABLE: "true"
+      OC_URL: ${OC_DOMAIN}
+    volumes:
+      - opencloud-config:/etc/opencloud
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.collaboration-oo.loadbalancer.server.port=9200"
+      - "traefik.http.routers.collaboration-oo.rule=Host(`${WOPISERVER_ONLYOFFICE_DOMAIN}`)"
+      - "traefik.http.routers.collaboration-oo.entrypoints=https"
+      - "traefik.http.routers.collaboration-oo.tls=true"
+      - "traefik.docker.network=proxy"
+    logging:
+      driver: local
+    restart: unless-stopped
+
+  onlyoffice:
+    image: onlyoffice/documentserver:8.2.2
+    container_name: opencloud_onlyoffice
+    networks:
+      - proxy
+    entrypoint:
+      - /bin/sh
+      - /entrypoint-override.sh
+    environment:
+      WOPI_ENABLED: "true"
+      USE_UNAUTHORIZED_STORAGE: false
+    volumes:
+      - /home/mgrsys/docker/opencloud/onlyoffice/config/entrypoint-override.sh:/entrypoint-override.sh
+      - /home/mgrsys/docker/opencloud/onlyoffice/config/local.json:/etc/onlyoffice/documentserver/local.dist.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.onlyoffice.loadbalancer.server.port=80"
+      - "traefik.http.routers.onlyoffice.rule=Host(`${ONLYOFFICE_DOMAIN}`)"
+      - "traefik.http.routers.onlyoffice.entrypoints=https"
+      - "traefik.http.routers.onlyoffice.tls=true"
+      - "traefik.docker.network=proxy"
+      # websockets can't be opened when this is omitted
+      - "traefik.http.middlewares.onlyoffice.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.onlyoffice.middlewares=onlyoffice"
+    logging:
+      driver: local
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/hosting/discovery"]
