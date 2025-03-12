@@ -11,7 +11,7 @@ services:
     environment:
       OC_ADD_RUN_SERVICES: ${START_ADDITIONAL_SERVICES}
       OC_URL: ${OC_DOMAIN}
-      OC_LOG_LEVEL: "info"
+      OC_LOG_LEVEL: info
       OC_LOG_COLOR: "false"
       OC_LOG_PRETTY: "false"
       PROXY_TLS: "false"
@@ -19,7 +19,7 @@ services:
       OC_INSECURE: "false"
       PROXY_ENABLE_BASIC_AUTH: "false"
       IDM_ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
-      IDM_CREATE_DEMO_USERS: false
+      IDM_CREATE_DEMO_USERS: "false"
       MICRO_REGISTRY_ADDRESS: 127.0.0.1:9233
       NATS_NATS_HOST: 0.0.0.0
       NATS_NATS_PORT: 9233
