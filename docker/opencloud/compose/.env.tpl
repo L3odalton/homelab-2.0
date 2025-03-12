@@ -85,26 +85,26 @@ TIKA=:tika.yml
 ### Collabora Settings ###
 # Collabora web office is default enabled, comment if not required.
 # Note: the leading colon is required to enable the service.
-COLLABORA=:collabora.yml
+#COLLABORA=:collabora.yml
 # Domain of Collabora, where you can find the frontend.
 # Defaults to "collabora.opencloud.test"
-COLLABORA_DOMAIN=collabora.docker-prd.darksaber.fyi
+COLLABORA_DOMAIN=
 # Domain of the wopiserver which handles OnlyOffice.
 # Defaults to "wopiserver.opencloud.test"
-WOPISERVER_DOMAIN=wopiserver.docker-prd.darksaber.fyi
+WOPISERVER_DOMAIN=
 # Admin user for Collabora.
 # Defaults to "admin".
 # Collabora Admin Panel URL:
 # https://{COLLABORA_DOMAIN}/browser/dist/admin/admin.html
-COLLABORA_ADMIN_USER=admin
+COLLABORA_ADMIN_USER=
 # Admin password for Collabora.
 # Defaults to "admin".
-COLLABORA_ADMIN_PASSWORD=op://secrets/opencloud/env/collabora-admin-password
+COLLABORA_ADMIN_PASSWORD=
 # Set to true to enable SSL for Collabora Online. Default is true if not specified.
-COLLABORA_SSL_ENABLE=true
+COLLABORA_SSL_ENABLE=
 # If you're on an internet-facing server, enable SSL verification for Collabora Online.
 # Please comment out the following line:
-COLLABORA_SSL_VERIFICATION=true
+COLLABORA_SSL_VERIFICATION=
 
 
 ## Supplemental Configurations ##
@@ -133,9 +133,9 @@ CLAMAV_DOCKER_TAG=
 # Note: the leading colon is required to enable the service.
 # ONLYOFFICE=:onlyoffice.yml
 # Domain for OnlyOffice. Defaults to "onlyoffice.opencloud.test".
-ONLYOFFICE_DOMAIN=onlyoffice.docker-prd.darksaber.fyi
+ONLYOFFICE_DOMAIN=
 # Domain for the wopiserver which handles OnlyOffice.
-WOPISERVER_ONLYOFFICE_DOMAIN=wopiserver-oo.docker-prd.darksaber.fyi
+WOPISERVER_ONLYOFFICE_DOMAIN=
 
 
 ### Inbucket Settings ###
