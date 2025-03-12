@@ -4,7 +4,9 @@ services:
     image: opencloudeu/opencloud-rolling:v1.0.0
     container_name: opencloud
     networks:
-      - proxy
+      proxy:
+        aliases:
+          - ${OC_DOMAIN}
     entrypoint:
       - /bin/sh
     command: ["-c", "opencloud init || true; opencloud server"]
