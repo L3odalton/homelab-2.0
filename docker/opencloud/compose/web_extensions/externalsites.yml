@@ -3,7 +3,7 @@ services:
   opencloud:
     volumes:
       # external sites needs to have sites configured in the web.yaml
-      - ./config/opencloud/apps.yaml:/etc/opencloud/apps.yaml
+      - /home/mgrsys/docker/opencloud/config/apps.yaml:/etc/opencloud/apps.yaml
     depends_on:
       externalsites-init:
         condition: service_completed_successfully
