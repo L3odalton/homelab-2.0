@@ -18,8 +18,6 @@
 
     - size: full
       widgets:
-        - type: group
-          widgets:
         - type: monitor
           cache: 1m
           title: Misc
@@ -50,6 +48,22 @@
             - title: Technitium-01
               url: https://dns-01.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/technitium.svg
+        - type: monitor
+          cache: 1m
+          title: Appliances
+          sites:
+            - title: Unraid
+              url: https://unraid.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/unraid.svg
+            - title: PVE-01
+              url: https://pve-s13-01.local.darksaber.fyi:8006/
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+            - title: PVE-02
+              url: https://pve-s13-01.local.darksaber.fyi:8006/
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+            - title: Unifi
+              url: https://unifi.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/unifi.svg
 
     - size: small
       widgets:
