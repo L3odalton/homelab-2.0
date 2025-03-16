@@ -27,6 +27,14 @@
             - title: Portainer
               url: https://portainer.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/portainer.svg
+        - type: monitor
+          cache: 1m
+          title: Network
+          sites:
+            - title: Technitium-01
+              url: https://dns-01.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/technitium.svg
+        
 
     - size: full
       widgets:
