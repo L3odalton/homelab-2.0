@@ -38,17 +38,8 @@ http:
             ClientSecretEnv: "POCKET_ID_CLIENT_SECRET"
             TokenValidation: "IdToken"
           Scopes: ["openid", "profile", "email"]
-
-    pocket-id-2:
-      plugin:
-        traefikoidc:
-          providerURL: "https://id.darksaber.fyi"
-          clientID: 4a6cbb74-10e6-4644-a3f6-92e23c67c56a
-          clientSecret: "{{ env `POCKET_ID_CLIENT_SECRET` }}"
-          sessionEncryptionKey: "{{ env `POCKET_ID_SECRET` }}"
-          callbackURL: /oidc/callback
-          logoutURL: "https://id.darksaber.fyi/api/oidc/end-session"
-          scopes: ["openid", "profile", "email"]
+          SessionCookieConfig:
+            MaxAge: 28800
 
     secured:
       chain:

@@ -71,6 +71,3 @@ experimental:
     traefik-oidc-auth:
       moduleName: "github.com/sevensolutions/traefik-oidc-auth"
       version: "v0.9.0"
-    traefikoidc:
-      moduleName: github.com/lukaszraczylo/traefikoidc
-      version: v0.5.34
