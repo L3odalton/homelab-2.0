@@ -4,6 +4,22 @@
   columns:
     - size: small
       widgets:
+        - type: group
+          widgets:
+            - type: hacker-news   
+            - type: rss
+              limit: 10
+              collapse-after: 3
+              cache: 12h
+              feeds:
+                - url: https://selfh.st/rss/
+                  title: selfh.st   
+        
+
+    - size: full
+      widgets:
+        - type: group
+          widgets:
         - type: monitor
           cache: 1m
           title: Misc
@@ -34,20 +50,6 @@
             - title: Technitium-01
               url: https://dns-01.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/technitium.svg
-        
-
-    - size: full
-      widgets:
-        - type: group
-          widgets:
-            - type: hacker-news   
-            - type: rss
-              limit: 10
-              collapse-after: 3
-              cache: 12h
-              feeds:
-                - url: https://selfh.st/rss/
-                  title: selfh.st   
 
     - size: small
       widgets:
