@@ -1,0 +1,63 @@
+- name: Media
+  # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
+  # hide-desktop-navigation: true
+  columns:
+    - size: small
+      widgets:
+        - type: calendar
+          first-day-of-week: monday
+        
+    - size: full
+      widgets:
+        - type: monitor
+          cache: 1m
+          title: Player
+          sites:
+            - title: Plex
+              url: https://plex.tv/desktop
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg
+            - title: Audiobookshelf
+              url: https://abs.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/audiobookshelf.svg
+            - title: Calibre
+              url: https://books.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/calibre-web.svg
+        - type: monitor
+          cache: 1m
+          title: Automation
+          sites:
+            - title: Prowlarr
+              url: https://prowlarr.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prowlarr.svg
+            - title: Sonarr
+              url: https://sonarr.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr.svg
+            - title: Radarr
+              url: https://radarr.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr.svg
+            - title: Jellyseerr
+              url: https://anfragen.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyseerr.svg
+            - title: Sabnzbd
+              url: https://sab.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sabnzbd.svg
+        - type: monitor
+          cache: 1m
+          title: Monitoring
+          sites:
+            - title: Tautulli
+              url: https://tautulli.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/tautulli.svg
+
+    - size: small
+      widgets:
+        - type: weather
+          units: metric
+          hour-format: 24h
+          location: Hannover, Germany
+        - type: server-stats
+          servers:
+            - type: local
+              name: srv-docker
+        - type: repository
+          repository: L3odalton/homelab-2.0
