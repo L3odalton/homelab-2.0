@@ -7,7 +7,7 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["^ghcr.io/hotio/"],
-      "versionCompatibility": "^release-(?<compatibility>.+)$"
+      "versioning": "regex:^release-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
     }
   ],
   "customManagers": [
