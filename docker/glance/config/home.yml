@@ -62,8 +62,8 @@
               url: https://pve-s13-01.local.darksaber.fyi:8006/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
             - title: Unifi
-              url: https://unifi.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/unifi.svg
+              url: https://unifi.ui.com/
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/ubiquiti-unifi-light.svg
 
     - size: small
       widgets:
