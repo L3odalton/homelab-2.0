@@ -34,6 +34,7 @@ jobs:
           calibre-web-automated
           searxng
           plex-auto-languages
+          gluetun-stack
           tautulli
           EOF
           )
