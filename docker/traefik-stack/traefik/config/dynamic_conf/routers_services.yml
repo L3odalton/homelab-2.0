@@ -84,18 +84,6 @@ http:
         tls:
           options: default
         service: semaphore
-    sab:
-        entryPoints:
-          - "https"
-        rule: "Host(`sab.docker-prd.darksaber.fyi`)"
-        middlewares:
-          - default-headers
-          - https-redirectscheme
-          - gzip
-          - default-whitelist
-        tls:
-          options: default
-        service: sab
 
 
   services:
@@ -133,9 +121,4 @@ http:
       loadBalancer:
         servers:
           - url: "http://srv-semaphore.local.darksaber.fyi:3000"
-        passHostHeader: true
-    sab:
-      loadBalancer:
-        servers:
-          - url: "http://10.0.100.2:8080"
         passHostHeader: true
