@@ -39,7 +39,7 @@ http:
             TokenValidation: "IdToken"
           Scopes: ["openid", "profile", "email"]
           SessionCookieConfig:
-            MaxAge: 28800
+            MaxAge: "28800"
 
     secured:
       chain:
