@@ -38,8 +38,8 @@ http:
             ClientSecretEnv: "POCKET_ID_CLIENT_SECRET"
             TokenValidation: "IdToken"
           Scopes: ["openid", "profile", "email"]
-          SessionCookieConfig:
-            MaxAge: "28800"
+          SessionCookie:
+            MaxAge: 28800
 
     secured:
       chain:
