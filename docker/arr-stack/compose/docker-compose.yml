@@ -134,7 +134,7 @@ services:
     restart: unless-stopped
 
   wizarr:
-    image: ghcr.io/wizarrrr/wizarr:v4.2.0
+    image: ghcr.io/wizarrrr/wizarr:4.2.0
     container_name: wizarr
     networks:
       - proxy
