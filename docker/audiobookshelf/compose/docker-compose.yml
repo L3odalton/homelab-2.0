@@ -15,7 +15,7 @@ services:
       - /mnt/data/media/radioplays:/radioplays
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.audiobookshelf.rule=Host(`abs.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.audiobookshelf.rule=Host(`abs.darksaber.fyi`)"
       - "traefik.http.routers.audiobookshelf.entrypoints=https"
       - "traefik.http.routers.audiobookshelf.tls=true"
       - "traefik.http.services.audiobookshelf.loadbalancer.server.port=80"
