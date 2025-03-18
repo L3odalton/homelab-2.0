@@ -41,6 +41,9 @@
             - title: Sabnzbd
               url: https://sab.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sabnzbd.svg
+            - title: Wizarr
+              url: https://wizarr.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wizarr.svg
         - type: monitor
           cache: 1m
           title: Monitoring
