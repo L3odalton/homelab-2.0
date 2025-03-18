@@ -17,7 +17,7 @@
               url: https://plex.tv/desktop
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg
             - title: Audiobookshelf
-              url: https://abs.docker-prd.darksaber.fyi
+              url: https://abs.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/audiobookshelf.svg
             - title: Calibre
               url: https://books.docker-prd.darksaber.fyi
