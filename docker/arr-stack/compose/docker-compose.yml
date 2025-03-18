@@ -133,6 +133,25 @@ services:
       - proxy
     restart: unless-stopped
 
+  wizarr:
+    image: ghcr.io/wizarrrr/wizarr:v4.2.0
+    container_name: wizarr
+    networks:
+      - proxy
+    volumes:
+      - wizarr_data:/data/database
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.wizarr.loadbalancer.server.port=5690"
+      - "traefik.http.routers.wizarr.rule=Host(`wizarr.darksaber.fyi`) || Host(`wizarr.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.wizarr.entrypoints=https"
+      - "traefik.http.routers.wizarr.tls=true"
+      - "traefik.http.routers.wizarr.middlewares=secured-external@file"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
+
 networks:
   proxy:
     external: true
@@ -141,4 +160,4 @@ volumes:
   prowlarr_data:
   sonarr_data:
   radarr_data:
-  
+  wizarr_data:
