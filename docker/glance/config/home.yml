@@ -69,7 +69,7 @@
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/ubiquiti-unifi-light.svg
             - title: Homeassistant
               url: https://ha.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/homeassistant.svg
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/home-assistant.svg
 
     - size: small
       widgets:
