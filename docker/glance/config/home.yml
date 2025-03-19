@@ -61,9 +61,15 @@
             - title: PVE-02
               url: https://pve-s13-01.local.darksaber.fyi:8006/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+            - title: PBS
+              url: https://pbs-unraid.local.darksaber.fyi:8007/
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
             - title: Unifi
               url: https://unifi.ui.com/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/ubiquiti-unifi-light.svg
+            - title: Homeassistant
+              url: https://ha.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/homeassistant.svg
 
     - size: small
       widgets:
