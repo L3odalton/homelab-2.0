@@ -48,6 +48,9 @@
             - title: Technitium-01
               url: https://dns-01.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/technitium.svg
+            - title: Unifi
+              url: https://unifi.ui.com/
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/ubiquiti-unifi-light.svg
         - type: monitor
           cache: 1m
           title: Appliances
@@ -64,9 +67,6 @@
             - title: PBS
               url: https://pbs-unraid.local.darksaber.fyi:8007/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
-            - title: Unifi
-              url: https://unifi.ui.com/
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/ubiquiti-unifi-light.svg
             - title: Homeassistant
               url: https://ha.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/home-assistant.svg
