@@ -29,7 +29,7 @@ services:
       - "traefik.http.routers.search.rule=Host(`search.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.search.entrypoints=https"
       - "traefik.http.routers.search.tls=true"
-      - "traefik.http.routers.search.middlewares=secured-external@file,pocket-id@file"
+      - "traefik.http.routers.search.middlewares=secured-external"
       - "traefik.docker.network=proxy"
 
 networks:
