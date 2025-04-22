@@ -35,6 +35,9 @@
             - title: Radarr
               url: https://radarr.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr.svg
+            - title: Lidarr
+              url: https://Lidarr.docker-prd.darksaber.fyi
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/lidarr.svg
             - title: Jellyseerr
               url: https://anfragen.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyseerr.svg
