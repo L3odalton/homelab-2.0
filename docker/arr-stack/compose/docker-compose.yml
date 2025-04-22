@@ -121,6 +121,38 @@ services:
       - "homepage.widget.key=${RADARR_APIKEY}"
     restart: unless-stopped
 
+  lidarr:
+    image: ghcr.io/hotio/lidarr:release-2.10.3.4602
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - lidarr_data:/config
+      - /mnt/data:/data
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
+      # Web Service
+      - "traefik.http.routers.lidarr.rule=Host(`lidarr.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.lidarr.entrypoints=https"
+      - "traefik.http.routers.lidarr.tls=true"
+      - "traefik.http.routers.lidarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.http.routers.lidarr.priority=1"
+      # API Service
+      - "traefik.http.routers.lidarr-api.rule=(Host(`lidarr.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.lidarr-api.entrypoints=https"
+      - "traefik.http.routers.lidarr-api.tls=true"
+      - "traefik.http.routers.lidarr-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.lidarr-api.priority=3"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
   umlautadaptarr:
     image: pcjones/umlautadaptarr:0.7.2
     container_name: umlautadaptarr
