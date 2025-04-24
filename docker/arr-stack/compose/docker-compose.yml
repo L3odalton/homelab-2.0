@@ -81,7 +81,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: ghcr.io/hotio/radarr:release-5.21.1.9799
+    image: ghcr.io/hotio/radarr:release-5.22.4.9896
     container_name: radarr
     environment:
       - PUID=1000
