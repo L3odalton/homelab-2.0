@@ -122,7 +122,7 @@ services:
     restart: unless-stopped
 
   lidarr:
-    image: ghcr.io/hotio/lidarr:release-2.10.3.4602
+    image: ghcr.io/hotio/lidarr:release-2.11.2.4629
     container_name: lidarr
     environment:
       - PUID=1000
