@@ -84,6 +84,30 @@ http:
         tls:
           options: default
         service: semaphore
+    pihole-01:
+        entryPoints:
+          - "https"
+        rule: "Host(`pihole-01.docker-prd.darksaber.fyi`)"
+        middlewares:
+          - default-headers
+          - https-redirectscheme
+          - gzip
+          - default-whitelist
+        tls:
+          options: default
+        service: pihole-01
+    pihole-02:
+        entryPoints:
+          - "https"
+        rule: "Host(`pihole-02.docker-prd.darksaber.fyi`)"
+        middlewares:
+          - default-headers
+          - https-redirectscheme
+          - gzip
+          - default-whitelist
+        tls:
+          options: default
+        service: pihole-02
 
 
   services:
@@ -121,4 +145,14 @@ http:
       loadBalancer:
         servers:
           - url: "http://srv-semaphore.local.darksaber.fyi:3000"
+        passHostHeader: true
+    pihole-01:
+      loadBalancer:
+        servers:
+          - url: "https://pihole-01.local.darksaber.fyi"
+        passHostHeader: true
+    pihole-02:
+      loadBalancer:
+        servers:
+          - url: "https://pihole-02.local.darksaber.fyi"
         passHostHeader: true
