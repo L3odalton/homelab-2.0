@@ -182,7 +182,25 @@ services:
       - "traefik.http.routers.wizarr.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
     restart: unless-stopped
-
+  
+  huntarr:
+    image: ghcr.io/wizarrrr/wizarr:6.3.5
+    container_name: huntarr
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - proxy
+    volumes:
+      - huntarr_data:/config
+    labeles:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.huntarr.loadbalancer.server.port=9705"
+      - "traefik.http.routers.huntarr.rule=Host(`huntarr.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.huntarr.entrypoints=https"
+      - "traefik.http.routers.huntarr.tls=true"
+      - "traefik.http.routers.huntarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.docker.network=proxy"
 
 networks:
   proxy:
@@ -194,3 +212,4 @@ volumes:
   radarr_data:
   lidarr_data:
   wizarr_data:
+  huntarr_data:
