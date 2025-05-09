@@ -192,7 +192,7 @@ services:
       - proxy
     volumes:
       - huntarr_data:/config
-    labeles:
+    labels:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.huntarr.loadbalancer.server.port=9705"
