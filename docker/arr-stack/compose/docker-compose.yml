@@ -28,15 +28,11 @@ services:
       - "traefik.http.routers.prowlarr-api.middlewares=default-whitelist@file"
       - "traefik.http.routers.prowlarr-api.priority=3"
       - "traefik.docker.network=proxy"
-      # Homepage
-      - "homepage.group=Media"
-      - "homepage.name=Prowlarr"
-      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prowlarr.svg"
-      - "homepage.href=https://prowlarr.docker-prd.darksaber.fyi"
-      - "homepage.description=Indexer Manager"
-      - "homepage.widget.type=prowlarr"
-      - "homepage.widget.url=https://prowlarr.docker-prd.darksaber.fyi"
-      - "homepage.widget.key=${PROWLARR_APIKEY}"
+      # Glance
+      - "glance.name=Prowlarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/Prowlarr-light.svg"
+      - "glance.url=https://prowlarr.docker-prd.darksaber.fyi"
+      - "glance.category=automation"
     restart: unless-stopped
 
   sonarr:
