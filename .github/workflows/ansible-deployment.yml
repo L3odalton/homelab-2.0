@@ -26,7 +26,6 @@ jobs:
           portainer
           jellyseerr
           pocket-id
-          homepage
           glance
           arr-stack
           cloudflare-ddns

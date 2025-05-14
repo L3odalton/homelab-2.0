@@ -20,6 +20,23 @@ services:
       - "traefik.http.routers.glance.middlewares=secured@file"
       - "traefik.docker.network=proxy"
 
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:3.0.10-r0-ls49
+    container_name: socket-proxy
+    networks:
+      - proxy
+    environment:
+      - CONTAINERS=1
+      - SERVICES=1
+      - TASKS=1
+      - POST=0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /run   
+
 networks:
   proxy:
     external: true
