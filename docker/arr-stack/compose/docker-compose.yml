@@ -67,7 +67,7 @@ services:
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Sonarr"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr-light.svg"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr.svg"
       - "glance.url=https://sonarr.docker-prd.darksaber.fyi"
       - "glance.category=automation"
     restart: unless-stopped
@@ -104,7 +104,7 @@ services:
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Radarr"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr-light.svg"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr.svg"
       - "glance.url=https://radarr.docker-prd.darksaber.fyi"
       - "glance.category=automation"
     restart: unless-stopped
@@ -141,7 +141,7 @@ services:
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Lidarr"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/lidarr-light.svg"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/lidarr.svg"
       - "glance.url=https://lidarr.docker-prd.darksaber.fyi"
       - "glance.category=automation"
     restart: unless-stopped
