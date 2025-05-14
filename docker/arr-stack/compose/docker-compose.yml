@@ -65,15 +65,11 @@ services:
       - "traefik.http.routers.sonarr-api.middlewares=default-whitelist@file"
       - "traefik.http.routers.sonarr-api.priority=3"
       - "traefik.docker.network=proxy"
-      # Homepage
-      - "homepage.group=Media"
-      - "homepage.name=Sonarr"
-      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr-light.svg"
-      - "homepage.href=https://sonarr.docker-prd.darksaber.fyi"
-      - "homepage.description=TV Show Manager"
-      - "homepage.widget.type=sonarr"
-      - "homepage.widget.url=https://sonarr.docker-prd.darksaber.fyi"
-      - "homepage.widget.key=${SONARR_APIKEY}"
+      # Glance
+      - "glance.name=Sonarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr-light.svg"
+      - "glance.url=https://sonarr.docker-prd.darksaber.fyi"
+      - "glance.category=automation"
     restart: unless-stopped
 
   radarr:
@@ -106,15 +102,11 @@ services:
       - "traefik.http.routers.radarr-api.middlewares=default-whitelist@file"
       - "traefik.http.routers.radarr-api.priority=3"
       - "traefik.docker.network=proxy"
-      # Homepage
-      - "homepage.group=Media"
-      - "homepage.name=Radarr"
-      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr-light.svg"
-      - "homepage.href=https://radarr.docker-prd.darksaber.fyi"
-      - "homepage.description=Movie Manager"
-      - "homepage.widget.type=radarr"
-      - "homepage.widget.url=https://radarr.docker-prd.darksaber.fyi"
-      - "homepage.widget.key=${RADARR_APIKEY}"
+      # Glance
+      - "glance.name=Radarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr-light.svg"
+      - "glance.url=https://radarr.docker-prd.darksaber.fyi"
+      - "glance.category=automation"
     restart: unless-stopped
 
   lidarr:
@@ -147,6 +139,11 @@ services:
       - "traefik.http.routers.lidarr-api.middlewares=default-whitelist@file"
       - "traefik.http.routers.lidarr-api.priority=3"
       - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Lidarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/lidarr-light.svg"
+      - "glance.url=https://lidarr.docker-prd.darksaber.fyi"
+      - "glance.category=automation"
     restart: unless-stopped
 
   umlautadaptarr:
@@ -177,6 +174,11 @@ services:
       - "traefik.http.routers.wizarr.tls=true"
       - "traefik.http.routers.wizarr.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Wizarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wizarr.svg"
+      - "glance.url=https://wizarr.docker-prd.darksaber.fyi"
+      - "glance.category=automation"
     restart: unless-stopped
   
   huntarr:
@@ -197,6 +199,11 @@ services:
       - "traefik.http.routers.huntarr.tls=true"
       - "traefik.http.routers.huntarr.middlewares=default-whitelist@file,pocket-id@file"
       - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Huntarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/huntarr.png"
+      - "glance.url=https://huntarr.docker-prd.darksaber.fyi"
+      - "glance.category=automation"
 
 networks:
   proxy:
