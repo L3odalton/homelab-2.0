@@ -201,7 +201,7 @@ services:
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Huntarr"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/huntarr.png"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/png/huntarr.png"
       - "glance.url=https://huntarr.docker-prd.darksaber.fyi"
       - "glance.category=automation"
 
