@@ -22,31 +22,9 @@
             - title: Calibre
               url: https://books.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/calibre-web.svg
-        - type: monitor
-          cache: 1m
-          title: Automation
-          sites:
-            - title: Prowlarr
-              url: https://prowlarr.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prowlarr.svg
-            - title: Sonarr
-              url: https://sonarr.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr.svg
-            - title: Radarr
-              url: https://radarr.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr.svg
-            - title: Lidarr
-              url: https://Lidarr.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/lidarr.svg
-            - title: Jellyseerr
-              url: https://anfragen.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyseerr.svg
-            - title: Sabnzbd
-              url: https://sab.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sabnzbd.svg
-            - title: Wizarr
-              url: https://wizarr.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wizarr.svg
+        - type: docker-containers
+          category: Automation
+          sock-path: tcp://socket-proxy:2375
         - type: monitor
           cache: 1m
           title: Monitoring
