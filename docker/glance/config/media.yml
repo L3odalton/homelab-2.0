@@ -23,7 +23,8 @@
               url: https://books.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/calibre-web.svg
         - type: docker-containers
-          category: Automation
+          title: Automation
+          category: automation
           sock-path: tcp://socket-proxy:2375
         - type: monitor
           cache: 1m
