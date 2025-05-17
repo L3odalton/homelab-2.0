@@ -63,24 +63,18 @@ jobs:
       - name: Terraform Init
         run: terraform init
         env:
-          PM_API_URL: ${{ secrets.PM_API_URL }}
-          PM_USER: ${{ secrets.PM_USER }}
-          PM_PASS: ${{ secrets.PM_PASS }}
-          TF_VAR_proxmox_api_token_id: ${{ secrets.PM_USER }}
-          TF_VAR_proxmox_api_token_secret: ${{ secrets.PM_PASS }}
-          TF_VAR_proxmox_api_url: ${{ secrets.PM_API_URL }}
+          TF_VAR_pm_api_url: ${{ secrets.PM_API_URL }}
+          TF_VAR_pm_user: ${{ secrets.PM_USER }}
+          TF_VAR_pm_pass: ${{ secrets.PM_PASS }}
 
       - name: Terraform Plan
         id: plan
         run: |
           terraform plan -no-color 2>&1 | tee plan.txt
         env:
-          PM_API_URL: ${{ secrets.PM_API_URL }}
-          PM_USER: ${{ secrets.PM_USER }}
-          PM_PASS: ${{ secrets.PM_PASS }}
-          TF_VAR_proxmox_api_token_id: ${{ secrets.PM_USER }}
-          TF_VAR_proxmox_api_token_secret: ${{ secrets.PM_PASS }}
-          TF_VAR_proxmox_api_url: ${{ secrets.PM_API_URL }}
+          TF_VAR_pm_api_url: ${{ secrets.PM_API_URL }}
+          TF_VAR_pm_user: ${{ secrets.PM_USER }}
+          TF_VAR_pm_pass: ${{ secrets.PM_PASS }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
