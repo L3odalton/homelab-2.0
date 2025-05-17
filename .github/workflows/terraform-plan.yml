@@ -24,8 +24,6 @@ jobs:
       - name: Get changed Terraform directories
         id: changes
         run: |
-          # Find all changed files in terraform directory
-          # Extract unique directory paths that contain .tf files
           CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | \
             grep "\.tf$" | \
             xargs -I {} dirname {} | \
@@ -39,14 +37,15 @@ jobs:
     if: fromJson(needs.detect-changes.outputs.tf_dirs)[0] != null
     runs-on: self-hosted
     environment: terraform
-    strategy:
-      matrix:
-        tf_dir: ${{ fromJson(needs.detect-changes.outputs.tf_dirs) }}
     
     defaults:
       run:
         working-directory: ${{ matrix.tf_dir }}
         
+    strategy:
+      matrix:
+        tf_dir: ${{ fromJson(needs.detect-changes.outputs.tf_dirs) }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,6 +66,9 @@ jobs:
           PM_API_URL: ${{ secrets.PM_API_URL }}
           PM_USER: ${{ secrets.PM_USER }}
           PM_PASS: ${{ secrets.PM_PASS }}
+          TF_VAR_proxmox_api_token_id: ${{ secrets.PM_USER }}
+          TF_VAR_proxmox_api_token_secret: ${{ secrets.PM_PASS }}
+          TF_VAR_proxmox_api_url: ${{ secrets.PM_API_URL }}
 
       - name: Terraform Plan
         id: plan
@@ -76,6 +78,9 @@ jobs:
           PM_API_URL: ${{ secrets.PM_API_URL }}
           PM_USER: ${{ secrets.PM_USER }}
           PM_PASS: ${{ secrets.PM_PASS }}
+          TF_VAR_proxmox_api_token_id: ${{ secrets.PM_USER }}
+          TF_VAR_proxmox_api_token_secret: ${{ secrets.PM_PASS }}
+          TF_VAR_proxmox_api_url: ${{ secrets.PM_API_URL }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
