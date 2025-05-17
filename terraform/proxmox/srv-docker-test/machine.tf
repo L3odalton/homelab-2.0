@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "srv-docker-test" {
     clone_id = "7002"
     full_clone = true
     scsihw = "virtio-scsi-pci"
-    cpu.cores = 2
+    cores = 2
     sockets = 1
     cpu_type = "host"
     memory = 2048
