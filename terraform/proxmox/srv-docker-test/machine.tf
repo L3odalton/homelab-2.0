@@ -1,13 +1,13 @@
 resource "proxmox_vm_qemu" "srv-docker-test" {
     name = "srv-docker-test"
-    target_node = "pve-s13-02"
+    target_node = "pve-s13-01"
     vmid = "100239"
     desc = "docker test"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
     agent = 1
-    clone_id = "7002"
+    clone_id = "7001"
     full_clone = true
     scsihw = "virtio-scsi-pci"
     cores = 2
