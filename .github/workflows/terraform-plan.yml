@@ -1,0 +1,64 @@
+name: "Terraform Plan"
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'terraform/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  plan:
+    name: "Terraform Plan"
+    runs-on: self-hosted
+    environment: terraform
+    
+    defaults:
+      run:
+        working-directory: ./terraform
+        
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y unzip curl nodejs
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.12.0"
+
+      - name: Terraform Init
+        run: terraform init
+        env:
+          PM_API_URL: ${{ secrets.PM_API_URL }}
+          PM_USER: ${{ secrets.PM_USER }}
+          PM_PASS: ${{ secrets.PM_PASS }}
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan -no-color 2>&1 | tee plan.txt
+        env:
+          PM_API_URL: ${{ secrets.PM_API_URL }}
+          PM_USER: ${{ secrets.PM_USER }}
+          PM_PASS: ${{ secrets.PM_PASS }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: 'Terraform Plan Changes'
+          body: |
+            ## Terraform Plan Results
+            ```hcl
+            ${{ steps.plan.outputs.stdout }}
+            ```
+          branch: terraform-changes
+          base: main
+          labels: terraform
