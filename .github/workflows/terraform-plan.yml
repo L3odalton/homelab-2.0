@@ -24,12 +24,19 @@ jobs:
       - name: Get changed Terraform directories
         id: changes
         run: |
-          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep "terraform/" | xargs -I {} dirname {} | sort -u | grep "/terraform/proxmox/" | jq -R -s -c 'split("\n")[:-1]')
+          # Find all changed files in terraform directory
+          # Extract unique directory paths that contain .tf files
+          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | \
+            grep "\.tf$" | \
+            xargs -I {} dirname {} | \
+            sort -u | \
+            jq -R -s -c 'split("\n")[:-1]')
           echo "dirs=$CHANGED_DIRS" >> $GITHUB_OUTPUT
+          echo "Found changed directories: $CHANGED_DIRS"
 
   plan:
     needs: detect-changes
-    if: needs.detect-changes.outputs.tf_dirs != '[]' && needs.detect-changes.outputs.tf_dirs != ''
+    if: fromJson(needs.detect-changes.outputs.tf_dirs)[0] != null
     runs-on: self-hosted
     environment: terraform
     strategy:
