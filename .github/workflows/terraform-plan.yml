@@ -84,7 +84,7 @@ jobs:
           body: |
             ## Terraform Plan Results for ${{ matrix.tf_dir }}
             ```hcl
-            $(cat plan.txt)
+            ${{ steps.plan.outputs.stdout }}
             ```
           branch: terraform-changes-${{ matrix.tf_dir }}
           base: main
