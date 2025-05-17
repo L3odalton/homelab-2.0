@@ -11,14 +11,34 @@ permissions:
   pull-requests: write
 
 jobs:
+  detect-changes:
+    runs-on: self-hosted
+    outputs:
+      tf_dirs: ${{ steps.changes.outputs.dirs }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed Terraform directories
+        id: changes
+        run: |
+          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep "terraform/" | xargs -I {} dirname {} | sort -u | grep "/terraform/proxmox/" | jq -R -s -c 'split("\n")[:-1]')
+          echo "dirs=$CHANGED_DIRS" >> $GITHUB_OUTPUT
+
   plan:
-    name: "Terraform Plan"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.tf_dirs != '[]' && needs.detect-changes.outputs.tf_dirs != ''
     runs-on: self-hosted
     environment: terraform
+    strategy:
+      matrix:
+        tf_dir: ${{ fromJson(needs.detect-changes.outputs.tf_dirs) }}
     
     defaults:
       run:
-        working-directory: ./terraform
+        working-directory: ${{ matrix.tf_dir }}
         
     steps:
       - name: Checkout
@@ -53,12 +73,12 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          title: 'Terraform Plan Changes'
+          title: 'Terraform Plan Changes - ${{ matrix.tf_dir }}'
           body: |
-            ## Terraform Plan Results
+            ## Terraform Plan Results for ${{ matrix.tf_dir }}
             ```hcl
-            ${{ steps.plan.outputs.stdout }}
+            $(cat plan.txt)
             ```
-          branch: terraform-changes
+          branch: terraform-changes-${{ matrix.tf_dir }}
           base: main
           labels: terraform
