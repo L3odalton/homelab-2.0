@@ -182,7 +182,7 @@ services:
     restart: unless-stopped
   
   huntarr:
-    image: huntarr/huntarr:6.5.17
+    image: huntarr/huntarr:6.5.20
     container_name: huntarr
     environment:
       - TZ=Europe/Berlin
