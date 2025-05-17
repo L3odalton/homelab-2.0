@@ -1,0 +1,121 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # proxmox_vm_qemu.srv-docker-test will be created
+  + resource "proxmox_vm_qemu" "srv-docker-test" {
+      + additional_wait        = 5
+      + agent                  = 1
+      + agent_timeout          = 90
+      + automatic_reboot       = true
+      + balloon                = 0
+      + bios                   = "ovmf"
+      + boot                   = (known after apply)
+      + bootdisk               = (known after apply)
+      + cicustom               = "vendor=local:snippets/qemu-guest-agent.yml"
+      + ciupgrade              = true
+      + ciuser                 = "mgrsys"
+      + clone_id               = 7002
+      + clone_wait             = 10
+      + cores                  = 2
+      + cpu_type               = "host"
+      + current_node           = (known after apply)
+      + default_ipv4_address   = (known after apply)
+      + default_ipv6_address   = (known after apply)
+      + define_connection_info = true
+      + desc                   = "docker test"
+      + force_create           = false
+      + full_clone             = true
+      + hotplug                = "network,disk,usb"
+      + id                     = (known after apply)
+      + ipconfig0              = "ip=10.0.100.10/24,gw=10.0.100.1"
+      + kvm                    = true
+      + linked_vmid            = (known after apply)
+      + memory                 = 2048
+      + name                   = "srv-docker-test"
+      + nameserver             = "10.0.100.241,10.0.100.242"
+      + onboot                 = true
+      + os_type                = "cloud-init"
+      + protection             = false
+      + reboot_required        = (known after apply)
+      + scsihw                 = "virtio-scsi-pci"
+      + searchdomain           = "local.darksaber.fyi"
+      + skip_ipv4              = false
+      + skip_ipv6              = false
+      + sockets                = 1
+      + ssh_host               = (known after apply)
+      + ssh_port               = (known after apply)
+      + sshkeys                = <<-EOT
+            ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
+                ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuOhwlgxLF/4v06qha9jPQ4egOaW2nUFlC7988tPh9X
+        EOT
+      + tablet                 = true
+      + tags                   = (known after apply)
+      + target_node            = "pve-s13-02"
+      + unused_disk            = (known after apply)
+      + vm_state               = "running"
+      + vmid                   = 100239
+
+      + disks {
+          + ide {
+              + ide1 {
+                  + cloudinit {
+                      + storage = "local-lvm"
+                    }
+                }
+            }
+          + scsi {
+              + scsi0 {
+                  + disk {
+                      + backup               = true
+                      + format               = "raw"
+                      + id                   = (known after apply)
+                      + iops_r_burst         = 0
+                      + iops_r_burst_length  = 0
+                      + iops_r_concurrent    = 0
+                      + iops_wr_burst        = 0
+                      + iops_wr_burst_length = 0
+                      + iops_wr_concurrent   = 0
+                      + linked_disk_id       = (known after apply)
+                      + mbps_r_burst         = 0
+                      + mbps_r_concurrent    = 0
+                      + mbps_wr_burst        = 0
+                      + mbps_wr_concurrent   = 0
+                      + size                 = "20G"
+                      + storage              = "local-lvm"
+                    }
+                }
+            }
+        }
+
+      + network {
+          + bridge    = "vmbr0"
+          + firewall  = false
+          + id        = 0
+          + link_down = false
+          + macaddr   = (known after apply)
+          + model     = "virtio"
+        }
+
+      + smbios (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Warning: Argument is deprecated
+
+  with proxmox_vm_qemu.srv-docker-test,
+  on machine.tf line 13, in resource "proxmox_vm_qemu" "srv-docker-test":
+  13:     cores = 2
+
+use cpu.cores instead
+
+(and 2 more similar warnings elsewhere)
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
