@@ -144,7 +144,7 @@ http:
     semaphore:
       loadBalancer:
         servers:
-          - url: "http://srv-semaphore.local.darksaber.fyi:3000"
+          - url: "http://semaphore.local.darksaber.fyi:3000"
         passHostHeader: true
     pihole-01:
       loadBalancer:
