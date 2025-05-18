@@ -10,9 +10,6 @@ resource "proxmox_vm_qemu" "srv-docker-test" {
     clone_id = "7002"
     full_clone = true
     scsihw = "virtio-scsi-pci"
-    cores = 2
-    sockets = 1
-    cpu_type = "host"
     memory = 2048
     automatic_reboot = true
 
@@ -27,6 +24,12 @@ resource "proxmox_vm_qemu" "srv-docker-test" {
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuOhwlgxLF/4v06qha9jPQ4egOaW2nUFlC7988tPh9X
     EOF
+
+    cpu {
+        cores = 2
+        sockets = 1
+        type = "host"
+    }
 
     network {
         id = 0
