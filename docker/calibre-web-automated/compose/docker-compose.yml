@@ -21,6 +21,12 @@ services:
       - "traefik.http.services.calibre-web-automated.loadbalancer.server.port=8083"
       - "traefik.http.routers.calibre-web-automated.middlewares=secured@file"
       - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Calibre"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/calibre.svg"
+      - "glance.url=https://books.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=player"
     restart: unless-stopped
 
 networks:
