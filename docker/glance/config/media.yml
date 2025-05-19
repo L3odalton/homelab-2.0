@@ -16,23 +16,17 @@
             - title: Plex
               url: https://plex.tv/desktop
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg
-            - title: Audiobookshelf
-              url: https://abs.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/audiobookshelf.svg
-            - title: Calibre
-              url: https://books.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/calibre-web.svg
+        - type: docker-containers
+          category: player
+          sock-path: tcp://socket-proxy:2375
         - type: docker-containers
           title: Automation
           category: automation
           sock-path: tcp://socket-proxy:2375
-        - type: monitor
-          cache: 1m
+        - type: docker-containers
           title: Monitoring
-          sites:
-            - title: Tautulli
-              url: https://tautulli.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/tautulli.svg
+          category: monitoring
+          sock-path: tcp://socket-proxy:2375
 
     - size: small
       widgets:
