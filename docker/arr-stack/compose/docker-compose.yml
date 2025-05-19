@@ -32,6 +32,7 @@ services:
       - "glance.name=Prowlarr"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prowlarr.svg"
       - "glance.url=https://prowlarr.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
       - "glance.category=automation"
     restart: unless-stopped
 
@@ -69,6 +70,7 @@ services:
       - "glance.name=Sonarr"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr.svg"
       - "glance.url=https://sonarr.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
       - "glance.category=automation"
     restart: unless-stopped
 
@@ -106,6 +108,7 @@ services:
       - "glance.name=Radarr"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr.svg"
       - "glance.url=https://radarr.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
       - "glance.category=automation"
     restart: unless-stopped
 
@@ -143,6 +146,7 @@ services:
       - "glance.name=Lidarr"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/lidarr.svg"
       - "glance.url=https://lidarr.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
       - "glance.category=automation"
     restart: unless-stopped
 
@@ -180,6 +184,7 @@ services:
       - "glance.name=Wizarr"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wizarr.svg"
       - "glance.url=https://wizarr.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
       - "glance.category=automation"
     restart: unless-stopped
   
@@ -205,6 +210,7 @@ services:
       - "glance.name=Huntarr"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/png/huntarr.png"
       - "glance.url=https://huntarr.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
       - "glance.category=automation"
     restart: unless-stopped
 
@@ -232,6 +238,7 @@ services:
       - "glance.name=Notifiarr"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/png/notifiarr.png"
       - "glance.url=https://notifiarr.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
       - "glance.category=automation"
     restart: unless-stopped
 
