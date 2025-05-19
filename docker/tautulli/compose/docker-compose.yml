@@ -19,6 +19,12 @@ services:
       - "traefik.http.routers.tautulli.tls=true"
       - "traefik.http.routers.tautulli.middlewares=secured@file"
       - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Tautulli"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/tautulli.svg"
+      - "glance.url=https://tautulli.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=player"
     restart: unless-stopped
 
 networks:
