@@ -151,7 +151,7 @@ services:
     restart: unless-stopped
 
   umlautadaptarr:
-    image: pcjones/umlautadaptarr:0.7.2
+    image: pcjones/umlautadaptarr:latest
     ports:
       - 5006:5006
     container_name: umlautadaptarr
