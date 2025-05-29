@@ -7,7 +7,7 @@ services:
       - proxy
     env_file: .env
     volumes:
-      - pocket-id_data:/app/backend/data
+      - pocket-id_data:/app/data
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -24,6 +24,12 @@ services:
       - "homepage.href=https://id.darksaber.fyi"
       - "homepage.description=Simple OIDC authentication provider"
     restart: unless-stopped
+    healthcheck:
+      test: "curl -f http://localhost:1411/healthz"
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
 
 networks:
   proxy:
