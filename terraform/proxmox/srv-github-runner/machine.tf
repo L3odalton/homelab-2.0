@@ -38,7 +38,7 @@ resource "proxmox_vm_qemu" "srv-github-runner" {
         scsi {
             scsi0 {
                 disk {
-                    storage = "local-lvm"
+                    storage = "local-zfs"
                     size    = "20G" 
                 }
             }
@@ -46,7 +46,7 @@ resource "proxmox_vm_qemu" "srv-github-runner" {
         ide {
             ide1 {
                 cloudinit {
-                    storage = "local-lvm"
+                    storage = "local-zfs"
                 }
             }
         }

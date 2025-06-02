@@ -41,7 +41,7 @@ resource "proxmox_vm_qemu" "srv-docker-test" {
         scsi {
             scsi0 {
                 disk {
-                    storage = "local-lvm"
+                    storage = "local-zfs"
                     size    = "20G" 
                 }
             }
@@ -49,7 +49,7 @@ resource "proxmox_vm_qemu" "srv-docker-test" {
         ide {
             ide1 {
                 cloudinit {
-                    storage = "local-lvm"
+                    storage = "local-zfs"
                 }
             }
         }

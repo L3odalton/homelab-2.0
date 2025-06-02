@@ -41,15 +41,16 @@ resource "proxmox_vm_qemu" "srv-test" {
         scsi {
             scsi0 {
                 disk {
-                    storage = "local-lvm"
+                    storage = "local-zfs"
                     size    = "20G" 
+                    discard = "true"
                 }
             }
         }
         ide {
             ide1 {
                 cloudinit {
-                    storage = "local-lvm"
+                    storage = "local-zfs"
                 }
             }
         }
