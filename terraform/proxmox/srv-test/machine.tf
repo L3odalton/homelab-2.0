@@ -28,7 +28,7 @@ resource "proxmox_vm_qemu" "srv-test" {
     cpu {
         cores = 2
         sockets = 1
-        type = "host"
+        type = "x86-64-v3"
     }
 
     network {
@@ -44,6 +44,7 @@ resource "proxmox_vm_qemu" "srv-test" {
                     storage = "local-zfs"
                     size    = "20G" 
                     discard = "true"
+                    replicate = "true"
                 }
             }
         }
