@@ -1,0 +1,27 @@
+- name: KB-Home
+  columns:
+    - size: small
+      widgets:
+        - type: weather
+          units: metric
+          hour-format: 24h
+          location: Hannover, Germany
+
+    - size: full
+      widgets:
+        - type: monitor
+          cache: 1m
+          title: Appliances
+          sites:
+            - title: PVE
+              url: https://pve.kb.darksaber.fyi:8006/
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+              same-tab: true
+            - title: PBS
+              url: https://pbs.kb.darksaber.fyi:8007/
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+              same-tab: true
+            - title: Homeassistant
+              url: http://192.168.60.11:8123
+              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/home-assistant.svg
+              same-tab: true

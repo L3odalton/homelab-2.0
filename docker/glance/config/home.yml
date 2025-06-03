@@ -25,12 +25,15 @@
             - title: Pocket-ID
               url: https://id.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pocket-id.svg
+              same-tab: true
             - title: Outline
               url: https://docs.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/outline.svg
+              same-tab: true
             - title: IT-Tools
               url: https://tools.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/it-tools.svg
+              same-tab: true
         - type: monitor
           cache: 1m
           title: Monitoring
@@ -38,9 +41,11 @@
             - title: Dozzle
               url: https://dozzle.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/dozzle.svg
+              same-tab: true
             - title: Portainer
               url: https://portainer.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/portainer.svg
+              same-tab: true
         - type: monitor
           cache: 1m
           title: Network
@@ -48,18 +53,23 @@
             - title: Technitium-01
               url: https://dns-01.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/technitium.svg
+              same-tab: true
             - title: Technitium-02
               url: https://dns-02.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/technitium.svg
+              same-tab: true
             - title: Pihole-01
-              url: https://pihole-01.docker-prd.darksaber.fyi
+              url: https://pihole-01.docker-prd.darksaber.fyi/admin/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pi-hole.svg
+              same-tab: true
             - title: Pihole-02
-              url: https://pihole-02.docker-prd.darksaber.fyi
+              url: https://pihole-02.docker-prd.darksaber.fyi/admin/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pi-hole.svg
+              same-tab: true
             - title: Unifi
               url: https://unifi.ui.com/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/ubiquiti-unifi-light.svg
+              same-tab: true
         - type: monitor
           cache: 1m
           title: Appliances
@@ -67,21 +77,27 @@
             - title: Unraid
               url: https://unraid.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/unraid.svg
+              same-tab: true
             - title: PVE-S13-01
               url: https://pve-s13-01.local.darksaber.fyi:8006/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+              same-tab: true
             - title: PVE-S13-02
               url: https://pve-s13-02.local.darksaber.fyi:8006/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+              same-tab: true
             - title: PVE-UGREEN-03
               url: https://pve-ugreen-03.local.darksaber.fyi:8006/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+              same-tab: true
             - title: PBS
               url: https://srv-pbs.local.darksaber.fyi:8007/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/proxmox.svg
+              same-tab: true
             - title: Homeassistant
               url: https://ha.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/home-assistant.svg
+              same-tab: true
 
     - size: small
       widgets:
