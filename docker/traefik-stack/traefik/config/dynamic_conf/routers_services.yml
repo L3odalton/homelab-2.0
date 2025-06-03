@@ -1,29 +1,5 @@
 http:
   routers:
-    pve-s13-01:
-      entryPoints:
-        - "https"
-      rule: "Host(`pve-s13-01.docker-prd.darksaber.fyi`)"
-      middlewares:
-        - default-headers
-        - https-redirectscheme
-        - gzip
-        - default-whitelist
-      tls:
-        options: default
-      service: pve-s13-01
-    pbs:
-      entryPoints:
-        - "https"
-      rule: "Host(`pbs.docker-prd.darksaber.fyi`)"
-      middlewares:
-        - default-headers
-        - https-redirectscheme
-        - gzip
-        - default-whitelist
-      tls:
-        options: default
-      service: pbs
     unraid:
       entryPoints:
         - "https"
@@ -111,20 +87,10 @@ http:
 
 
   services:
-    pve-s13-01:
-      loadBalancer:
-        servers:
-          - url: "https://pve-s13-01.local.darksaber.fyi:8006"
-        passHostHeader: true
-    pbs:
-      loadBalancer:
-        servers:
-          - url: "https://pbs-unraid.local.darksaber.fyi:8007/"
-        passHostHeader: true
     unraid:
       loadBalancer:
         servers:
-          - url: "http://unraid.local.darksaber.fyi"
+          - url: "http://srv-unraid.local.darksaber.fyi"
         passHostHeader: true
     dns-01:
       loadBalancer:
