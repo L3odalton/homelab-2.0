@@ -1,6 +1,6 @@
 ---
 - name: Post-provisioning setup for VM
-  hosts: docker
+  hosts: docker-install
   become: true
 
   tasks:
