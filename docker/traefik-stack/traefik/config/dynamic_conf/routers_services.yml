@@ -84,6 +84,17 @@ http:
         tls:
           options: default
         service: pihole-02
+    plex:
+        entryPoints:
+          - "https"
+        rule: "Host(`plex.docker-prd.darksaber.fyi`)"
+        middlewares:
+          - default-headers
+          - https-redirectscheme
+          - gzip
+        tls:
+          options: default
+        service: plex
 
 
   services:
@@ -121,4 +132,9 @@ http:
       loadBalancer:
         servers:
           - url: "https://pihole-02.local.darksaber.fyi"
+        passHostHeader: true
+    plex:
+      loadBalancer:
+        servers:
+          - url: "https://srv-docker-gpu.local.darksaber.fyi:32400"
         passHostHeader: true
