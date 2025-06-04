@@ -66,11 +66,17 @@
         line: 'PasswordAuthentication no'
       notify: Restart SSH
 
+    - name: Check if 1Password CLI is already installed
+      stat:
+        path: /usr/bin/op
+      register: opcli
+
     - name: Install 1Password CLI
       shell: |
         curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
         echo 'deb [signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | tee /etc/apt/sources.list.d/1password.list
         apt update && apt install -y 1password-cli
+      when: not opcli.stat.exists
 
     - name: Add mgrsys to Docker group
       user:
