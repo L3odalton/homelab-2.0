@@ -42,7 +42,7 @@ resource "proxmox_vm_qemu" "srv-docker-gpu" {
             scsi0 {
                 disk {
                     storage = "local-zfs"
-                    size    = "20G"
+                    size    = "60G"
                     discard = "true"
                 }
             }
