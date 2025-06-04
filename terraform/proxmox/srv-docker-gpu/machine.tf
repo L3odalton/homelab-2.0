@@ -1,16 +1,16 @@
 resource "proxmox_vm_qemu" "srv-docker-test" {
     name = "srv-docker-test"
-    target_node = "pve-s13-02"
+    target_node = "pve-ugreen-03"
     vmid = "100239"
-    desc = "docker test"
+    desc = "docker with gpu"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
     agent = 1
-    clone_id = "7002"
+    clone_id = "7003"
     full_clone = true
     scsihw = "virtio-scsi-pci"
-    memory = 2048
+    memory = 4096
     automatic_reboot = true
 
     os_type = "cloud-init"
@@ -28,7 +28,7 @@ resource "proxmox_vm_qemu" "srv-docker-test" {
     cpu {
         cores = 2
         sockets = 1
-        type = "host"
+        type = "x86-64-v3"
     }
 
     network {
@@ -42,7 +42,8 @@ resource "proxmox_vm_qemu" "srv-docker-test" {
             scsi0 {
                 disk {
                     storage = "local-zfs"
-                    size    = "20G" 
+                    size    = "20G"
+                    discard = "true"
                 }
             }
         }
