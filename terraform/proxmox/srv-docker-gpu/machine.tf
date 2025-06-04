@@ -1,5 +1,5 @@
-resource "proxmox_vm_qemu" "srv-docker-test" {
-    name = "srv-docker-test"
+resource "proxmox_vm_qemu" "srv-docker-gpu" {
+    name = "srv-docker-gpu"
     target_node = "pve-ugreen-03"
     vmid = "100239"
     desc = "docker with gpu"
