@@ -95,6 +95,15 @@ http:
         tls:
           options: default
         service: plex
+    immich:
+        entryPoints:
+          - "https"
+        rule: "Host(`immich.docker-prd.darksaber.fyi`)"
+        middlewares:
+          - secured-external
+        tls:
+          options: default
+        service: immich
 
 
   services:
@@ -137,4 +146,9 @@ http:
       loadBalancer:
         servers:
           - url: "https://srv-docker-gpu.local.darksaber.fyi:32400"
+        passHostHeader: true
+    immich:
+      loadBalancer:
+        servers:
+          - url: "https://srv-docker-gpu.local.darksaber.fyi:2283"
         passHostHeader: true
