@@ -87,7 +87,7 @@ http:
     plex:
         entryPoints:
           - "https"
-        rule: "Host(`plex.docker-prd.darksaber.fyi`)"
+        rule: "Host(`plex.darksaber.fyi`)"
         middlewares:
           - default-headers
           - https-redirectscheme
@@ -98,7 +98,7 @@ http:
     immich:
         entryPoints:
           - "https"
-        rule: "Host(`immich.docker-prd.darksaber.fyi`)"
+        rule: "Host(`immich.darksaber.fyi`)"
         middlewares:
           - secured-external
         tls:
