@@ -150,5 +150,5 @@ http:
     immich:
       loadBalancer:
         servers:
-          - url: "https://srv-docker-gpu.local.darksaber.fyi:2283"
+          - url: "http://srv-docker-gpu.local.darksaber.fyi:2283"
         passHostHeader: true
