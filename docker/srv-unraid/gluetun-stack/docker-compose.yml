@@ -34,6 +34,13 @@ services:
       - /mnt/user/data/usenet/incomplete:/data/usenet/incomplete
     network_mode: "service:gluetun"
     restart: unless-stopped
+    labels:
+    # Glance
+      - "glance.name=Sabnzbd"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sabnzbd.svg"
+      - "glance.url=https://sab.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
 
 networks:
   proxy:
