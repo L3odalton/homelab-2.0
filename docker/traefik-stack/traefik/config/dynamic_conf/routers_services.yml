@@ -145,7 +145,7 @@ http:
     plex:
       loadBalancer:
         servers:
-          - url: "https://srv-docker-gpu.local.darksaber.fyi:32400"
+          - url: "https://srv-unraid.local.darksaber.fyi:32400"
         passHostHeader: true
     immich:
       loadBalancer:
