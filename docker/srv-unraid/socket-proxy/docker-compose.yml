@@ -14,4 +14,8 @@ services:
     restart: unless-stopped
     read_only: true
     tmpfs:
-      - /run  
+      - /run
+
+networks:
+  proxy:
+    external: true
