@@ -5,13 +5,14 @@ secrets:
 
 services:
   dozzle:
-    image: amir20/dozzle:v8.12.20
+    image: amir20/dozzle:v8.12.21
     container_name: dozzle
     networks:
       - proxy
     environment:
       - DOZZLE_AUTH_PROVIDER=simple
       - DOZZLE_ENABLE_ACTIONS=true
+      - DOZZLE_REMOTE_AGENT=srv-unraid.local.darksaber.fyi:7007
     secrets:
       - source: users
         target: /data/users.yml
