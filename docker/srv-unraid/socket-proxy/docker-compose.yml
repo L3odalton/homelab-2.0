@@ -4,6 +4,8 @@ services:
     container_name: socket-proxy
     networks:
       - proxy
+    ports:
+      - 2375:2375
     environment:
       - CONTAINERS=1
       - SERVICES=1
