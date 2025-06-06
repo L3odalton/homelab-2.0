@@ -18,6 +18,3 @@ services:
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
-
-volumes:
-  plex_config:
