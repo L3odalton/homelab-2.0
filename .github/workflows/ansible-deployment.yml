@@ -27,13 +27,11 @@ jobs:
           jellyseerr
           pocket-id
           glance
-          arr-stack
           cloudflare-ddns
           audiobookshelf
           calibre-web-automated
           searxng
           plex-auto-languages
-          gluetun-stack
           tautulli
           EOF
           )
