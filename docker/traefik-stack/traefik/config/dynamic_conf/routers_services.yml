@@ -104,6 +104,15 @@ http:
         tls:
           options: default
         service: immich
+    sab:
+        entryPoints:
+          - "https"
+        rule: "Host(`sab.docker-prd.darksaber.fyi`)"
+        middlewares:
+          - secured
+        tls:
+          options: default
+        service: sab
 
 
   services:
@@ -150,5 +159,10 @@ http:
     immich:
       loadBalancer:
         servers:
-          - url: "http://srv-docker-gpu.local.darksaber.fyi:2283"
+          - url: "http://srv-unraid.local.darksaber.fyi:2283"
+        passHostHeader: true
+    sab:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:8080"
         passHostHeader: true
