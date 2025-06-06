@@ -113,7 +113,6 @@ http:
       tls:
         options: default
       service: sab
-    ---
     prowlarr:
       entryPoints:
         - "https"
@@ -133,7 +132,6 @@ http:
       tls: true
       service: prowlarr
       priority: 3
-    ---
     sonarr:
       entryPoints:
         - "https"
@@ -153,7 +151,6 @@ http:
       tls: true
       service: sonarr
       priority: 3
-    ---
     radarr:
       entryPoints:
         - "https"
@@ -173,7 +170,6 @@ http:
       tls: true
       service: radarr
       priority: 3
-    ---
     wizarr:
       entryPoints:
         - "https"
@@ -182,7 +178,6 @@ http:
         - secured-external@file
       tls: true
       service: wizarr
-    ---
     huntarr:
       entryPoints:
         - "https"
@@ -192,7 +187,6 @@ http:
         - pocket-id@file
       tls: true
       service: huntarr
-    ---
     notifiarr:
       entryPoints:
         - "https"
@@ -253,32 +247,26 @@ http:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:8080"
         passHostHeader: true
-    ---
     prowlarr:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:9696"
-    ---
     sonarr:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:8989"
-    ---
     radarr:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:7878"
-    ---
     wizarr:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:5690"
-    ---
     huntarr:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:9705"
-    ---
     notifiarr:
       loadBalancer:
         servers:
