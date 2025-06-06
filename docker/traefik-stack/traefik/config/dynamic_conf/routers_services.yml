@@ -49,71 +49,158 @@ http:
         options: default
       service: homeassistant
     semaphore:
-        entryPoints:
-          - "https"
-        rule: "Host(`semaphore.docker-prd.darksaber.fyi`)"
-        middlewares:
-          - default-headers
-          - https-redirectscheme
-          - gzip
-          - default-whitelist
-        tls:
-          options: default
-        service: semaphore
+      entryPoints:
+        - "https"
+      rule: "Host(`semaphore.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+        - gzip
+        - default-whitelist
+      tls:
+        options: default
+      service: semaphore
     pihole-01:
-        entryPoints:
-          - "https"
-        rule: "Host(`pihole-01.docker-prd.darksaber.fyi`)"
-        middlewares:
-          - default-headers
-          - https-redirectscheme
-          - gzip
-          - default-whitelist
-        tls:
-          options: default
-        service: pihole-01
+      entryPoints:
+        - "https"
+      rule: "Host(`pihole-01.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+        - gzip
+        - default-whitelist
+      tls:
+        options: default
+      service: pihole-01
     pihole-02:
-        entryPoints:
-          - "https"
-        rule: "Host(`pihole-02.docker-prd.darksaber.fyi`)"
-        middlewares:
-          - default-headers
-          - https-redirectscheme
-          - gzip
-          - default-whitelist
-        tls:
-          options: default
-        service: pihole-02
+      entryPoints:
+        - "https"
+      rule: "Host(`pihole-02.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+        - gzip
+        - default-whitelist
+      tls:
+        options: default
+      service: pihole-02
     plex:
-        entryPoints:
-          - "https"
-        rule: "Host(`plex.darksaber.fyi`)"
-        middlewares:
-          - default-headers
-          - https-redirectscheme
-          - gzip
-        tls:
-          options: default
-        service: plex
+      entryPoints:
+        - "https"
+      rule: "Host(`plex.darksaber.fyi`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+        - gzip
+      tls:
+        options: default
+      service: plex
     immich:
-        entryPoints:
-          - "https"
-        rule: "Host(`immich.darksaber.fyi`)"
-        middlewares:
-          - secured-external
-        tls:
-          options: default
-        service: immich
+      entryPoints:
+        - "https"
+      rule: "Host(`immich.darksaber.fyi`)"
+      middlewares:
+        - secured-external
+      tls:
+        options: default
+      service: immich
     sab:
-        entryPoints:
-          - "https"
-        rule: "Host(`sab.docker-prd.darksaber.fyi`)"
-        middlewares:
-          - secured
-        tls:
-          options: default
-        service: sab
-
+      entryPoints:
+        - "https"
+      rule: "Host(`sab.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - secured
+      tls:
+        options: default
+      service: sab
+    ---
+    prowlarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`prowlarr.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-whitelist@file
+        - pocket-id@file
+      tls: true
+      service: prowlarr
+      priority: 1
+    prowlarr-api:
+      entryPoints:
+        - "https"
+      rule: "(Host(`prowlarr.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      middlewares:
+        - default-whitelist@file
+      tls: true
+      service: prowlarr
+      priority: 3
+    ---
+    sonarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`sonarr.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-whitelist@file
+        - pocket-id@file
+      tls: true
+      service: sonarr
+      priority: 1
+    sonarr-api:
+      entryPoints:
+        - "https"
+      rule: "(Host(`sonarr.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      middlewares:
+        - default-whitelist@file
+      tls: true
+      service: sonarr
+      priority: 3
+    ---
+    radarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`radarr.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-whitelist@file
+        - pocket-id@file
+      tls: true
+      service: radarr
+      priority: 1
+    radarr-api:
+      entryPoints:
+        - "https"
+      rule: "(Host(`radarr.docker-prd.darksaber.fyi`) && PathPrefix(`/api`))"
+      middlewares:
+        - default-whitelist@file
+      tls: true
+      service: radarr
+      priority: 3
+    ---
+    wizarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`wizarr.darksaber.fyi`) || Host(`wizarr.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - secured-external@file
+      tls: true
+      service: wizarr
+    ---
+    huntarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`huntarr.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-whitelist@file
+        - pocket-id@file
+      tls: true
+      service: huntarr
+    ---
+    notifiarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`notifiarr.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - default-whitelist@file
+      tls: true
+      service: notifiarr
 
   services:
     unraid:
@@ -166,3 +253,33 @@ http:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:8080"
         passHostHeader: true
+    ---
+    prowlarr:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:9696"
+    ---
+    sonarr:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:8989"
+    ---
+    radarr:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:7878"
+    ---
+    wizarr:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:5690"
+    ---
+    huntarr:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:9705"
+    ---
+    notifiarr:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:5454"
