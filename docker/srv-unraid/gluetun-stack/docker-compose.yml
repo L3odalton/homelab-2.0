@@ -1,0 +1,40 @@
+---
+services:
+  gluetun:
+    image: qmcgaw/gluetun:v3.40.0
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - proxy
+    ports:
+      - 8080:8080
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - SERVER_CITIES=${SERVER_CITIES}
+    restart: unless-stopped
+
+  sabnzbd:
+    image: ghcr.io/hotio/sabnzbd:release-4.5.1
+    container_name: sabnzbd
+    environment:
+      - PUID=99
+      - PGID=100
+      - UMASK=002
+      - TZ=Europe/Berlin
+      - WEBUI_PORTS=8080/tcp,8080/udp
+    volumes:
+      - /mnt/user/appdata/sabnzbd/config:/config
+      - /mnt/user/data/usenet/complete:/data/usenet/complete
+      - /mnt/user/data/usenet/incomplete:/data/usenet/incomplete
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
