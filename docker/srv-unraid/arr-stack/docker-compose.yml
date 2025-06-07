@@ -103,7 +103,7 @@ services:
     restart: unless-stopped
   
   huntarr:
-    image: huntarr/huntarr:7.4.6
+    image: huntarr/huntarr:7.6.0
     container_name: huntarr
     environment:
       - TZ=Europe/Berlin
