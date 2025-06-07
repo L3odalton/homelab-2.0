@@ -8,8 +8,11 @@ services:
     volumes:
       - /mnt/user/data/immich/upload:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - stack.env
+    environment:
+      - TZ=Europe/Berlin
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_DATABASE_NAME=${DB_DATABASE_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
     networks:
       - immich_net
       - proxy
@@ -33,8 +36,8 @@ services:
     volumes:
       - /mnt/user/appdata/immich/model-cache:/cache
       - /dev/bus/usb:/dev/bus/usb
-    env_file:
-      - stack.env
+    environment:
+      - TZ=Europe/Berlin
     networks:
       - immich_net
     restart: always
