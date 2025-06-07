@@ -28,7 +28,6 @@ services:
   immich-machine-learning:
     container_name: immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:v1.134.0-openvino
-    user: 99:100
     device_cgroup_rules:
       - 'c 189:* rmw'
     devices:
