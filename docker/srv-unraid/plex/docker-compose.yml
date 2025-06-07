@@ -18,3 +18,10 @@ services:
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
+    labels:
+      # Glance
+      - "glance.name=Plex"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg"
+      - "glance.url=https://plex.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=Player"

@@ -9,13 +9,6 @@
         
     - size: full
       widgets:
-        - type: monitor
-          cache: 1m
-          title: Player
-          sites:
-            - title: Plex
-              url: https://plex.tv/desktop
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg
         - type: docker-containers
           title: Player
           category: player
@@ -23,6 +16,10 @@
         - type: docker-containers
           title: Automation
           category: automation
+          sock-path: tcp://srv-unraid.local.darksaber.fyi:2375
+        - type: docker-containers
+          title: Photos
+          category: photos
           sock-path: tcp://srv-unraid.local.darksaber.fyi:2375
         - type: docker-containers
           title: Monitoring
