@@ -85,8 +85,9 @@ services:
     restart: unless-stopped
 
   wizarr:
-    image: ghcr.io/wizarrrr/wizarr:4.2.0
+    image: ghcr.io/wizarrrr/wizarr:2025.6.1
     container_name: wizarr
+    user: 99:100
     networks:
       - proxy
     ports:
