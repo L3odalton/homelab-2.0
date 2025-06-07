@@ -86,6 +86,7 @@ services:
 
   wizarr:
     image: ghcr.io/wizarrrr/wizarr:2025.6.1
+    user: 1000:1000
     container_name: wizarr
     networks:
       - proxy
