@@ -195,6 +195,14 @@ http:
         - default-whitelist@file
       tls: true
       service: notifiarr
+    audiobookshelf:
+      entryPoints:
+        - "https"
+      rule: "Host(`abs.darksaber.fyi`)"
+      middlewares:
+        - secured-external@file
+      tls: true
+      service: audiobookshelf
 
   services:
     unraid:
@@ -271,3 +279,7 @@ http:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:5454"
+    audiobookshelf:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:13378"

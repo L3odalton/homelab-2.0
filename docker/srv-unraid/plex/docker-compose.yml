@@ -24,4 +24,4 @@ services:
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg"
       - "glance.url=https://plex.darksaber.fyi"
       - "glance.same-tab=true"
-      - "glance.category=Player"
+      - "glance.category=player"
