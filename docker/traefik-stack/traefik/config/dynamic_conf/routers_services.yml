@@ -211,6 +211,15 @@ http:
         - secured@file
       tls: true
       service: calibre-web-automated
+    duplicati:
+      entryPoints:
+        - "https"
+      rule: "Host(`duplicati.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+        - pocket-od@file
+      tls: true
+      service: duplicati
 
   services:
     unraid:
@@ -295,3 +304,7 @@ http:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:8083"
+    duplicati:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:8200"
