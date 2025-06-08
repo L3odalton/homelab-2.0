@@ -217,7 +217,7 @@ http:
       rule: "Host(`duplicati.docker-prd.darksaber.fyi`)"
       middlewares:
         - secured@file
-        - pocket-od@file
+        - pocket-id@file
       tls: true
       service: duplicati
 
