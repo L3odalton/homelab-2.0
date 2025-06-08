@@ -1,0 +1,29 @@
+---
+services:
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:V3.0.4
+    container_name: calibre-web-automated
+    networks:
+      - proxy
+    ports:
+      - 8083:8083
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - /mnt/user/appdata/calibre-web-automated/config:/config
+      - /mnt/user/data/usenet/complete/books:/cwa-book-ingest
+      - /mnt/user/data/media/books:/calibre-library
+    labels:
+      # Glance
+      - "glance.name=Calibre"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/calibre.svg"
+      - "glance.url=https://books.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=player"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true

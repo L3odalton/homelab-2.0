@@ -203,6 +203,14 @@ http:
         - secured-external@file
       tls: true
       service: audiobookshelf
+    calibre-web-automated:
+      entryPoints:
+        - "https"
+      rule: "Host(`books.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls: true
+      service: calibre-web-automated
 
   services:
     unraid:
@@ -283,3 +291,7 @@ http:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:13378"
+    calibre-web-automated:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:8083"

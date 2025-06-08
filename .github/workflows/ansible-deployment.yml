@@ -28,7 +28,6 @@ jobs:
           pocket-id
           glance
           cloudflare-ddns
-          calibre-web-automated
           searxng
           plex-auto-languages
           tautulli
