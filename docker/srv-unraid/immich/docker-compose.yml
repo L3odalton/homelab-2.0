@@ -30,7 +30,8 @@ services:
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/immich.svg"
       - "glance.url=https://immich.darksaber.fyi"
       - "glance.same-tab=true"
-      - "glance.category=Photos"
+      - "glance.category=photos"
+      - "glance.id=immich"
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -49,6 +50,10 @@ services:
     restart: always
     healthcheck:
       disable: false
+    labels:
+      # Glance
+      - "glance.parent=immich"
+      - "glance.name=immich-ml"
 
   redis:
     container_name: immich_redis
@@ -58,6 +63,10 @@ services:
     networks:
       - immich_net
     restart: always
+    labels:
+      # Glance
+      - "glance.parent=immich"
+      - "glance.name=redis"
 
   database:
     container_name: immich_postgres
@@ -72,6 +81,10 @@ services:
     volumes:
       - /mnt/user/appdata/immich/immich_postgres:/var/lib/postgresql/data
     restart: always
+    labels:
+      # Glance
+      - "glance.parent=immich"
+      - "glance.name=db"
 
 networks:
   proxy:
