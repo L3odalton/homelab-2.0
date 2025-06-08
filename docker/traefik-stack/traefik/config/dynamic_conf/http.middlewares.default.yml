@@ -35,7 +35,7 @@ http:
           Provider:
             Url: "https://id.darksaber.fyi/"
             ClientId: 4a6cbb74-10e6-4644-a3f6-92e23c67c56a
-            ClientSecretEnv: "POCKET_ID_CLIENT_SECRET"
+            ClientSecret: ${POCKET_ID_CLIENT_SECRET}
             TokenValidation: "IdToken"
           Scopes: ["openid", "profile", "email"]
           SessionCookie:
