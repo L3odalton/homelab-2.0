@@ -220,6 +220,14 @@ http:
         - pocket-id@file
       tls: true
       service: duplicati
+    paperless:
+      entryPoints:
+        - "https"
+      rule: "Host(`paperless.docker-prd.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls: true
+      service: paperless
 
   services:
     unraid:
@@ -308,3 +316,7 @@ http:
       loadBalancer:
         servers:
           - url: "http://srv-unraid.local.darksaber.fyi:8200"
+    paperless:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:8702"

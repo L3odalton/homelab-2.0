@@ -1,0 +1,78 @@
+services:
+  broker:
+    image: docker.io/library/redis:8.0.2
+    container_name: paperless_redis
+    networks:
+      - paperless_net
+    restart: unless-stopped
+    volumes:
+      - /mnt/user/appdata/paperless/redis:/data
+
+  db:
+    image: docker.io/library/postgres:17.5
+    container_name: paperless_postgres
+    networks:
+      - paperless_net
+    restart: unless-stopped
+    volumes:
+      - /mnt/user/appdata/paperless/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless
+    restart: unless-stopped
+    user: 1000:1000
+    depends_on:
+      - db
+      - broker
+      - gotenberg
+      - tika
+    networks:
+      - paperless_net
+      - proxy
+    ports:
+      - "8702:8000"
+    volumes:
+      - /mnt/user/appdata/paperless/data:/usr/src/paperless/data
+      - /mnt/user/data/paperless/media:/usr/src/paperless/media
+      - /mnt/user/data/paperless/export:/usr/src/paperless/export
+      - /mnt/user/data/paperless/consume:/usr/src/paperless/consume
+    env_file: stack.env
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
+      PAPERLESS_DBNAME: ${DB}
+      PAPERLESS_DBUSER: ${DB_USER}
+      PAPERLESS_DBPASS: ${DB_PASSWORD}
+      PAPERLESS_TIKA_ENABLED: 1
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
+      PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
+
+  gotenberg:
+    image: docker.io/gotenberg/gotenberg:8.21
+    container_name: paperless_gotenberg
+    networks:
+      - paperless_net
+    restart: unless-stopped
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+
+  tika:
+    image: docker.io/apache/tika:3.2.0.0
+    container_name: paperless_tika
+    networks:
+      - paperless_net
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+  paperless_net:
+    internal: true
