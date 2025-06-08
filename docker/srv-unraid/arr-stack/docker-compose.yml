@@ -85,7 +85,7 @@ services:
     restart: unless-stopped
 
   wizarr:
-    image: ghcr.io/wizarrrr/wizarr:2025.6.1
+    image: ghcr.io/wizarrrr/wizarr:2025.6.2
     user: 1000:1000
     container_name: wizarr
     networks:
