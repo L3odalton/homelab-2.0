@@ -50,6 +50,13 @@ services:
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
       PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
+    labels:
+      # Glance
+      - "glance.name=Paperless"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/paperless-ngx.svg"
+      - "glance.url=https://paperless.docker-prd.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=misc-srv-unraid"
 
   gotenberg:
     image: docker.io/gotenberg/gotenberg:8.21
