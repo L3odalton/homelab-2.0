@@ -8,6 +8,7 @@ services:
       - PGID=1000
       - TZ=Europe/Berlin
       - SETTINGS_ENCRYPTION_KEY=${SETTINGS_ENCRYPTION_KEY}
+      - DUPLICATI__WEBSERVICE_PASSWORD=${WEBSERVICE_PASSWORD}
     volumes:
       - /mnt/user/appdata/duplicati/config:/config
       - /mnt/user/data:/source
