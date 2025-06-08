@@ -28,7 +28,6 @@ jobs:
           pocket-id
           glance
           cloudflare-ddns
-          audiobookshelf
           calibre-web-automated
           searxng
           plex-auto-languages
