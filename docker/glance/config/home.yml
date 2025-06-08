@@ -34,6 +34,10 @@
               url: https://tools.docker-prd.darksaber.fyi
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/it-tools.svg
               same-tab: true
+        - type: docker-containers
+          title: Misc
+          category: misc-srv-unraid
+          sock-path: tcp://srv-unraid.local.darksaber.fyi:2375
         - type: monitor
           cache: 1m
           title: Monitoring
