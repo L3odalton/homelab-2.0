@@ -33,7 +33,7 @@ services:
       # These paths are relative to the location of this docker-compose.yml file.
       - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./traefik/dynamic_conf:/etc/traefik/dynamic_conf:ro
-      - /mnt/shared/traefik-stack/traefik/config/certs/acme.json:/etc/traefik/acme.json
+      - /home/mgrsys/docker/traefik/acme.json:/etc/traefik/acme.json
       - /mnt/shared/traefik-stack/traefik/logs:/var/log/traefik/
     labels:
       - "traefik.enable=true"
