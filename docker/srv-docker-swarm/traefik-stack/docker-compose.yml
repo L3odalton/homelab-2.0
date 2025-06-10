@@ -5,24 +5,6 @@ secrets:
 services:
   traefik:
     image: traefik:v3.4.1
-    command:
-      - --entrypoints.http.address=:80
-      - --entrypoints.https.address=:443
-      - --providers.swarm=true
-      - --providers.swarm.exposedByDefault=false
-      - --providers.file.directory=/etc/traefik/dynamic_conf
-      - --providers.file.watch=true
-      - --api.dashboard=true
-      - --certificatesresolvers.cloudflare.acme.email=${CF_API_EMAIL}
-      - --certificatesresolvers.cloudflare.acme.storage=/etc/traefik/acme.json
-      - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
-      - --certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53
-      - --log.level=INFO
-      - --accesslog=true
-      - --accesslog.filepath=/var/log/traefik/access.log
-      - --accesslog.format=json
-      - --experimental.plugins.traefik-oidc-auth.modulename=github.com/sevensolutions/traefik-oidc-auth
-      - --experimental.plugins.traefik-oidc-auth.version=v0.12.0
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
