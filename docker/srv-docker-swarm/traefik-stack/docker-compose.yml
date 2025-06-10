@@ -1,12 +1,11 @@
 secrets:
   cf-token:
-    external: true # This tells Docker Swarm that the secret 'cf-token' is pre-existing
+    external: true
 
 services:
   traefik:
     image: traefik:v3.4.1
     command:
-      # Static configuration arguments from traefik.yml that are practical to keep here
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
       - --providers.docker=true
@@ -15,7 +14,7 @@ services:
       - --providers.file.directory=/etc/traefik/dynamic_conf
       - --providers.file.watch=true
       - --api.dashboard=true
-      - --certificatesresolvers.cloudflare.acme.email=${CF_API_EMAIL} # Value comes from Portainer env var
+      - --certificatesresolvers.cloudflare.acme.email=${CF_API_EMAIL}
       - --certificatesresolvers.cloudflare.acme.storage=/etc/traefik/acme.json
       - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53
@@ -40,48 +39,47 @@ services:
         protocol: tcp
         mode: host
     environment:
-      # These environment variables will be provided directly by Portainer when deploying the stack.
-      # Their values will be available in the container.
       - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - CF_API_EMAIL=${CF_API_EMAIL}
       - POCKET_ID_SECRET=${POCKET_ID_SECRET}
       - POCKET_ID_CLIENT_SECRET=${POCKET_ID_CLIENT_SECRET}
-      # This tells Traefik to read the Cloudflare API token from the secret file mounted by Docker.
       - CF_DNS_API_TOKEN_FILE=/run/secrets/cf-token
     secrets:
-      - cf-token # Only the cf-token secret is referenced here
+      - cf-token
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # Configuration files that are part of the Git repository:
-      - ./traefik/config/traefik.yml:/etc/traefik/traefik.yml:ro
-      - ./traefik/config/dynamic_conf:/etc/traefik/dynamic_conf:ro
-      # Persistent data stored on the NFS share:
+      # --- CORRECTED PATHS FOR GIT-MANAGED FILES ---
+      # These paths are now relative to the ROOT of your Git repository
+      # (e.g., if your repo is 'my-awesome-repo', then this is the path
+      # from 'my-awesome-repo/')
+      - docker/srv-docker-swarm/traefik-stack/traefik/config/traefik.yml:/etc/traefik/traefik.yml:ro
+      - docker/srv-docker-swarm/traefik-stack/traefik/config/dynamic_conf:/etc/traefik/dynamic_conf:ro
+      # --- END CORRECTED PATHS ---
       - /mnt/shared/traefik-stack/traefik/config/certs/acme.json:/etc/traefik/acme.json
       - /mnt/shared/traefik-stack/traefik/logs:/var/log/traefik/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.swarm.darksaber.fyi`)"
-      # The dashboard credentials directly use the environment variable
+      - "traefik.http.routers.traefik.rule=Host(`traefik.docker-prd.darksaber.fyi`)"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
       - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.swarm.darksaber.fyi`)"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=darksaber.fyi"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi,*.swarm.darksaber.fyi"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi,*.docker-prd.darksaber.fyi"
       - "traefik.http.routers.traefik-secure.service=api@internal"
     deploy:
       mode: replicated
       replicas: 1
       placement:
         constraints:
-          - node.role == manager # Place Traefik on a manager node for Docker socket access
+          - node.role == manager
       update_config:
         parallelism: 1
         delay: 10s
