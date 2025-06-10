@@ -49,13 +49,11 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # --- CORRECTED PATHS FOR GIT-MANAGED FILES ---
-      # These paths are now relative to the ROOT of your Git repository
-      # (e.g., if your repo is 'my-awesome-repo', then this is the path
-      # from 'my-awesome-repo/')
-      - docker/srv-docker-swarm/traefik-stack/traefik/config/traefik.yml:/etc/traefik/traefik.yml:ro
-      - docker/srv-docker-swarm/traefik-stack/traefik/config/dynamic_conf:/etc/traefik/dynamic_conf:ro
-      # --- END CORRECTED PATHS ---
+      # --- REVERTED PATHS FOR GIT-MANAGED FILES ---
+      # These paths are relative to the location of this docker-compose.yml file.
+      - ./traefik/config/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/config/dynamic_conf:/etc/traefik/dynamic_conf:ro
+      # --- END REVERTED PATHS ---
       - /mnt/shared/traefik-stack/traefik/config/certs/acme.json:/etc/traefik/acme.json
       - /mnt/shared/traefik-stack/traefik/logs:/var/log/traefik/
     labels:
