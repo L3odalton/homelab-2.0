@@ -38,7 +38,7 @@ certificatesResolvers:
       # caServer: https://acme-v02.api.letsencrypt.org/directory # production (default)
       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging (testing)
       email: vivid.pen4346@linus-baumann.de
-      storage: /etc/traefik/acme.json
+      storage: /etc/traefik/certs/acme.json
       dnsChallenge:
         provider: cloudflare # change as required
         # disablePropagationCheck: true # Some people using Cloudflare note this can solve DNS propagation issues.
