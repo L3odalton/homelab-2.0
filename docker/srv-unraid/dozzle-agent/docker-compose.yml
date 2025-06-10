@@ -9,6 +9,7 @@ services:
       - proxy
     ports:
       - 7007:7007
+    restart: unless-stopped
 
 networks:
   proxy:
