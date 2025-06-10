@@ -48,8 +48,8 @@ services:
       - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=darksaber.fyi"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi,*.swarm.darksaber.fyi"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=swarm.darksaber.fyi"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.swarm.darksaber.fyi"
       - "traefik.http.routers.traefik-secure.service=api@internal"
     deploy:
       mode: replicated
