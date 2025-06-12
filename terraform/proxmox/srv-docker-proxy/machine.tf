@@ -1,8 +1,8 @@
-resource "proxmox_vm_qemu" "srv-docker-gpu" {
-    name = "srv-docker-gpu"
+resource "proxmox_vm_qemu" "srv-docker-proxy" {
+    name = "srv-docker-proxy"
     target_node = "pve-ugreen-03"
-    vmid = "100239"
-    desc = "docker with gpu"
+    vmid = "100151"
+    desc = "docker proxy"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "srv-docker-gpu" {
     clone_id = "7003"
     full_clone = true
     scsihw = "virtio-scsi-pci"
-    memory = 4096
+    memory = 2048
     automatic_reboot = true
 
     os_type = "cloud-init"
@@ -19,7 +19,7 @@ resource "proxmox_vm_qemu" "srv-docker-gpu" {
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
     nameserver = "10.0.100.241,10.0.100.242"
-    ipconfig0 = "ip=10.0.100.239/24,gw=10.0.100.1"
+    ipconfig0 = "ip=10.0.100.151/24,gw=10.0.100.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuOhwlgxLF/4v06qha9jPQ4egOaW2nUFlC7988tPh9X
@@ -42,7 +42,7 @@ resource "proxmox_vm_qemu" "srv-docker-gpu" {
             scsi0 {
                 disk {
                     storage = "local-zfs"
-                    size    = "60G"
+                    size    = "20G"
                     discard = "true"
                 }
             }
