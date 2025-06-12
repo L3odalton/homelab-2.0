@@ -21,7 +21,7 @@ services:
       - "traefik.docker.network=proxy"
 
   socket-proxy:
-    image: lscr.io/linuxserver/socket-proxy:3.0.10-r0-ls49
+    image: lscr.io/linuxserver/socket-proxy:3.0.10
     container_name: socket-proxy
     networks:
       - proxy
