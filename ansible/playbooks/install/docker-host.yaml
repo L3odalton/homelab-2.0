@@ -66,42 +66,11 @@
         line: 'PasswordAuthentication no'
       notify: Restart SSH
 
-    - name: Check if 1Password CLI is already installed
-      stat:
-        path: /usr/bin/op
-      register: opcli
-
-    - name: Install 1Password CLI
-      shell: |
-        curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
-        echo 'deb [signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | tee /etc/apt/sources.list.d/1password.list
-        apt update && apt install -y 1password-cli
-      when: not opcli.stat.exists
-
     - name: Add mgrsys to Docker group
       user:
         name: mgrsys
         groups: docker
         append: yes
-
-    - name: Ensure NFS utilities are installed
-      apt:
-        name: nfs-common
-        state: present
-
-    - name: Create mount point for NFS share
-      file:
-        path: /mnt/data
-        state: directory
-        mode: '0755'      
-
-    - name: Mount external NFS share
-      mount:
-        path: /mnt/data
-        src: srv-unraid.local.darksaber.fyi:/mnt/user/data
-        fstype: nfs
-        opts: rw,noatime,_netdev,vers=4
-        state: mounted
 
   handlers:
     - name: Restart SSH
