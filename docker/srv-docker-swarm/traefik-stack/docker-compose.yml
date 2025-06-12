@@ -9,16 +9,10 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - proxy-swarm
+      - proxy
     ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: host
-      - target: 443
-        published: 443
-        protocol: tcp
-        mode: host
+      - 80:80
+      - 443:443
     environment:
       - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - CF_API_EMAIL=${CF_API_EMAIL}
@@ -30,11 +24,10 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # These paths are relative to the location of this docker-compose.yml file.
       - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./traefik/dynamic_conf:/etc/traefik/dynamic_conf:ro
       - traefik-certs:/etc/traefik/certs
-      - /mnt/shared/traefik-stack/traefik/logs:/var/log/traefik/
+      - /var/log/traefik:/var/log/traefik/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
@@ -51,27 +44,10 @@ services:
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=swarm.darksaber.fyi"
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.swarm.darksaber.fyi"
       - "traefik.http.routers.traefik-secure.service=api@internal"
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-      update_config:
-        parallelism: 1
-        delay: 10s
-      rollback_config:
-        parallelism: 0
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
 
 volumes:
   traefik-certs:
 
 networks:
-  proxy-swarm:
+  proxy:
     external: true

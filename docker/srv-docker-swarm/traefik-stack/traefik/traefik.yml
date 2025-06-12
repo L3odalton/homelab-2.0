@@ -25,7 +25,7 @@ serversTransport:
 
 providers:
   swarm:
-    endpoint: "unix:///var/run/docker.sock"
+    endpoint: "tcp://srv-swarm-01.local.darksaber.fyi:2375"
     exposedByDefault: false
   file:
     directory: "/etc/traefik/dynamic_conf"
