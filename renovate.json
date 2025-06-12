@@ -7,12 +7,18 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["^ghcr.io/hotio/"],
-      "versioning": "regex:^release-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
+      "versioning": "regex:^release-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:\\.(?<build>\\d+))?$"
     },
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["^lscr.io/linuxserver/"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)(?:-.*)?$"
+      "versioning": "regex:^(v)?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).*$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["crocodilestick/calibre-web-automated"],
+      "versioning": "semver",
+      "ignoreVs": true
     }
   ],
   "customManagers": [
