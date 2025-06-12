@@ -10,9 +10,16 @@ services:
         mode: host
     environment:
       - CONTAINERS=1
+      - INFO=1
       - SERVICES=1
+      - NODES=1
       - TASKS=1
-      - POST=0
+      - VERSION=1
+      - EVENTS=1
+      - NETWORKS=1
+      - PING=1
+      - LOG_LEVEL=info
+      - POST=0 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     tmpfs:
