@@ -15,8 +15,6 @@ services:
       - POCKET_ID_SECRET=${POCKET_ID_SECRET}
       - POCKET_ID_CLIENT_SECRET=${POCKET_ID_CLIENT_SECRET}
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
-    secrets:
-      - cf-token
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
