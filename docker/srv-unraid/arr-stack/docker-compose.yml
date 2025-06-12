@@ -84,25 +84,6 @@ services:
       - proxy
     restart: unless-stopped
 
-  wizarr:
-    image: ghcr.io/wizarrrr/wizarr:2025.6.3
-    user: 1000:1000
-    container_name: wizarr
-    networks:
-      - proxy
-    ports:
-      - 5690:5690
-    volumes:
-      - /mnt/user/appdata/wizarr/data:/data/database
-    labels:
-      # Glance
-      - "glance.name=Wizarr"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wizarr.svg"
-      - "glance.url=https://wizarr.docker-prd.darksaber.fyi"
-      - "glance.same-tab=true"
-      - "glance.category=automation"
-    restart: unless-stopped
-  
   huntarr:
     image: huntarr/huntarr:7.7.5
     container_name: huntarr
