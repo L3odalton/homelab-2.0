@@ -8,6 +8,11 @@
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["^ghcr.io/hotio/"],
       "versioning": "regex:^release-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["^lscr.io/linuxserver/"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)(?:-.*)?$"
     }
   ],
   "customManagers": [
