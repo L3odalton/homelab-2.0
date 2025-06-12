@@ -1,6 +1,6 @@
 services:  
   searxng:
-    image: searxng/searxng:2025.3.9-8b1d73c5b
+    image: searxng/searxng:2025.6.12-a6d0333
     container_name: searxng
     environment:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME}/
