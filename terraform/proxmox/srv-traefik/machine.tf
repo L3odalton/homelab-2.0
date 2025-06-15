@@ -1,7 +1,7 @@
-resource "proxmox_vm_qemu" "srv-docker-proxy" {
-    name = "srv-docker-proxy"
+resource "proxmox_vm_qemu" "srv-traefik" {
+    name = "srv-traefik"
     target_node = "pve-ugreen-03"
-    vmid = "100151"
+    vmid = "100100"
     desc = "docker proxy"
     bios = "ovmf"
     onboot = true
@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "srv-docker-proxy" {
     clone_id = "7003"
     full_clone = true
     scsihw = "virtio-scsi-pci"
-    memory = 2048
+    memory = 1024
     automatic_reboot = true
 
     os_type = "cloud-init"
@@ -19,7 +19,7 @@ resource "proxmox_vm_qemu" "srv-docker-proxy" {
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
     nameserver = "10.0.100.241,10.0.100.242"
-    ipconfig0 = "ip=10.0.100.151/24,gw=10.0.100.1"
+    ipconfig0 = "ip=10.0.100.100/24,gw=10.0.100.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuOhwlgxLF/4v06qha9jPQ4egOaW2nUFlC7988tPh9X
