@@ -17,7 +17,7 @@ services:
       - "traefik.http.routers.jellyseerr.rule=Host(`anfragen.darksaber.fyi`) || Host(`anfragen.docker-prd.darksaber.fyi`)"
       - "traefik.http.routers.jellyseerr.entrypoints=https"
       - "traefik.http.routers.jellyseerr.tls=true"
-      - "traefik.http.routers.jellyseerr.middlewares=secured@file"
+      - "traefik.http.routers.jellyseerr.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
       # Homepage
       - "homepage.tab=Media"
