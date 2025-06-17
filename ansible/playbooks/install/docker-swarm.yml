@@ -81,7 +81,13 @@
       file:
         path: /mnt/shared
         state: directory
-        mode: '0755'      
+        mode: '0755'
+
+    - name: Create mount point for NFS share
+      file:
+        path: /mnt/data
+        state: directory
+        mode: '0755'    
 
     - name: Mount external NFS share
       mount:
@@ -90,6 +96,18 @@
         fstype: nfs
         opts: rw,noatime,_netdev,vers=4
         state: mounted
+
+    - name: Mount external NFS share
+      mount:
+        path: /mnt/data
+        src: srv-unraid.local.darksaber.fyi:/mnt/user/data
+        fstype: nfs
+        opts: rw,noatime,_netdev,vers=4
+        state: mounted
+
+    - name: Set timezone to Europe/Berlin
+      community.general.timezone:
+        name: Europe/Berlin
 
   handlers:
     - name: Restart SSH
