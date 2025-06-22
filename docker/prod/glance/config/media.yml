@@ -12,7 +12,7 @@
         - type: docker-containers
           title: Player
           category: player
-          sock-path: tcp://srv-unraid.local.darksaber.fyi:2375
+          sock-path: tcp://socket-proxy:2375
         - type: docker-containers
           title: Automation
           category: automation

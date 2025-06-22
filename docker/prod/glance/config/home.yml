@@ -18,38 +18,10 @@
 
     - size: full
       widgets:
-        - type: monitor
-          cache: 1m
-          title: Misc
-          sites:
-            - title: Pocket-ID
-              url: https://id.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pocket-id.svg
-              same-tab: true
-            - title: Outline
-              url: https://docs.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/outline.svg
-              same-tab: true
-            - title: IT-Tools
-              url: https://tools.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/it-tools.svg
-              same-tab: true
         - type: docker-containers
           title: Misc
-          category: misc-srv-unraid
-          sock-path: tcp://srv-unraid.local.darksaber.fyi:2375
-        - type: monitor
-          cache: 1m
-          title: Monitoring
-          sites:
-            - title: Dozzle
-              url: https://dozzle.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/dozzle.svg
-              same-tab: true
-            - title: Portainer
-              url: https://portainer.docker-prd.darksaber.fyi
-              icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/portainer.svg
-              same-tab: true
+          category: misc
+          sock-path: tcp://socket-proxy:2375
         - type: monitor
           cache: 1m
           title: Network
@@ -112,7 +84,7 @@
         - type: server-stats
           servers:
             - type: local
-              name: srv-docker
+              name: srv-docker-prod
         - type: repository
           repository: L3odalton/homelab-2.0
 
