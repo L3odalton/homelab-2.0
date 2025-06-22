@@ -7,7 +7,7 @@ services:
       - proxy
     env_file: .env
     volumes:
-      - pocket-id_data:/app/data
+      - /opt/stacks/pocket-id/data:/app/data
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -17,12 +17,12 @@ services:
       - "traefik.http.routers.pocket-id.tls=true"
       - "traefik.http.routers.pocket-id.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
-      # Homepage
-      - "homepage.group=Misc"
-      - "homepage.name=Pocket-ID"
-      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pocket-id.svg"
-      - "homepage.href=https://id.darksaber.fyi"
-      - "homepage.description=Simple OIDC authentication provider"
+      # Glance
+      - "glance.name=Pocket-ID"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pocket-id.svg"
+      - "glance.url=https://id.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=misc"
     restart: unless-stopped
     healthcheck:
       test: "curl -f http://localhost:1411/healthz"
@@ -34,6 +34,3 @@ services:
 networks:
   proxy:
     external: true
-
-volumes:
-  pocket-id_data:
