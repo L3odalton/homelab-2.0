@@ -13,5 +13,5 @@ http:
     portainer:
       loadBalancer:
         servers:
-          - url: "https://localhost:9443"
+          - url: "https://srv-swrm-mgr.local.darksaber.fyi:9443"
         passHostHeader: true
