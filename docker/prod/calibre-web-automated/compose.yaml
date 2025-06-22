@@ -5,21 +5,27 @@ services:
     container_name: calibre-web-automated
     networks:
       - proxy
-    ports:
-      - 8083:8083
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
     volumes:
-      - /mnt/user/appdata/calibre-web-automated/config:/config
+      - /opt/stacks/calibre-web-automated/config:/config
       - /mnt/user/data/usenet/complete/books:/cwa-book-ingest
       - /mnt/user/data/media/books:/calibre-library
     labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.cwa.loadbalancer.server.port=8083"
+      - "traefik.http.routers.cwa.rule=Host(`books.prod.darksaber.fyi`)"
+      - "traefik.http.routers.cwa.entrypoints=https"
+      - "traefik.http.routers.cwa.tls=true"
+      - "traefik.http.routers.cwa.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Calibre"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/calibre.svg"
-      - "glance.url=https://books.docker-prd.darksaber.fyi"
+      - "glance.url=https://books.prod.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=player"
     restart: unless-stopped
