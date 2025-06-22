@@ -72,6 +72,29 @@
         groups: docker
         append: yes
 
+    - name: Ensure NFS utilities are installed
+      apt:
+        name: nfs-common
+        state: present
+
+    - name: Create mount point for NFS share
+      file:
+        path: /mnt/data
+        state: directory
+        mode: '0755'
+
+    - name: Mount external NFS share
+      mount:
+        path: /mnt/data
+        src: srv-unraid.local.darksaber.fyi:/mnt/user/data
+        fstype: nfs
+        opts: rw,noatime,_netdev,vers=4
+        state: mounted
+
+    - name: Set timezone to Europe/Berlin
+      community.general.timezone:
+        name: Europe/Berlin
+
   handlers:
     - name: Restart SSH
       service:
