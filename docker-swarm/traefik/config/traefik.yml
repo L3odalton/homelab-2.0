@@ -10,7 +10,7 @@ api:
 
 # Log level INFO|DEBUG|ERROR
 log:
-  level: DEBUG
+  level: INFO
 
 # experimental plugins
 experimental:
@@ -106,8 +106,8 @@ providers:
 certificatesResolvers:
   cloudflare:
     acme:
-      #caServer: https://acme-v02.api.letsencrypt.org/directory # production (default)
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging (testing)
+      caServer: https://acme-v02.api.letsencrypt.org/directory # production (default)
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging (testing)
       email: vivid.pen4346@linus-baumann.de # Cloudflare email (or other provider)
       storage: /etc/traefik/acme.json
       dnsChallenge:
