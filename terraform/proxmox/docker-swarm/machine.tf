@@ -1,8 +1,7 @@
-resource "proxmox_vm_qemu" "srv-swarm-01" {
-    name = "srv-swarm-01"
+resource "proxmox_vm_qemu" "srv-swrm-mgr" {
+    name = "srv-swrm-mgr"
     target_node = "pve-s13-01"
     vmid = "100141"
-    desc = "docker warm"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
@@ -10,7 +9,7 @@ resource "proxmox_vm_qemu" "srv-swarm-01" {
     clone_id = "7001"
     full_clone = true
     scsihw = "virtio-scsi-pci"
-    memory = 4096
+    memory = 2048
     automatic_reboot = true
 
     os_type = "cloud-init"
@@ -18,7 +17,7 @@ resource "proxmox_vm_qemu" "srv-swarm-01" {
     ciuser = "mgrsys"
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
-    nameserver = "10.0.100.241,10.0.100.242"
+    nameserver = "10.0.100.253,10.0.100.254"
     ipconfig0 = "ip=10.0.100.141/24,gw=10.0.100.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
@@ -57,11 +56,10 @@ resource "proxmox_vm_qemu" "srv-swarm-01" {
     }
 }
 
-resource "proxmox_vm_qemu" "srv-swarm-02" {
-    name = "srv-swarm-02"
+resource "proxmox_vm_qemu" "srv-swrm-wrk-01" {
+    name = "srv-swrm-wrk-01"
     target_node = "pve-s13-02"
     vmid = "100142"
-    desc = "docker warm"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
@@ -77,7 +75,7 @@ resource "proxmox_vm_qemu" "srv-swarm-02" {
     ciuser = "mgrsys"
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
-    nameserver = "10.0.100.241,10.0.100.242"
+    nameserver = "10.0.100.253,10.0.100.254"
     ipconfig0 = "ip=10.0.100.142/24,gw=10.0.100.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
@@ -101,7 +99,7 @@ resource "proxmox_vm_qemu" "srv-swarm-02" {
             scsi0 {
                 disk {
                     storage = "local-zfs"
-                    size    = "20G"
+                    size    = "50G"
                     discard = "true"
                 }
             }
@@ -116,11 +114,10 @@ resource "proxmox_vm_qemu" "srv-swarm-02" {
     }
 }
 
-resource "proxmox_vm_qemu" "srv-swarm-03" {
-    name = "srv-swarm-03"
+resource "proxmox_vm_qemu" "srv-swrm-wrk-02" {
+    name = "srv-swrm-wrk-02"
     target_node = "pve-ugreen-03"
     vmid = "100143"
-    desc = "docker warm"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
@@ -136,7 +133,7 @@ resource "proxmox_vm_qemu" "srv-swarm-03" {
     ciuser = "mgrsys"
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
-    nameserver = "10.0.100.241,10.0.100.242"
+    nameserver = "10.0.100.253,10.0.100.254"
     ipconfig0 = "ip=10.0.100.143/24,gw=10.0.100.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
@@ -160,7 +157,7 @@ resource "proxmox_vm_qemu" "srv-swarm-03" {
             scsi0 {
                 disk {
                     storage = "local-zfs"
-                    size    = "20G"
+                    size    = "50G"
                     discard = "true"
                 }
             }
