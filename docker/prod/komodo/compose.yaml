@@ -1,0 +1,111 @@
+################################
+# 🦎 KOMODO COMPOSE - MONGO 🦎 #
+################################
+
+## This compose file will deploy:
+##   1. MongoDB
+##   2. Komodo Core
+##   3. Komodo Periphery
+
+services:
+  mongo:
+    image: mongo:8.0.10
+    container_name: komodo_db
+    networks:
+      - komodo_net
+    labels:
+      komodo.skip:
+    command: --quiet --wiredTigerCacheSizeGB 0.25
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
+  
+  core:
+    image: ghcr.io/moghtech/komodo-core:1.18.3
+    container_name: komodo_core
+    networks:
+      - proxy
+      - komodo_net
+    labels:
+      komodo.skip:
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - 9120:9120
+    env_file: ./compose.env
+    environment:
+      KOMODO_DATABASE_ADDRESS: mongo:27017
+      KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
+      KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
+    volumes:
+      ## Core cache for repos for latest commit hash / contents
+      - repo-cache:/repo-cache
+    # extra_hosts:
+    #   - host.docker.internal:host-gateway
+
+  socket-proxy:
+      image: lscr.io/linuxserver/socket-proxy:3.2.1
+      container_name: komodo_socket_proxy
+      networks:
+        - komodo_net
+      environment:
+        - ALLOW_START=1
+        - ALLOW_STOP=1
+        - ALLOW_RESTARTS=1
+        - AUTH=1 #optional, enable for pushing builds to registry and increasing pull rate limits
+        - BUILD=1 #required to build images
+        - CONTAINERS=1 #required to manage containers
+        - DISTRIBUTION=1 #required for image digest and registry info
+        - EVENTS=1 #required for core communication
+        - EXEC=1 #required for 'exec' into container, future use
+        - IMAGES=1 #required to manage images
+        - INFO=1
+        - NETWORKS=1 #required to manage networks
+        - PING=1 #required for core communication
+        - POST=1 #required for WRITE operations to all other permissions
+        - SESSION=1
+        - SYSTEM=1 #optional, enable for system stats in dashboard
+        - VERSION=1 #required for core communication
+        - VOLUMES=1 #required to manage volumes
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      restart: unless-stopped
+      read_only: true
+      tmpfs:
+        - /run
+
+  periphery:
+    image: ghcr.io/moghtech/komodo-periphery:1.18.3
+    container_name: komodo_periphery
+    networks:
+      - komodo_net
+    labels:
+      komodo.skip:
+    restart: unless-stopped
+    env_file: ./compose.env
+    volumes:
+      ## Allow Periphery to see processes outside of container
+      - /proc:/proc
+      ## Specify the Periphery agent root directory.
+      ## Must be the same inside and outside the container,
+      ## or docker will get confused. See https://github.com/moghtech/komodo/discussions/180.
+      - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
+
+volumes:
+  # Mongo
+  mongo-data:
+  mongo-config:
+  # Core
+  repo-cache:
+
+networks:
+  proxy:
+    external: true
+  komodo_net:
+    external: false
+
