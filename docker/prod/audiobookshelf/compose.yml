@@ -1,0 +1,35 @@
+---
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:2.25.1
+    container_name: audiobookshelf
+    networks:
+      - proxy
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - /opt/stacks/audiobookshelf/config:/config
+      - /opt/stacks/audiobookshelf/metadata:/metadata
+      - /mnt/data/media/audiobooks:/audiobooks
+      - /mnt/data/media/podcasts:/podcasts
+      - /mnt/data/media/radioplays:/radioplays
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.glance.loadbalancer.server.port=80"
+      - "traefik.http.routers.glance.rule=Host(`abs.darksaber.fyi`)"
+      - "traefik.http.routers.glance.entrypoints=https"
+      - "traefik.http.routers.glance.tls=true"
+      - "traefik.http.routers.glance.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Audiobookshelf"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/audiobookshelf.svg"
+      - "glance.url=https://abs.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=player"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
