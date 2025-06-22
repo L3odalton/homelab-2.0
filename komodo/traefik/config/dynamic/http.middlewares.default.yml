@@ -24,10 +24,20 @@ http:
     default-whitelist:
       ipAllowList:
         sourceRange:
+        - 127.0.0.1/32
         - "10.0.0.0/8"
         - "192.168.0.0/16"
         - "172.16.0.0/12"
-  
+        #ipstrategy: # enable this when cloudflare proxy in use
+        #  depth: 1 # enable this when cloudflare proxy in use
+
+    # rate limiting
+    rate-limit:
+      rateLimit:
+        average: 100
+        period: 1
+        burst: 100
+
     pocket-id:
       plugin:
         traefik-oidc-auth:
@@ -46,10 +56,8 @@ http:
         middlewares:
         - default-whitelist
         - default-headers
-        - gzip
 
     secured-external:
       chain:
         middlewares:
         - default-headers
-        - gzip

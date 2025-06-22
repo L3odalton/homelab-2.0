@@ -1,47 +1,60 @@
 services:
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:3.2.1
+    container_name: socket-proxy
+    networks:
+      - socket-proxy
+    environment:
+      CONTAINERS: 1
+      NETWORKS: 1
+      SERVICES: 1
+      TASKS: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    tmpfs:
+      - /run
+    restart: always
+
   traefik:
     image: traefik:v3.4.1
-    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     networks:
-      - proxy
+      - proxy-swarm
+      - socket-proxy
     ports:
       - 80:80
       - 443:443
     environment:
-      - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - CF_API_EMAIL=${CF_API_EMAIL}
       - POCKET_ID_SECRET=${POCKET_ID_SECRET}
       - POCKET_ID_CLIENT_SECRET=${POCKET_ID_CLIENT_SECRET}
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - ./traefik/dynamic_conf:/etc/traefik/dynamic_conf:ro
-      - traefik-certs:/etc/traefik/certs
-      - /var/log/traefik:/var/log/traefik/
+      - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./config/dynamic:/etc/traefik/dynamic:ro
+      - ./config/certs/acme.json:/etc/traefik/acme.json
+      - ./config/logs:/logs
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.swarm.darksaber.fyi`)"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.prod.darksaber.fyi`)"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
       - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.swarm.darksaber.fyi`)"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.prod.darksaber.fyi`)"
+      - "traefik.http.routers.traefik-secure.middlewares=pocket-id@file"
       - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=darksaber.fyi"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi,*.swarm.darksaber.fyi"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi,*.prod.darksaber.fyi"
       - "traefik.http.routers.traefik-secure.service=api@internal"
-
-volumes:
-  traefik-certs:
+      - "traefik.http.services.traefik-secure.loadbalancer.server.port=443"
 
 networks:
   proxy:
+    external: true
+  socket-proxy:
     external: true

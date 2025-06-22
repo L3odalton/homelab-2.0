@@ -1,0 +1,17 @@
+http:
+  routers:
+    komodo:
+      entryPoints:
+        - "https"
+      rule: "Host(`komodo.swarm.darksaber.fyi`)"
+      middlewares:
+        - secured-external
+      tls:
+        options: default
+      service: komodo
+  services:
+    komodo:
+      loadBalancer:
+        servers:
+          - url: "http://localhost:9120"
+        passHostHeader: true
