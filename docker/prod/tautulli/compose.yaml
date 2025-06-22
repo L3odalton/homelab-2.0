@@ -14,7 +14,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
-      - "traefik.http.routers.tautulli.rule=Host(`tautulli.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.tautulli.rule=Host(`tautulli.prod.darksaber.fyi`)"
       - "traefik.http.routers.tautulli.entrypoints=https"
       - "traefik.http.routers.tautulli.tls=true"
       - "traefik.http.routers.tautulli.middlewares=secured@file"
@@ -22,7 +22,7 @@ services:
       # Glance
       - "glance.name=Tautulli"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/tautulli.svg"
-      - "glance.url=https://tautulli.docker-prd.darksaber.fyi"
+      - "glance.url=https://tautulli.prod.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=monitoring"
     restart: unless-stopped
