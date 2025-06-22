@@ -34,8 +34,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./config/dynamic:/etc/traefik/dynamic:ro
-      - ./config/certs/acme.json:/etc/traefik/acme.json
-      - ./config/logs:/logs
+      - /opt/stacks/traefik/certs/acme.json:/etc/traefik/acme.json
+      - /opt/stacks/traefik/logs:/logs
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
