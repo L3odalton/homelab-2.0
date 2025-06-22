@@ -7,7 +7,7 @@ services:
       - glance_net
     volumes:
       - ./config:/app/config
-      - .e/assets:/app/assets
+      - ./assets:/app/assets
     restart: unless-stopped
     labels:
       # Traefik
