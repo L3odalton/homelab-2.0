@@ -8,8 +8,5 @@ services:
       - PLEX_TOKEN=${PLEX_TOKEN}
       - TZ=Europe/Berlin
     volumes:
-      - plex-auto-languages_config:/config
+      - /opt/stacks/plex-auto-languages/config:/config
     restart: unless-stopped
-
-volumes:
-  plex-auto-languages_config:
