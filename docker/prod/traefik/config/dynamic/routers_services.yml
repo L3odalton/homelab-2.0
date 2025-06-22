@@ -3,9 +3,11 @@ http:
     komodo:
       entryPoints:
         - "https"
-      rule: "Host(`komodo.prod.darksaber.fyi`)"
+      rule: "Host(`komodo.darksaber.fyi`)"
       middlewares:
         - secured-external
+        - default-whitelist
+        - github-hooks-whitelist
       tls:
         options: default
       service: komodo

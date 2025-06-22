@@ -30,6 +30,14 @@ http:
         - "172.16.0.0/12"
         #ipstrategy: # enable this when cloudflare proxy in use
         #  depth: 1 # enable this when cloudflare proxy in use
+    
+    github-hooks-whitelist:
+      ipAllowList:
+        sourceRange:
+        - "192.30.252.0/22"
+        - "185.199.108.0/22"
+        - "140.82.112.0/20"
+        - "143.55.64.0/20"
 
     # rate limiting
     rate-limit:
