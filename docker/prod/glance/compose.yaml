@@ -4,17 +4,17 @@ services:
     image: glanceapp/glance:v0.8.4
     networks:
       - proxy
+      - glance_net
     volumes:
-      - /home/mgrsys/docker/glance/config:/app/config
-      - /home/mgrsys/docker/glance/assets:/app/assets
-      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config:/app/config
+      - .e/assets:/app/assets
     env_file: .env
     restart: unless-stopped
     labels:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.glance.loadbalancer.server.port=8080"
-      - "traefik.http.routers.glance.rule=Host(`glance.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.glance.rule=Host(`glance.prod.darksaber.fyi`)"
       - "traefik.http.routers.glance.entrypoints=https"
       - "traefik.http.routers.glance.tls=true"
       - "traefik.http.routers.glance.middlewares=secured@file"
@@ -24,7 +24,7 @@ services:
     image: lscr.io/linuxserver/socket-proxy:3.2.1
     container_name: socket-proxy
     networks:
-      - proxy
+      - glance_net
     environment:
       - CONTAINERS=1
       - SERVICES=1
@@ -40,3 +40,5 @@ services:
 networks:
   proxy:
     external: true
+  glance_net:
+    external: false
