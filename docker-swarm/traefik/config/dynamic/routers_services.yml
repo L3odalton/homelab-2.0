@@ -1,0 +1,17 @@
+http:
+  routers:
+    portainer:
+      entryPoints:
+        - "https"
+      rule: "Host(`portainer.swarm.darksaber.fyi`)"
+      middlewares:
+        - secured
+      tls:
+        options: default
+      service: portainer
+  services:
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "https://localhost:9443"
+        passHostHeader: true
