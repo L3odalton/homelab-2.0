@@ -13,5 +13,5 @@ http:
     portainer:
       loadBalancer:
         servers:
-          - url: "https://10.0.100.141:9443"
+          - url: "http://10.0.100.141:9000"
         passHostHeader: true
