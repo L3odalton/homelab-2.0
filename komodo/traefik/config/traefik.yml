@@ -10,7 +10,7 @@ api:
 
 # Log level INFO|DEBUG|ERROR
 log:
-  level: INFO
+  level: DEBUG
 
 # experimental plugins
 experimental:
