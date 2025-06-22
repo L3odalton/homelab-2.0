@@ -13,5 +13,5 @@ http:
     komodo:
       loadBalancer:
         servers:
-          - url: "http://localhost:9120"
+          - url: "http://10.0.100.108:9120"
         passHostHeader: true
