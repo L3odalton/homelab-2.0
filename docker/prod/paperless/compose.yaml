@@ -13,7 +13,7 @@ services:
       - paperless_net
     restart: unless-stopped
     volumes:
-      - /mnt/user/appdata/paperless/postgres:/var/lib/postgresql/data
+      - /opt/stacks/paperless/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DB}
       POSTGRES_USER: ${DB_USER}
@@ -32,14 +32,12 @@ services:
     networks:
       - paperless_net
       - proxy
-    ports:
-      - "8702:8000"
     volumes:
-      - /mnt/user/appdata/paperless/data:/usr/src/paperless/data
-      - /mnt/user/data/paperless/media:/usr/src/paperless/media
-      - /mnt/user/data/paperless/export:/usr/src/paperless/export
-      - /mnt/user/data/paperless/consume:/usr/src/paperless/consume
-    env_file: stack.env
+      - /opt/stacks/paperless/data:/usr/src/paperless/data
+      - /mnt/data/paperless/media:/usr/src/paperless/media
+      - /mnt/data/paperless/export:/usr/src/paperless/export
+      - /mnt/data/paperless/consume:/usr/src/paperless/consume
+    env_file: .env
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
@@ -51,12 +49,20 @@ services:
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
       PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
     labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.paperless.loadbalancer.server.port=8000"
+      - "traefik.http.routers.paperless.rule=Host(`paperless.prod.darksaber.fyi`)"
+      - "traefik.http.routers.paperless.entrypoints=https"
+      - "traefik.http.routers.paperless.tls=true"
+      - "traefik.http.routers.paperless.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Paperless"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/paperless-ngx.svg"
-      - "glance.url=https://paperless.docker-prd.darksaber.fyi"
+      - "glance.url=https://paperless.prod.darksaber.fyi"
       - "glance.same-tab=true"
-      - "glance.category=misc-srv-unraid"
+      - "glance.category=misc"
 
   gotenberg:
     image: docker.io/gotenberg/gotenberg:8.21
