@@ -18,8 +18,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./config/dynamic:/etc/traefik/dynamic:ro
-      # - ./config/certs/acme.json:/etc/traefik/acme.json
-      - traefik_certs:/etc/traefik/acme.json
+      - /home/mgrsys/docker/traefik/config/certs/acme.json:/etc/traefik/acme.json
       - /mnt/shared/traefik/logs:/logs
     
     deploy:
@@ -53,6 +52,3 @@ networks:
     external: true
   socket-proxy:
     external: true
-
-volumes:
-  traefik_certs:
