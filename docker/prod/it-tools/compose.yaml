@@ -6,27 +6,24 @@ services:
     networks:
       - proxy
     volumes:
-      - it-tools-data:/app/config
+      - /opt/stacks/it-tools/config:/app/config
     labels:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.it-tools.loadbalancer.server.port=80"
-      - "traefik.http.routers.it-tools.rule=Host(`tools.docker-prd.darksaber.fyi`)"
+      - "traefik.http.routers.it-tools.rule=Host(`tools.prod.darksaber.fyi`)"
       - "traefik.http.routers.it-tools.entrypoints=https"
       - "traefik.http.routers.it-tools.tls=true"
       - "traefik.http.routers.it-tools.middlewares=secured@file,pocket-id@file"
       - "traefik.docker.network=proxy"
-      # Homepage
-      - "homepage.group=Misc"
-      - "homepage.name=IT-Tools"
-      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/it-tools.svg"
-      - "homepage.href=https://tools.docker-prd.darksaber.fyi"
-      - "homepage.description=Handy tools for developers"
+      # Glance
+      - "glance.name=IT-Tools"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/it-tools.svg"
+      - "glance.url=https://tools.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=misc"
     restart: unless-stopped
 
 networks:
   proxy:
     external: true
-
-volumes:
-  it-tools-data:

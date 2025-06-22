@@ -1,2 +1,0 @@
-COMPOSE_PROJECT_NAME=cloudflare-ddns
-CLOUDFLARE_API_TOKEN=op://secrets/cloudflareddns/env/cloudflareapitoken
