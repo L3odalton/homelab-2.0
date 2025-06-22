@@ -11,8 +11,8 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - /opt/stacks/calibre-web-automated/config:/config
-      - /mnt/user/data/usenet/complete/books:/cwa-book-ingest
-      - /mnt/user/data/media/books:/calibre-library
+      - /mnt/data/usenet/complete/books:/cwa-book-ingest
+      - /mnt/data/media/books:/calibre-library
     labels:
       # Traefik
       - "traefik.enable=true"
