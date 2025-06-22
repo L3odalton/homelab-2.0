@@ -16,11 +16,11 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.services.glance.loadbalancer.server.port=80"
-      - "traefik.http.routers.glance.rule=Host(`abs.darksaber.fyi`)"
-      - "traefik.http.routers.glance.entrypoints=https"
-      - "traefik.http.routers.glance.tls=true"
-      - "traefik.http.routers.glance.middlewares=secured@file"
+      - "traefik.http.services.abs.loadbalancer.server.port=80"
+      - "traefik.http.routers.abs.rule=Host(`abs.darksaber.fyi`)"
+      - "traefik.http.routers.abs.entrypoints=https"
+      - "traefik.http.routers.abs.tls=true"
+      - "traefik.http.routers.abs.middlewares=secured@file"
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Audiobookshelf"
