@@ -1,0 +1,17 @@
+---
+services:
+  it-tools:
+    image: ghcr.io/corentinth/it-tools:2024.10.22-7ca5933
+    container_name: it-tools
+    networks:
+      - proxy
+    volumes:
+      - it-tools-data:/app/config
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  it-tools-data:
