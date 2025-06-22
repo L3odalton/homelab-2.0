@@ -20,7 +20,7 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - proxy-swarm
+      - proxy
       - socket-proxy
     ports:
       - 80:80
