@@ -10,20 +10,28 @@ services:
       - SETTINGS_ENCRYPTION_KEY=${SETTINGS_ENCRYPTION_KEY}
       - DUPLICATI__WEBSERVICE_PASSWORD=${WEBSERVICE_PASSWORD}
     volumes:
-      - /mnt/user/appdata/duplicati/config:/config
-      - /mnt/user/data:/source
+      - /opt/stacks/duplicati/config:/config
+      - /mnt/data:/source
     networks:
       - proxy
     ports:
       - 8200:8200
     restart: unless-stopped
     labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
+      - "traefik.http.routers.duplicati.rule=Host(`duplicati.prod.darksaber.fyi`)"
+      - "traefik.http.routers.duplicati.entrypoints=https"
+      - "traefik.http.routers.duplicati.tls=true"
+      - "traefik.http.routers.duplicati.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Duplicati"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/duplicati.svg"
-      - "glance.url=https://duplicati.docker-prd.darksaber.fyi"
+      - "glance.url=https://duplicati.prod.darksaber.fyi"
       - "glance.same-tab=true"
-      - "glance.category=misc-srv-unraid"
+      - "glance.category=misc"
 
 networks:
   proxy:
