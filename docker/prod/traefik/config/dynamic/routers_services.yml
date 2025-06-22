@@ -6,7 +6,6 @@ http:
       rule: "Host(`komodo.darksaber.fyi`)"
       middlewares:
         - secured-external
-        - default-whitelist
         - github-hooks-whitelist
       tls:
         options: default
