@@ -53,6 +53,41 @@
           - docker-compose-plugin
         state: present
 
+    - name: Ensure DNSStubListener is set to no
+      lineinfile:
+        path: /etc/systemd/resolved.conf
+        regexp: '^#?DNSStubListener='
+        line: 'DNSStubListener=no'
+        backup: yes
+      notify: Restart systemd-resolved
+
+    - name: Ensure /etc/resolv.conf points to /run/systemd/resolve/resolv.conf
+      file:
+        path: /etc/resolv.conf
+        state: link
+        src: /run/systemd/resolve/resolv.conf
+        force: true
+
+    - name: Gather default network interface
+      set_fact:
+        primary_interface: "{{ ansible_default_ipv4.interface }}"
+
+    - name: Configure netplan to use local DNS and disable DHCP-provided DNS
+      blockinfile:
+        path: "/etc/netplan/99-pihole-dns.yaml"
+        create: yes
+        block: |
+          network:
+            version: 2
+            ethernets:
+              {{ primary_interface }}:
+                dhcp4: true
+                dhcp4-overrides:
+                  use-dns: false
+                nameservers:
+                  addresses: [127.0.0.1]
+      notify: Apply netplan
+
     - name: Remove existing periphery.config.toml
       ansible.builtin.file:
         path: /etc/komodo/periphery.config.toml
@@ -75,7 +110,7 @@
         regexp: '^allowed_ips = \[\]'
         line: 'allowed_ips = ["::ffff:10.0.100.101"]'
         state: present
-  
+
     - name: Enable periphery.service
       ansible.builtin.systemd:
         name: periphery.service
@@ -118,3 +153,12 @@
       service:
         name: ssh
         state: restarted
+
+    - name: Restart systemd-resolved
+      systemd:
+        name: systemd-resolved
+        state: restarted
+        enabled: true
+
+    - name: Apply netplan
+      command: netplan apply
