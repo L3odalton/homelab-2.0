@@ -9,14 +9,21 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       - proxy
-    ports:
-      - 8080:8080
     environment:
       - VPN_SERVICE_PROVIDER=mullvad
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
       - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
       - SERVER_CITIES=${SERVER_CITIES}
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.sabnzbd.loadbalancer.server.port=8080"
+      - "traefik.http.routers.sabnzbd.rule=Host(`sab.prod.darksaber.fyi`)"
+      - "traefik.http.routers.sabnzbd.entrypoints=https"
+      - "traefik.http.routers.sabnzbd.tls=true"
+      - "traefik.http.routers.sabnzbd.middlewares=secured@file"
+      - "traefik.docker.network=proxy"    
     restart: unless-stopped
 
   sabnzbd:
@@ -29,9 +36,9 @@ services:
       - TZ=Europe/Berlin
       - WEBUI_PORTS=8080/tcp,8080/udp
     volumes:
-      - /mnt/user/appdata/sabnzbd/config:/config
-      - /mnt/user/data/usenet/complete:/data/usenet/complete
-      - /mnt/user/data/usenet/incomplete:/data/usenet/incomplete
+      - /opt/stacks/sabnzbd/config:/config
+      - /mnt/data/usenet/complete:/data/usenet/complete
+      - /mnt/data/usenet/incomplete:/data/usenet/incomplete
     network_mode: "service:gluetun"
     restart: unless-stopped
     labels:
