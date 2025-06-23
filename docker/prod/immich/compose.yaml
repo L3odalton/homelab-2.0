@@ -1,0 +1,100 @@
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:v1.134.0
+    user: 1000:1000
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /mnt/data/immich/upload:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Berlin
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_DATABASE_NAME=${DB_DATABASE_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    networks:
+      - immich_net
+      - proxy
+    depends_on:
+      - redis
+      - database
+    restart: always
+    healthcheck:
+      disable: false
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.immich.loadbalancer.server.port=2283"
+      - "traefik.http.routers.immich.rule=Host(`immich.darksaber.fyi`)"
+      - "traefik.http.routers.immich.entrypoints=https"
+      - "traefik.http.routers.immich.tls=true"
+      - "traefik.http.routers.immich.middlewares=secured-external@file"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Immich"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/immich.svg"
+      - "glance.url=https://immich.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=photos"
+      - "glance.id=immich"
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:v1.134.0-openvino
+    device_cgroup_rules:
+      - 'c 189:* rmw'
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /opt/stacks/immich/model-cache:/cache
+      - /dev/bus/usb:/dev/bus/usb
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - immich_net
+      - proxy
+    restart: always
+    healthcheck:
+      disable: false
+    labels:
+      # Glance
+      - "glance.parent=immich"
+      - "glance.name=immich-ml"
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:8.1.2-bookworm
+    healthcheck:
+      test: redis-cli ping || exit 1
+    networks:
+      - immich_net
+    restart: always
+    labels:
+      # Glance
+      - "glance.parent=immich"
+      - "glance.name=redis"
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:17-vectorchord0.3.0-pgvectors0.3.0
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    networks:
+      - immich_net
+    volumes:
+      - /opt/stacks/immich/immich_postgres:/var/lib/postgresql/data
+    restart: always
+    labels:
+      # Glance
+      - "glance.parent=immich"
+      - "glance.name=db"
+
+networks:
+  proxy:
+    external: true
+  immich_net:
+    internal: true
