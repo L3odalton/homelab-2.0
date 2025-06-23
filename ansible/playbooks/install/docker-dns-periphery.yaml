@@ -68,7 +68,7 @@
       ansible.builtin.lineinfile:
         path: /etc/komodo/periphery.config.toml
         regexp: '^allowed_ips = \[\]'
-        line: 'allowed_ips = ["10.0.100.101"]'
+        line: 'allowed_ips = ["::ffff:10.0.100.101"]'
         state: present
   
     - name: Enable periphery.service
