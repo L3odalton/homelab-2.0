@@ -53,6 +53,11 @@
           - docker-compose-plugin
         state: present
 
+    - name: Remove existing periphery.config.toml
+      ansible.builtin.file:
+        path: /etc/komodo/periphery.config.toml
+        state: absent
+
     - name: Download setup-periphery script
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/moghtech/komodo/main/scripts/setup-periphery.py
@@ -64,12 +69,12 @@
       args:
         chdir: /tmp
 
-    #- name: Set allowed_ips in periphery.config.toml
-    #  ansible.builtin.lineinfile:
-    #    path: /etc/komodo/periphery.config.toml
-    #    regexp: '^allowed_ips = \[\]'
-    #    line: 'allowed_ips = ["::ffff:10.0.100.101"]'
-    #    state: present
+    - name: Set allowed_ips in periphery.config.toml
+      ansible.builtin.lineinfile:
+        path: /etc/komodo/periphery.config.toml
+        regexp: '^allowed_ips = \[\]'
+        line: 'allowed_ips = ["::ffff:10.0.100.101"]'
+        state: present
   
     - name: Enable periphery.service
       ansible.builtin.systemd:
