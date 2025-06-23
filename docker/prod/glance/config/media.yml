@@ -20,7 +20,7 @@
         - type: docker-containers
           title: Photos
           category: photos
-          sock-path: tcp://srv-unraid.local.darksaber.fyi:2375
+          sock-path: tcp://socket-proxy:2375
         - type: docker-containers
           title: Monitoring
           category: monitoring
