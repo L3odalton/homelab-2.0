@@ -20,6 +20,9 @@ services:
     container_name: traefik
     security_opt:
       - no-new-privileges:true
+    depends_on:
+      socket-proxy:
+        condition: service_started
     networks:
       - proxy
       - traefik_net
@@ -53,6 +56,7 @@ services:
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi,*.prod.darksaber.fyi"
       - "traefik.http.routers.traefik-secure.service=api@internal"
       - "traefik.http.services.traefik-secure.loadbalancer.server.port=443"
+    restart: always
 
 networks:
   proxy:

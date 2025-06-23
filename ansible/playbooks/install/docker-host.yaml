@@ -88,7 +88,7 @@
         path: /mnt/data
         src: srv-unraid.local.darksaber.fyi:/mnt/user/data
         fstype: nfs
-        opts: rw,noatime,_netdev,vers=4
+        opts: hard,timeo=50,retrans=5,relatime,rsize=1048576,wsize=1048576,vers=4
         state: mounted
 
     - name: Set timezone to Europe/Berlin
