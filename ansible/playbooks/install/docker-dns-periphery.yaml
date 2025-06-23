@@ -70,6 +70,12 @@
         regexp: '^allowed_ips = \[\]'
         line: 'allowed_ips = ["10.0.100.101"]'
         state: present
+  
+    - name: Enable periphery.service
+      ansible.builtin.systemd:
+        name: periphery.service
+        enabled: true
+        state: started
 
     - name: Allow mgrsys to run sudo without password
       copy:
