@@ -1,0 +1,185 @@
+services:
+  prowlarr:
+    image: ghcr.io/hotio/prowlarr:release-1.37.0.5076
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - /opt/stacks/starr/prowlarr/config:/config
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      # Web Service
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.prod.darksaber.fyi`)"
+      - "traefik.http.routers.prowlarr.entrypoints=https"
+      - "traefik.http.routers.prowlarr.tls=true"
+      - "traefik.http.routers.prowlarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.http.routers.prowlarr.priority=1"
+      # API Service
+      - "traefik.http.routers.prowlarr-api.rule=(Host(`prowlarr.prod.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.prowlarr-api.entrypoints=https"
+      - "traefik.http.routers.prowlarr-api.tls=true"
+      - "traefik.http.routers.prowlarr-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.prowlarr-api.priority=3"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Prowlarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prowlarr.svg"
+      - "glance.url=https://prowlarr.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
+    restart: unless-stopped
+
+  sonarr:
+    image: ghcr.io/hotio/sonarr:release-4.0.14.2939
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - /opt/stacks/starr/sonarr/config:/config
+      - /mnt/data:/data
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      # Web Service
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.prod.darksaber.fyi`)"
+      - "traefik.http.routers.sonarr.entrypoints=https"
+      - "traefik.http.routers.sonarr.tls=true"
+      - "traefik.http.routers.sonarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.http.routers.sonarr.priority=1"
+      # API Service
+      - "traefik.http.routers.sonarr-api.rule=(Host(`sonarr.prod.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.sonarr-api.entrypoints=https"
+      - "traefik.http.routers.sonarr-api.tls=true"
+      - "traefik.http.routers.sonarr-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.sonarr-api.priority=3"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Sonarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr.svg"
+      - "glance.url=https://sonarr.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
+    restart: unless-stopped
+
+  radarr:
+    image: ghcr.io/hotio/radarr:release-5.26.2.10099
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Berlin
+    volumes:
+      - /opt/stacks/starr/radarr/config:/config
+      - /mnt/data:/data
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      # Web Service
+      - "traefik.http.routers.radarr.rule=Host(`radarr.prod.darksaber.fyi`)"
+      - "traefik.http.routers.radarr.entrypoints=https"
+      - "traefik.http.routers.radarr.tls=true"
+      - "traefik.http.routers.radarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.http.routers.radarr.priority=1"
+      # API Service
+      - "traefik.http.routers.radarr-api.rule=(Host(`radarr.prod.darksaber.fyi`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.radarr-api.entrypoints=https"
+      - "traefik.http.routers.radarr-api.tls=true"
+      - "traefik.http.routers.radarr-api.middlewares=default-whitelist@file"
+      - "traefik.http.routers.radarr-api.priority=3"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Radarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr.svg"
+      - "glance.url=https://radarr.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
+    restart: unless-stopped
+
+  umlautadaptarr:
+    image: pcjones/umlautadaptarr:latest
+    ports:
+      - 5006:5006
+    container_name: umlautadaptarr
+    environment:
+      - TZ=Europe/Berlin
+      - SONARR__ENABLED=true
+      - SONARR__HOST=http://sonarr:8989
+      - SONARR__APIKEY=${SONARR_APIKEY}
+    networks:
+      - proxy
+    restart: unless-stopped
+
+  huntarr:
+    image: huntarr/huntarr:8.0.4
+    container_name: huntarr
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - proxy
+    volumes:
+      - /opt/stacks/starr/huntarr/config:/config
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.huntarr.loadbalancer.server.port=9705"
+      - "traefik.http.routers.huntarr.rule=Host(`huntarr.prod.darksaber.fyi`)"
+      - "traefik.http.routers.huntarr.entrypoints=https"
+      - "traefik.http.routers.huntarr.tls=true"
+      - "traefik.http.routers.huntarr.middlewares=default-whitelist@file,pocket-id@file"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Huntarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/png/huntarr.png"
+      - "glance.url=https://huntarr.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
+    restart: unless-stopped
+
+  notifiarr:
+    image: golift/notifiarr:0.8.3
+    container_name: notifiarr
+    hostname: notifiarr
+    environment:
+      - DN_API_KEY=${NOTIFIARR_API_KEY}
+    volumes:
+      - /opt/stacks/starr/notifiarr/config:/config
+      - /etc/machine-id:/etc/machine-id
+    networks:
+      - proxy
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.notifiarr.loadbalancer.server.port=5454"
+      - "traefik.http.routers.notifiarr.rule=Host(`notifiarr.prod.darksaber.fyi`)"
+      - "traefik.http.routers.notifiarr.entrypoints=https"
+      - "traefik.http.routers.notifiarr.tls=true"
+      - "traefik.http.routers.notifiarr.middlewares=default-whitelist@file"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Notifiarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/png/notifiarr.png"
+      - "glance.url=https://notifiarr.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
