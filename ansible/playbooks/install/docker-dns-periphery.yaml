@@ -88,6 +88,14 @@
         content: "mgrsys ALL=(ALL) NOPASSWD:ALL"
         mode: 0440
 
+    - name: Create /opt/stacks directory and set ownership
+      ansible.builtin.file:
+        path: /opt/stacks
+        state: directory
+        owner: mgrsys
+        group: mgrsys
+        mode: '0755'
+
     - name: Disable SSH password authentication
       lineinfile:
         path: /etc/ssh/sshd_config
