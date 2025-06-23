@@ -30,8 +30,8 @@ services:
     image: ghcr.io/hotio/sabnzbd:release-4.5.1
     container_name: sabnzbd
     environment:
-      - PUID=99
-      - PGID=100
+      - PUID=1000
+      - PGID=1000
       - UMASK=002
       - TZ=Europe/Berlin
       - WEBUI_PORTS=8080/tcp,8080/udp
