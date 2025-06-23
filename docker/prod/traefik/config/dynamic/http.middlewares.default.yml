@@ -70,8 +70,10 @@ http:
         middlewares:
         - default-whitelist
         - default-headers
+        - https-redirectscheme
 
     secured-external:
       chain:
         middlewares:
         - default-headers
+        - https-redirectscheme
