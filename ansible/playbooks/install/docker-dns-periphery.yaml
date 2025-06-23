@@ -57,13 +57,19 @@
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/moghtech/komodo/main/scripts/setup-periphery.py
         dest: /tmp/setup-periphery.py
-        mode: '0755' # Make the script executable
+        mode: '0755'
 
     - name: Execute setup-periphery script
-      ansible.builtin.command: python3 /tmp/setup-periphery.py # Or ansible.builtin.shell: /tmp/setup-periphery.py
+      ansible.builtin.command: python3 /tmp/setup-periphery.py
       args:
-        chdir: /tmp # Optional: Change to the directory where the script is located
-      # Consider adding 'creates' if the script creates a file/directory to make it idempotent
+        chdir: /tmp
+
+    - name: Set allowed_ips in periphery.config.toml
+      ansible.builtin.lineinfile:
+        path: /etc/komodo/periphery.config.toml
+        regexp: '^allowed_ips = \[\]'
+        line: 'allowed_ips = ["10.0.100.101"]'
+        state: present
 
     - name: Allow mgrsys to run sudo without password
       copy:
