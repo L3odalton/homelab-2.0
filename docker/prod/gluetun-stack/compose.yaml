@@ -45,7 +45,7 @@ services:
     # Glance
       - "glance.name=Sabnzbd"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sabnzbd.svg"
-      - "glance.url=https://sab.docker-prd.darksaber.fyi"
+      - "glance.url=https://sab.prod.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=automation"
 
