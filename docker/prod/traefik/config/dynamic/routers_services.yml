@@ -117,12 +117,12 @@ http:
     pihole-01:
       loadBalancer:
         servers:
-          - url: "https://pihole-01.local.darksaber.fyi"
+          - url: "http://pihole-01.local.darksaber.fyi"
         passHostHeader: true
     pihole-02:
       loadBalancer:
         servers:
-          - url: "https://pihole-02.local.darksaber.fyi"
+          - url: "http://pihole-02.local.darksaber.fyi"
         passHostHeader: true
     plex:
       loadBalancer:
