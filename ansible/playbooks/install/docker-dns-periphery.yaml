@@ -68,11 +68,11 @@
         src: /run/systemd/resolve/resolv.conf
         force: true
 
-    - name: Set interface variables from facts
-      set_fact:
+    - name: Set interface facts with hardcoded /24 prefix
+      ansible.builtin.set_fact:
         interface: "{{ ansible_default_ipv4.interface }}"
         ip_address: "{{ ansible_default_ipv4.address }}"
-        prefix: "{{ ansible_default_ipv4.netmask | ipaddr('prefix') | default('24') }}"
+        prefix: 24
         gateway: "{{ ansible_default_ipv4.gateway }}"
 
     - name: Write netplan config with current IP and static DNS (no template)
