@@ -72,14 +72,17 @@
       set_fact:
         primary_interface: "{{ ansible_default_ipv4.interface }}"
 
-    - name: Set DNS to 127.0.0.1 in Netplan
-      community.general.netplan:
-        network:
-          version: 2
-          ethernets:
-            "{{ ansible_default_ipv4.interface }}":
-              nameservers:
-                addresses: [127.0.0.1]
+    - name: Create netplan DNS override for static interface
+      copy:
+        dest: /etc/netplan/99-dns-only.yaml
+        content: |
+          network:
+            version: 2
+            ethernets:
+              {{ ansible_default_ipv4.interface }}:
+                nameservers:
+                  addresses:
+                    - 127.0.0.1
       notify: Apply netplan
 
     - name: Remove existing periphery.config.toml
