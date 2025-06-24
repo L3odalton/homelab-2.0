@@ -68,21 +68,29 @@
         src: /run/systemd/resolve/resolv.conf
         force: true
 
-    - name: Gather default network interface
+    - name: Set interface variables from facts
       set_fact:
-        primary_interface: "{{ ansible_default_ipv4.interface }}"
+        interface: "{{ ansible_default_ipv4.interface }}"
+        ip_address: "{{ ansible_default_ipv4.address }}"
+        prefix: "{{ ansible_default_ipv4.netmask | ipaddr('prefix') | default('24') }}"
+        gateway: "{{ ansible_default_ipv4.gateway }}"
 
-    - name: Create netplan DNS override for static interface
+    - name: Write netplan config with current IP and static DNS (no template)
       copy:
-        dest: /etc/netplan/99-dns-only.yaml
+        dest: /etc/netplan/99-custom.yaml
+        owner: root
+        group: root
+        mode: '0644'
         content: |
           network:
             version: 2
             ethernets:
-              {{ ansible_default_ipv4.interface }}:
+              {{ interface }}:
+                addresses:
+                  - {{ ip_address }}/{{ prefix }}
+                gateway4: {{ gateway }}
                 nameservers:
-                  addresses:
-                    - 127.0.0.1
+                  addresses: [127.0.0.1]
       notify: Apply netplan
 
     - name: Remove existing periphery.config.toml
