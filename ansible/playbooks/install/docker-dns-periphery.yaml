@@ -72,13 +72,7 @@
       set_fact:
         primary_interface: "{{ ansible_default_ipv4.interface }}"
 
-    - name: Check if 127.0.0.1 is already configured as DNS
-      command: grep -q 'addresses: \[127.0.0.1\]' /etc/netplan/50-cloud-init.yaml
-      register: pihole_dns_check
-      failed_when: false
-      changed_when: false
-
-    - name: Inject local DNS into netplan only if not already set
+    - name: Ensure DNS is set in netplan (safely inject nameserver)
       blockinfile:
         path: /etc/netplan/50-cloud-init.yaml
         insertafter: '^\s+gateway4:.*$'
@@ -86,7 +80,6 @@
           nameservers:
             addresses: [127.0.0.1]
         backup: yes
-      when: pihole_dns_check.rc != 0
       notify: Apply netplan
 
     - name: Remove existing periphery.config.toml
