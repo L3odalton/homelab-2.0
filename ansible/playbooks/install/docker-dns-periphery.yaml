@@ -72,21 +72,16 @@
       set_fact:
         primary_interface: "{{ ansible_default_ipv4.interface }}"
 
-    - name: Configure netplan to use local DNS and disable DHCP-provided DNS
+    - name: Set DNS to 127.0.0.1 in Netplan (static IP already defined)
       blockinfile:
-        path: "/etc/netplan/99-pihole-dns.yaml"
-        create: yes
+        path: /etc/netplan/50-cloud-init.yaml
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - DNS override"
+        insertafter: '^\s*eth0:'
         block: |
-          network:
-            version: 2
-            ethernets:
-              {{ primary_interface }}:
-                dhcp4: true
-                dhcp4-overrides:
-                  use-dns: false
-                nameservers:
-                  addresses: [127.0.0.1]
+          nameservers:
+            addresses: [127.0.0.1]
       notify: Apply netplan
+
 
     - name: Remove existing periphery.config.toml
       ansible.builtin.file:
