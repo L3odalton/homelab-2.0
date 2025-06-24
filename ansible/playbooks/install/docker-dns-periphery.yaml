@@ -72,14 +72,14 @@
       set_fact:
         primary_interface: "{{ ansible_default_ipv4.interface }}"
 
-    - name: Ensure DNS is set in netplan (safely inject nameserver)
-      blockinfile:
-        path: /etc/netplan/50-cloud-init.yaml
-        insertafter: '^\s+gateway4:.*$'
-        block: |
-          nameservers:
-            addresses: [127.0.0.1]
-        backup: yes
+    - name: Set DNS to 127.0.0.1 in Netplan
+      community.general.netplan:
+        network:
+          version: 2
+          ethernets:
+            "{{ ansible_default_ipv4.interface }}":
+              nameservers:
+                addresses: [127.0.0.1]
       notify: Apply netplan
 
     - name: Remove existing periphery.config.toml
