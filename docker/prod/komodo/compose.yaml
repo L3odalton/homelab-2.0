@@ -25,7 +25,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
   
   core:
-    image: ghcr.io/moghtech/komodo-core:1.18.3
+    image: ghcr.io/moghtech/komodo-core:1.18.4
     container_name: komodo_core
     networks:
       - proxy
