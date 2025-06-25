@@ -38,12 +38,12 @@
               same-tab: true
             - title: Pihole-01
               url: https://pihole-01.prod.darksaber.fyi/admin/
-              check-url: http://pihole-01.local.darksaber.fyi
+              check-url: http://pihole-01.local.darksaber.fyi/admin/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pi-hole.svg
               same-tab: true
             - title: Pihole-02
               url: https://pihole-02.prod.darksaber.fyi/admin/
-              check-url: http://pihole-02.local.darksaber.fyi
+              check-url: http://pihole-02.local.darksaber.fyi/admin/
               icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pi-hole.svg
               same-tab: true
             - title: Unifi
