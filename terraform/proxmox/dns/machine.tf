@@ -10,8 +10,8 @@ resource "proxmox_vm_qemu" "srv-dns-01" {
     full_clone = true
     scsihw = "virtio-scsi-pci"
     memory = 2048
+    balloon = 2048
     automatic_reboot = true
-
     os_type = "cloud-init"
     cicustom = "vendor=local:snippets/qemu-guest-agent.yml"
     ciuser = "mgrsys"
@@ -68,8 +68,8 @@ resource "proxmox_vm_qemu" "srv-dns-02" {
     full_clone = true
     scsihw = "virtio-scsi-pci"
     memory = 2048
+    balloon = 2048
     automatic_reboot = true
-
     os_type = "cloud-init"
     cicustom = "vendor=local:snippets/qemu-guest-agent.yml"
     ciuser = "mgrsys"
