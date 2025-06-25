@@ -2,8 +2,6 @@ services:
   socket-proxy-dns-01:
     image: lscr.io/linuxserver/socket-proxy:3.2.1
     container_name: socket-proxy-dns-01
-    networks:
-      - traefik_net
     environment:
       CONTAINERS: 1
       NETWORKS: 1
