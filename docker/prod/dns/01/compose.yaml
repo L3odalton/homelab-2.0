@@ -29,7 +29,7 @@ services:
       - "53:53/udp" #DNS service
       - "53:53/tcp" #DNS service
     environment:
-      - DNS_SERVER_DOMAIN=technitium-01.local.darksaber.fyi
+      - DNS_SERVER_DOMAIN=technitium-01
       - DNS_SERVER_ADMIN_PASSWORD=${DNS_SERVER_ADMIN_PASSWORD}
       - DNS_SERVER_FORWARDERS=172.21.0.253
       - DNS_SERVER_LOG_USING_LOCAL_TIME=true
