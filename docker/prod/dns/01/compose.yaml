@@ -20,7 +20,7 @@ services:
     domainname: local.darksaber.fyi
     depends_on:
       - pihole-01
-      # - unbound-01
+      - dnscrypt-proxy-01
     networks:
       dns-network:
         ipv4_address: 172.21.0.254 
@@ -44,19 +44,17 @@ services:
     image: ghcr.io/pi-hole/pihole:2025.06.2
     hostname: pihole-01
     domainname: local.darksaber.fyi
-    # depends_on:
-    #   - unbound-01
+    depends_on:
+      - dnscrypt-proxy-01
     networks:
       dns-network:
         ipv4_address: 172.21.0.253
     ports:
-      # - "53:53/tcp"
-      # - "53:53/udp"
       - "80:80/tcp"
     environment:
       TZ: 'Europe/Berlin'
       FTLCONF_webserver_api_password: '${FTLCONF_webserver_api_password}'
-      # FTLCONF_dns_upstreams: '172.20.0.252#5335;'
+      FTLCONF_dns_upstreams: '172.20.0.252#5053;'
       FTLCONF_dns_listeningMode: 'all'
     volumes:
       - /opt/stacks/pihole:/etc/pihole
@@ -64,35 +62,20 @@ services:
       - SYS_NICE
     restart: unless-stopped
 
-  # unbound-01:
-  #   container_name: unbound-01
-  #   image: madnuttah/unbound:1.23.0-0
-  #   hostname: unbound-01
-  #   domainname: local.darksaber.fyi
-  #   # ports:
-  #   #   - 5335:5335/tcp
-  #   #   - 5335:5335/udp
-  #   networks:
-  #     dns-network:
-  #       ipv4_address: 172.21.0.252 
-  #   environment:
-  #     TZ: Europe/Berlin
-  #     UNBOUND_UID: 1000
-  #     UNBOUND_GID: 1000
-  #     HEALTHCHECK_PORT: 5335
-  #     ENABLE_STATS: false
-  #   volumes:
-  #     - /opt/stacks/unbound/unbound.conf:/usr/local/unbound/unbound.conf:rw
-  #     - /opt/stacks/unbound/conf.d/:/usr/local/unbound/conf.d/:rw
-  #     - /opt/stacks/unbound/log.d/unbound.log:/usr/local/unbound/log.d/unbound.log:rw
-  #     - /opt/stacks/unbound/zones.d/:/usr/local/unbound/zones.d/:rw
-  #   restart: unless-stopped
-  #   healthcheck:
-  #     test: /usr/local/unbound/sbin/healthcheck.sh
-  #     interval: 60s
-  #     retries: 5
-  #     start_period: 15s
-  #     timeout: 30s
+  dnscrypt-proxy-01:
+    container_name: dnscrypt-proxy-01
+    image: ghcr.io/klutchell/dnscrypt-proxy:2.1.12
+    hostname: dnscrypt-proxy-01
+    domainname: local.darksaber.fyi
+    networks:
+      dns-network:
+        ipv4_address: 172.21.0.252
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/dnsprobe", "google.com", "127.0.0.1:5053"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
 
 networks:
   dns-network:
