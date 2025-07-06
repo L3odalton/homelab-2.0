@@ -49,7 +49,7 @@ services:
     #   - host.docker.internal:host-gateway
 
   socket-proxy:
-      image: lscr.io/linuxserver/socket-proxy:3.2.1
+      image: lscr.io/linuxserver/socket-proxy:3.2.2
       container_name: komodo_socket_proxy
       networks:
         - komodo_net

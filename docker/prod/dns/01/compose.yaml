@@ -1,6 +1,6 @@
 services:
   socket-proxy-dns-01:
-    image: lscr.io/linuxserver/socket-proxy:3.2.1
+    image: lscr.io/linuxserver/socket-proxy:3.2.2
     container_name: socket-proxy-dns-01
     environment:
       CONTAINERS: 1
