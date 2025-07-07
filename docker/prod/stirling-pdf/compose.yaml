@@ -1,0 +1,27 @@
+services:
+  stirling-pdf:
+    image: ghcr.io/stirling-tools/stirling-pdf:0.46.2
+    volumes:
+      - /opt/stacks/stirlingpdf/trainingData:/usr/share/tessdata
+      - /opt/stacks/stirlingpdf/extraConfigs:/configs
+      - /opt/stacks/stirlingpdf/customFiles:/customFiles/
+      - /opt/stacks/stirlingpdf/logs:/logs/
+      - /opt/stacks/stirlingpdf/pipeline:/pipeline/
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=de_DE
+      - SYSTEM_DEFAULTLOCALE=de-DE
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.stirling-pdf.loadbalancer.server.port=8080"
+      - "traefik.http.routers.stirling-pdf.rule=Host(`pdf.prod.darksaber.fyi`)"
+      - "traefik.http.routers.stirling-pdf.entrypoints=https"
+      - "traefik.http.routers.stirling-pdf.tls=true"
+      - "traefik.http.routers.stirling-pdf.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=stirling-pdf"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/stirling-pdf.svg"
+      - "glance.url=https://pdf.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=misc"
