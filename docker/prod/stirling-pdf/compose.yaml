@@ -27,8 +27,7 @@ services:
       - "glance.url=https://pdf.prod.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=misc"
-    restart:
-      - unless-stopped
+    restart: unless-stopped
 
 networks:
   proxy:
