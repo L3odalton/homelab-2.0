@@ -76,7 +76,7 @@ services:
       - "--chromium-allow-list=file:///tmp/.*"
 
   tika:
-    image: docker.io/apache/tika:3.2.0.0
+    image: docker.io/apache/tika:3.2.1.0
     container_name: paperless_tika
     networks:
       - paperless_net
