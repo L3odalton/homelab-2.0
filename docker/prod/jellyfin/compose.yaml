@@ -1,0 +1,38 @@
+---
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:10.10.7
+    container_name: jellyfin
+    metworks:
+      - proxy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.darksaber.fyi #optional
+    volumes:
+      - /opt/stacks/jellyfin/library:/config
+      - /mnt/data/media/tv:/data/tvshows
+      - /mnt/data/media/movies:/data/movies
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.darksaber.fyi`)"
+      - "traefik.http.routers.jellyfin.entrypoints=https"
+      - "traefik.http.routers.jellyfin.tls=true"
+      - "traefik.http.routers.jellyfin.middlewares=secured-external@file"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Jellyfin"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg"
+      - "glance.url=https://jellyfin.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=player"
+
+networks:
+  proxy:
+    external: true
