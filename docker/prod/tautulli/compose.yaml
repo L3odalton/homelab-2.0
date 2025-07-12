@@ -1,7 +1,7 @@
 ---
 services:
   tautulli:
-    image: lscr.io/linuxserver/tautulli:2.15.2
+    image: lscr.io/linuxserver/tautulli:2021.12.16
     container_name: tautulli
     networks:
       - proxy
