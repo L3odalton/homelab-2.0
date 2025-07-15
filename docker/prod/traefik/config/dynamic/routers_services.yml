@@ -127,5 +127,5 @@ http:
     plex:
       loadBalancer:
         servers:
-          - url: "https://127.0.0.1:32400"
+          - url: "https://localhost:32400"
         passHostHeader: true
