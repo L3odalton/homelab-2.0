@@ -28,7 +28,7 @@ services:
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Jellyfin"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/plex.svg"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyfin.svg"
       - "glance.url=https://jellyfin.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=player"
