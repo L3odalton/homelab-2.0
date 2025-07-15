@@ -41,7 +41,7 @@ services:
 
   pihole-01:
     container_name: pihole-01
-    image: ghcr.io/pi-hole/pihole:2025.06.2
+    image: ghcr.io/pi-hole/pihole:2025.07.1
     hostname: pihole-01
     domainname: local.darksaber.fyi
     depends_on:
