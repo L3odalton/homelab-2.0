@@ -25,7 +25,7 @@ services:
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wallos.svg"
       - "glance.url=https://wallos.prod.darksaber.fyi"
       - "glance.same-tab=true"
-      - "glance.category=automation"
+      - "glance.category=misc"
     restart: unless-stopped
 
 networks:
