@@ -1,5 +1,5 @@
-resource "proxmox_vm_qemu" "srv-test" {
-    name = "srv-test"
+resource "proxmox_vm_qemu" "srv-docker-test" {
+    name = "srv-docker-test"
     target_node = "pve-ugreen-03"
     vmid = "100108"
     desc = "test"
