@@ -1,0 +1,120 @@
+---
+- name: Post-provisioning setup for VM
+  hosts: docker-install-periphery
+  become: true
+
+  tasks:
+    - name: Ensure system packages are up to date
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install prerequisites for Docker repository
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+
+    - name: Create Docker keyring directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Add Docker's official GPG key
+      shell: |
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        chmod a+r /etc/apt/keyrings/docker.asc
+      args:
+        creates: /etc/apt/keyrings/docker.asc
+
+    - name: Add Docker repository
+      shell: |
+        echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+        $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+        tee /etc/apt/sources.list.d/docker.list > /dev/null
+      args:
+        creates: /etc/apt/sources.list.d/docker.list
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+
+    - name: Remove existing periphery.config.toml
+      ansible.builtin.file:
+        path: /etc/komodo/periphery.config.toml
+        state: absent
+
+    - name: Download setup-periphery script
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/moghtech/komodo/main/scripts/setup-periphery.py
+        dest: /tmp/setup-periphery.py
+        mode: '0755'
+
+    - name: Execute setup-periphery script
+      ansible.builtin.command: python3 /tmp/setup-periphery.py
+      args:
+        chdir: /tmp
+
+    - name: Set allowed_ips in periphery.config.toml
+      ansible.builtin.lineinfile:
+        path: /etc/komodo/periphery.config.toml
+        regexp: '^allowed_ips = \[\]'
+        line: 'allowed_ips = ["::ffff:10.0.100.101"]'
+        state: present
+
+    - name: Enable periphery.service
+      ansible.builtin.systemd:
+        name: periphery.service
+        enabled: true
+        state: started
+
+    - name: Allow mgrsys to run sudo without password
+      copy:
+        dest: /etc/sudoers.d/mgrsys
+        content: "mgrsys ALL=(ALL) NOPASSWD:ALL"
+        mode: 0440
+
+    - name: Create /opt/stacks directory and set ownership
+      ansible.builtin.file:
+        path: /opt/stacks
+        state: directory
+        owner: mgrsys
+        group: mgrsys
+        mode: '0755'
+
+    - name: Disable SSH password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+      notify: Restart SSH
+
+    - name: Add mgrsys to Docker group
+      user:
+        name: mgrsys
+        groups: docker
+        append: yes
+
+    - name: Set timezone to Europe/Berlin
+      community.general.timezone:
+        name: Europe/Berlin
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted
