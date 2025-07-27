@@ -4,7 +4,7 @@ services:
     container_name: statistics-for-strava
     restart: unless-stopped
     volumes:
-      - ./config:/var/www/config/app
+      - ./config/config.yaml:/var/www/config/app/config.yaml:ro
       - /opt/stacks/strava-statistics/build:/var/www/build
       - /opt/stacks/strava-statistics/storage/database:/var/www/storage/database
       - /opt/stacks/strava-statistics/storage/files:/var/www/storage/files
