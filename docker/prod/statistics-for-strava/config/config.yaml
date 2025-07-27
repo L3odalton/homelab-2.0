@@ -52,7 +52,8 @@ general:
     # Make sure to replace the YYYY-MM-DD examples with your own weight history.
     # Read more about the weight history on https://statistics-for-strava-docs.robiningelbrecht.be/#/configuration/main-configuration?id=athlete-weight-history
     weightHistory:
-      "YYYY-MM-DD": 100
+      "2025-07-27": 93.3
+      "2025-07-13": 96.2
     # Optional, history of FTP. Needed to calculate activity stress level.
     # ftpHistory
     #    "2024-10-03": 198
