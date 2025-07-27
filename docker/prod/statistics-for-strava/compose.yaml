@@ -1,0 +1,37 @@
+services:
+  app:
+    image: robiningelbrecht/strava-statistics:v3.0.2
+    container_name: statistics-for-strava
+    restart: unless-stopped
+    volumes:
+      - ./config:/var/www/config/app
+      - /opt/stacks/strava-statistics/build:/var/www/build
+      - /opt/stacks/strava-statistics/storage/database:/var/www/storage/database
+      - /opt/stacks/strava-statistics/storage/files:/var/www/storage/files
+    environment:
+      - STRAVA_CLIENT_ID=${STRAVA_CLIENT_ID}
+      - STRAVA_CLIENT_SECRET=${STRAVA_CLIENT_SECRET}
+      - STRAVA_REFRESH_TOKEN=${STRAVA_REFRESH_TOKEN}
+      - TZ=Europe/Berlin
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - proxy  
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.strava.loadbalancer.server.port=8080"
+      - "traefik.http.routers.strava.rule=Host(`strava.prod.darksaber.fyi`)"
+      - "traefik.http.routers.strava.entrypoints=https"
+      - "traefik.http.routers.strava.tls=true"
+      - "traefik.http.routers.strava.middlewares=secured@file"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=strava"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/strava-statistics.svg"
+      - "glance.url=https://strava.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=misc"
+
+networks:
+  proxy:
+    external: true
