@@ -1,0 +1,5 @@
+- name: Ping
+  hosts: proxmox
+  tasks:
+    - name: Ping
+      ansible.builtin.ping:
