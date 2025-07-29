@@ -1,0 +1,131 @@
+http:
+  routers:
+    komodo:
+      entryPoints:
+        - "https"
+      rule: "Host(`komodo.darksaber.fyi`)"
+      middlewares:
+        - secured-external
+        - github-hooks-whitelist
+      tls:
+        options: default
+      service: komodo
+    unraid:
+      entryPoints:
+        - "https"
+      rule: "Host(`unraid.prod.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls:
+        options: default
+      service: unraid
+    dns-01:
+      entryPoints:
+        - "https"
+      rule: "Host(`dns-01.prod.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls:
+        options: default
+      service: dns-01
+    dns-02:
+      entryPoints:
+        - "https"
+      rule: "Host(`dns-02.prod.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls:
+        options: default
+      service: dns-02
+    homeassistant:
+      entryPoints:
+        - "https"
+      rule: "Host(`ha.prod.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls:
+        options: default
+      service: homeassistant
+    semaphore:
+      entryPoints:
+        - "https"
+      rule: "Host(`semaphore.prod.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls:
+        options: default
+      service: semaphore
+    pihole-01:
+      entryPoints:
+        - "https"
+      rule: "Host(`pihole-01.prod.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls:
+        options: default
+      service: pihole-01
+    pihole-02:
+      entryPoints:
+        - "https"
+      rule: "Host(`pihole-02.prod.darksaber.fyi`)"
+      middlewares:
+        - secured@file
+      tls:
+        options: default
+      service: pihole-02
+    plex:
+      entryPoints:
+        - "https"
+      rule: "Host(`plex.darksaber.fyi`)"
+      middlewares:
+        - secured-external@file
+      tls:
+        options: default
+      service: plex
+
+  services:
+    komodo:
+      loadBalancer:
+        servers:
+          - url: "http://komodo_core:9120"
+        passHostHeader: true
+    unraid:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi"
+        passHostHeader: true
+    dns-01:
+      loadBalancer:
+        servers:
+          - url: "http://technitium-01.local.darksaber.fyi:5380"
+        passHostHeader: true
+    dns-02:
+      loadBalancer:
+        servers:
+          - url: "http://technitium-02.local.darksaber.fyi:5380"
+        passHostHeader: true
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://homeassistant.local.darksaber.fyi:8123"
+        passHostHeader: true
+    semaphore:
+      loadBalancer:
+        servers:
+          - url: "http://srv-semaphore.local.darksaber.fyi:3000"
+        passHostHeader: true
+    pihole-01:
+      loadBalancer:
+        servers:
+          - url: "http://pihole-01.local.darksaber.fyi"
+        passHostHeader: true
+    pihole-02:
+      loadBalancer:
+        servers:
+          - url: "http://pihole-02.local.darksaber.fyi"
+        passHostHeader: true
+    plex:
+      loadBalancer:
+        servers:
+          - url: "http://localhost:32400"
+        passHostHeader: true
