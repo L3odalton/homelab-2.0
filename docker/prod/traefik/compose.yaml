@@ -19,7 +19,7 @@ services:
     depends_on:
       socket-proxy:
         condition: service_started
-    image: 11notes/traefik:3.5.0
+    image: traefik:3.5.0
     container_name: traefik
     networks:
       - proxy
