@@ -1,5 +1,6 @@
 ---
 - name: Update all PBS VMs
+  serial: 1
   hosts: pbs
   become: yes
   gather_facts: yes
