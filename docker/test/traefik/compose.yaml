@@ -16,16 +16,17 @@ services:
     restart: always
 
   traefik:
-    image: traefik:v3.4.4
-    container_name: traefik
-    security_opt:
-      - no-new-privileges:true
     depends_on:
       socket-proxy:
         condition: service_started
+    image: 11notes/traefik:3.5.0
+    container_name: traefik
     networks:
       - proxy
       - traefik_net
+    sysctls:
+      # allow rootless container to access ports < 1024
+      net.ipv4.ip_unprivileged_port_start: 80
     ports:
       - 80:80
       - 443:443
