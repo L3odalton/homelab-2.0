@@ -69,7 +69,7 @@ services:
     environment:
       TZ: "Europe/Berlin"
       CF_API_EMAIL: "${CF_API_EMAIL}"
-      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       POCKET_ID_SECRET: "${POCKET_ID_SECRET}"
       POCKET_ID_CLIENT_SECRET: "${POCKET_ID_CLIENT_SECRET}"
     command:
