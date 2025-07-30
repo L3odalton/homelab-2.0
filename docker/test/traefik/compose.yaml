@@ -50,6 +50,10 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.middlewares=pocket-id@docker"
       - "traefik.http.routers.dashboard.entrypoints=https"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=cloudflare"
+      - "traefik.http.routers.dashboard.tls.domains[0].main=darksaber.fyi"
+      - "traefik.http.routers.dashboard.tls.domains[0].sans=*.darksaber.fyi,*.test.darksaber.fyi"
 
       # default catch-all router
       - "traefik.http.routers.default.rule=HostRegexp(`.+`)"
@@ -100,6 +104,12 @@ services:
       - "--experimental.plugins.geoblock.version=v0.3.3"
       - "--experimental.plugins.traefik-oidc-auth.moduleName=github.com/sevensolutions/traefik-oidc-auth"
       - "--experimental.plugins.traefik-oidc-auth.version=v0.12.0"
+      # certificate Resolvers
+      - "--certificatesResolvers.cloudflare.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
+      - "--certificatesResolvers.cloudflare.acme.email=info@darksaber.fyi"
+      - "--certificatesResolvers.cloudflare.acme.storage=/traefik/var/acme.json"
+      - "--certificatesResolvers.cloudflare.acme.dnsChallenge.provider=cloudflare"
+      - "--certificatesResolvers.cloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
     ports:
       - "80:80/tcp"
       - "443:443/tcp"
