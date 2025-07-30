@@ -36,13 +36,20 @@ services:
       # default allowlist
       - "traefik.http.middlewares.default-ipallowlist-RFC1918.ipallowlist.sourcerange=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 
+      # Pocket ID
+      - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.Secret=${POCKET_ID_SECRET}"
+      - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.Provider.Url=https://id.darksaber.fyi/"
+      - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.Provider.ClientId=4a6cbb74-10e6-4644-a3f6-92e23c67c56a"
+      - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.Provider.ClientSecret=${POCKET_ID_CLIENT_SECRET}"
+      - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.Provider.TokenValidation=IdToken"
+      - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.Scopes=openid,profile,email"
+      - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.SessionCookie.MaxAge=28800"
+
       # example on how to secure the traefik dashboard and api
       - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_FQDN}`)"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
+      - "traefik.http.routers.dashboard.middlewares=pocket-id@docker"
       - "traefik.http.routers.dashboard.entrypoints=https"
-      # admin / traefik, please change!
-      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$2a$12$ktgZsFQZ0S1FeQbI1JjS9u36fAJMHDQaY6LNi9EkEp8sKtP5BK43C"
 
       # default catch-all router
       - "traefik.http.routers.default.rule=HostRegexp(`.+`)"
@@ -61,6 +68,10 @@ services:
       - "traefik.http.services.default-http.loadbalancer.passhostheader=true"
     environment:
       TZ: "Europe/Berlin"
+      CF_API_EMAIL: "${CF_API_EMAIL}"
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}
+      POCKET_ID_SECRET: "${POCKET_ID_SECRET}"
+      POCKET_ID_CLIENT_SECRET: "${POCKET_ID_CLIENT_SECRET}"
     command:
       # ping is needed for the health check to work!
       - "--ping=true"
@@ -82,10 +93,13 @@ services:
       - "--entrypoints.https.http.middlewares=default-errors,default-ratelimit,default-ipallowlist-RFC1918,default-csp"
       # disable upstream HTTPS certificate checks (https > https)
       - "--serversTransport.insecureSkipVerify=true"
+      # Plugins
       - "--experimental.plugins.rewriteResponseHeaders.moduleName=github.com/jamesmcroft/traefik-plugin-rewrite-response-headers"
       - "--experimental.plugins.rewriteResponseHeaders.version=v1.1.2"
       - "--experimental.plugins.geoblock.moduleName=github.com/PascalMinder/geoblock"
       - "--experimental.plugins.geoblock.version=v0.3.3"
+      - "--experimental.plugins.traefik-oidc-auth.moduleName=github.com/sevensolutions/traefik-oidc-auth"
+      - "--experimental.plugins.traefik-oidc-auth.version=v0.12.0"
     ports:
       - "80:80/tcp"
       - "443:443/tcp"
