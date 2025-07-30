@@ -1,66 +1,125 @@
 services:
   socket-proxy:
-    image: lscr.io/linuxserver/socket-proxy:3.2.3
-    container_name: traefik_socket_proxy
-    networks:
-      - traefik_net
+    image: "11notes/socket-proxy:2.1.3"
+    read_only: true
+    user: "0:991" 
     environment:
-      CONTAINERS: 1
-      NETWORKS: 1
-      SERVICES: 1
-      TASKS: 1
+      TZ: "Europe/Berlin"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    tmpfs:
-      - /run
-    restart: always
+      - "/run/docker.sock:/run/docker.sock:ro" 
+      - "socket-proxy.run:/run/proxy"
+    restart: "always"
 
   traefik:
     depends_on:
       socket-proxy:
-        condition: service_started
-    image: 11notes/traefik:3.5.0
-    container_name: traefik
+        condition: "service_healthy"
+        restart: true
+    image: "11notes/traefik:3.5.0"
+    read_only: true
+    labels:
+      - "traefik.enable=true"
+
+      # default errors middleware
+      - "traefik.http.middlewares.default-errors.errors.status=402-599"
+      - "traefik.http.middlewares.default-errors.errors.query=/{status}"
+      - "traefik.http.middlewares.default-errors.errors.service=default-errors"
+
+      # default ratelimit
+      - "traefik.http.middlewares.default-ratelimit.ratelimit.average=100"
+      - "traefik.http.middlewares.default-ratelimit.ratelimit.burst=120"
+      - "traefik.http.middlewares.default-ratelimit.ratelimit.period=1s"
+
+      # default CSP
+      - "traefik.http.middlewares.default-csp.headers.contentSecurityPolicy=default-src 'self' blob: data: 'unsafe-inline'"
+
+      # default allowlist
+      - "traefik.http.middlewares.default-ipallowlist-RFC1918.ipallowlist.sourcerange=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+      # example on how to secure the traefik dashboard and api
+      - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_FQDN}`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
+      - "traefik.http.routers.dashboard.entrypoints=https"
+      # admin / traefik, please change!
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$2a$12$ktgZsFQZ0S1FeQbI1JjS9u36fAJMHDQaY6LNi9EkEp8sKtP5BK43C"
+
+      # default catch-all router
+      - "traefik.http.routers.default.rule=HostRegexp(`.+`)"
+      - "traefik.http.routers.default.priority=1"
+      - "traefik.http.routers.default.entrypoints=https"
+      - "traefik.http.routers.default.service=default-errors"
+
+      # default http to https redirection
+      - "traefik.http.middlewares.default-http.redirectscheme.permanent=true"
+      - "traefik.http.middlewares.default-http.redirectscheme.scheme=https"
+      - "traefik.http.routers.default-http.priority=1"
+      - "traefik.http.routers.default-http.rule=HostRegexp(`.+`)"
+      - "traefik.http.routers.default-http.entrypoints=http"
+      - "traefik.http.routers.default-http.middlewares=default-http"
+      - "traefik.http.routers.default-http.service=default-http"
+      - "traefik.http.services.default-http.loadbalancer.passhostheader=true"
+    environment:
+      TZ: "Europe/Berlin"
+    command:
+      # ping is needed for the health check to work!
+      - "--ping=true"
+      - "--ping.terminatingStatusCode=204"
+      - "--global.checkNewVersion=false"
+      - "--global.sendAnonymousUsage=false"
+      - "--accesslog=true"
+      - "--api.dashboard=true"
+      # disable insecure api and dashboard access
+      - "--api.insecure=false"
+      - "--log.level=INFO"
+      - "--log.format=json"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=/traefik/var"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.http.http.middlewares=default-errors,default-ratelimit,default-ipallowlist-RFC1918,default-csp"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.https.http.tls=true"
+      - "--entrypoints.https.http.middlewares=default-errors,default-ratelimit,default-ipallowlist-RFC1918,default-csp"
+      # disable upstream HTTPS certificate checks (https > https)
+      - "--serversTransport.insecureSkipVerify=true"
+      - "--experimental.plugins.rewriteResponseHeaders.moduleName=github.com/jamesmcroft/traefik-plugin-rewrite-response-headers"
+      - "--experimental.plugins.rewriteResponseHeaders.version=v1.1.2"
+      - "--experimental.plugins.geoblock.moduleName=github.com/PascalMinder/geoblock"
+      - "--experimental.plugins.geoblock.version=v0.3.3"
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+    volumes:
+      - "var:/traefik/var"
+      - "plugins:/traefik/plugins"
+      # access docker socket via proxy read-only
+      - "socket-proxy.run:/var/run"
     networks:
-      - proxy
-      - traefik_net
+      backend:
+      proxy:
     sysctls:
       # allow rootless container to access ports < 1024
       net.ipv4.ip_unprivileged_port_start: 80
-    ports:
-      - 80:80
-      - 443:443
-    environment:
-      - CF_API_EMAIL=${CF_API_EMAIL}
-      - POCKET_ID_SECRET=${POCKET_ID_SECRET}
-      - POCKET_ID_CLIENT_SECRET=${POCKET_ID_CLIENT_SECRET}
-      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
-      - ./config/dynamic:/etc/traefik/dynamic:ro
-      - /opt/stacks/traefik/certs/acme.json:/etc/traefik/acme.json
-      - /opt/stacks/traefik/logs:/logs
+    restart: "always"
+
+  errors:
+    image: "11notes/traefik:errors"
+    read_only: true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.test.darksaber.fyi`)"
-      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.test.darksaber.fyi`)"
-      - "traefik.http.routers.traefik-secure.middlewares=pocket-id@file"
-      - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=darksaber.fyi"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.darksaber.fyi,*.test.darksaber.fyi"
-      - "traefik.http.routers.traefik-secure.service=api@internal"
-      - "traefik.http.services.traefik-secure.loadbalancer.server.port=443"
-    restart: always
+      - "traefik.http.services.default-errors.loadbalancer.server.port=8080"
+    environment:
+      TZ: "Europe/Berlin"
+    networks:
+      backend:
+    restart: "always"
+
+volumes:
+  var:
+  plugins:
+  socket-proxy.run:
 
 networks:
   proxy:
-    external: true
-  traefik_net:
-    external: false
+  backend:
+    internal: true
