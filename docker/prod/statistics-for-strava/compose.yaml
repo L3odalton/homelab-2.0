@@ -1,6 +1,6 @@
 services:
   app:
-    image: robiningelbrecht/strava-statistics:v3.1.2
+    image: robiningelbrecht/strava-statistics:v3.1.3
     container_name: statistics-for-strava
     restart: unless-stopped
     volumes:
