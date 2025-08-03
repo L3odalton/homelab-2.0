@@ -1,7 +1,7 @@
 ---
 services:
   calibre-web-automated:
-    image: crocodilestick/calibre-web-automated:V3.1.1
+    image: crocodilestick/calibre-web-automated:V3.1.2
     container_name: calibre-web-automated
     networks:
       - proxy
