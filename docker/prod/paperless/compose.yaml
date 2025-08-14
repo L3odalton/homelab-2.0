@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
 
   db:
-    image: docker.io/library/postgres:17.5
+    image: docker.io/library/postgres:17.6
     container_name: paperless_postgres
     networks:
       - paperless_net
