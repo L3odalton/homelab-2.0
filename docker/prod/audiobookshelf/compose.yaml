@@ -11,8 +11,8 @@ services:
       - /opt/stacks/audiobookshelf/config:/config
       - /opt/stacks/audiobookshelf/metadata:/metadata
       - audiobooks:/audiobooks
-      - /mnt/data/media/podcasts:/podcasts
-      - /mnt/data/media/radioplays:/radioplays
+      - podcasts:/podcasts
+      - radioplays:/radioplays
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -40,3 +40,13 @@ volumes:
       type: "nfs"
       o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
       device: ":/mnt/user/data/media/audiobooks"
+  podcasts:
+    driver_opts:
+      type: "nfs"
+      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      device: ":/mnt/user/data/media/podcasts"
+  radioplays:
+    driver_opts:
+      type: "nfs"
+      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      device: ":/mnt/user/data/media/radioplays"
