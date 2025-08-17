@@ -13,8 +13,8 @@ services:
     volumes:
       - /opt/stacks/plex/config:/config
       - /tmp/plex:/transcode
-      - /mnt/data/media/tv:/tv
-      - /mnt/data/media/movies:/movies
+      - tv:/tv
+      - movies:/movies
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
@@ -25,3 +25,15 @@ services:
       - "glance.url=https://plex.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=player"
+
+volumes:
+  tv:
+    driver_opts:
+      type: "nfs"
+      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      device: ":/mnt/user/data/media/tv"
+  movies:
+    driver_opts:
+      type: "nfs"
+      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      device: ":/mnt/user/data/media/movies"
