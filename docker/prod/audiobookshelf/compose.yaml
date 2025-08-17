@@ -10,7 +10,7 @@ services:
     volumes:
       - /opt/stacks/audiobookshelf/config:/config
       - /opt/stacks/audiobookshelf/metadata:/metadata
-      - /mnt/data/media/audiobooks:/audiobooks
+      - audiobooks:/audiobooks
       - /mnt/data/media/podcasts:/podcasts
       - /mnt/data/media/radioplays:/radioplays
     labels:
@@ -33,3 +33,10 @@ services:
 networks:
   proxy:
     external: true
+
+volumes:
+  audiobooks:
+    driver_opts:
+      type: "nfs"
+      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      device: ":/mnt/user/data/media/audiobooks"
