@@ -11,8 +11,8 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - /opt/stacks/calibre-web-automated/config:/config
-      - /mnt/data/usenet/complete/books:/cwa-book-ingest
-      - /mnt/data/media/books:/calibre-library
+      - ingest:/cwa-book-ingest
+      - books:/calibre-library
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -33,3 +33,15 @@ services:
 networks:
   proxy:
     external: true
+
+volumes:
+  ingest:
+    driver_opts:
+      type: "nfs"
+      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      device: ":/mnt/user/data/usenet/complete/books"
+  books:
+    driver_opts:
+      type: "nfs"
+      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      device: ":/mnt/user/data/media/books"
