@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.abs.rule=Host(`abs.darksaber.fyi`)"
       - "traefik.http.routers.abs.entrypoints=https"
       - "traefik.http.routers.abs.tls=true"
-      - "traefik.http.routers.abs.middlewares=secured@file"
+      - "traefik.http.routers.abs.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Audiobookshelf"
