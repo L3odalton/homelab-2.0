@@ -38,6 +38,9 @@ services:
       - LEAN_DB_PW=${DB_PW}
       - LEAN_DB_DATABASE=${DB_NAME}
       - LEAN_DB_PORT=3306
+      - LEAN_SESSION_PASSWORD=${SESSION_PW}
+      - LEAN_SESSION_EXPIRATION=28800
+      - LEAN_SESSION_SECURE=true
       - LEAN_LANGUAGE=de-DE
       - LEAN_DEFAULT_TIMEZONE=Europe/Berlin
     security_opt:
