@@ -65,7 +65,7 @@ services:
       - "glance.category=misc"
 
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:8.21
+    image: docker.io/gotenberg/gotenberg:8.22
     container_name: paperless_gotenberg
     networks:
       - paperless_net
