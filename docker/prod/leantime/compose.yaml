@@ -71,7 +71,7 @@ services:
       - "glance.category=misc"
 
   mysql_helper:
-    image: mysql:8.4
+    image: mysql:9.4
     command: chown -R mysql:mysql /var/lib/mysql
     volumes:
       - db_data:/var/lib/mysql
