@@ -25,7 +25,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
   
   core:
-    image: ghcr.io/moghtech/komodo-core:1.18.4
+    image: ghcr.io/moghtech/komodo-core:1.19.0
     container_name: komodo_core
     networks:
       - proxy
@@ -43,8 +43,7 @@ services:
       KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
       KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
     volumes:
-      ## Core cache for repos for latest commit hash / contents
-      - repo-cache:/repo-cache
+      - backups:/backups
     # extra_hosts:
     #   - host.docker.internal:host-gateway
 
@@ -80,7 +79,7 @@ services:
         - /run
 
   periphery:
-    image: ghcr.io/moghtech/komodo-periphery:1.18.4
+    image: ghcr.io/moghtech/komodo-periphery:1.19.0
     container_name: komodo_periphery
     networks:
       - komodo_net
@@ -101,11 +100,10 @@ volumes:
   mongo-data:
   mongo-config:
   # Core
-  repo-cache:
+  backups:
 
 networks:
   proxy:
     external: true
   komodo_net:
     external: false
-
