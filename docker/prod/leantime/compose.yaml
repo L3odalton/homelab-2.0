@@ -7,7 +7,10 @@ services:
       - db_data:/var/lib/mysql
     restart: unless-stopped
     environment:
-      - 
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PW}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PW}
     networks:
       - leantime_net
     command: --character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci
@@ -25,8 +28,18 @@ services:
       - proxy
       - leantime_net
     environment:
-      - LOG_LEVEL=info
-      - TZ=Europe/Berlin
+      - PUID=1000
+      - PGID=1000
+      - LEAN_PORT=8080
+      - LEAN_APP_URL=https://leantime.prod.darksaber.fyi
+      - LEAN_DEBUG=0
+      - LEAN_DB_HOST=leantime_db
+      - LEAN_DB_USER=${DB_USER}
+      - LEAN_DB_PW=${DB_PW}
+      - LEAN_DB_DATABASE=${DB_NAME}
+      - LEAN_DB_PORT=3306
+      - LEAN_LANGUAGE=de-DE
+      - LEAN_DEFAULT_TIMEZONE=Europe/Berlin
     security_opt:
       - no-new-privileges:true
     cap_add:
