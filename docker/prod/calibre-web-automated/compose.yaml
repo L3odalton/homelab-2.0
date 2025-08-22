@@ -36,12 +36,14 @@ networks:
 
 volumes:
   ingest:
+    driver: local
     driver_opts:
-      type: "nfs"
-      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      type: nfs
+      o: addr=srv-unraid.local.darksaber.fyi,nfsvers=4,soft,rw
       device: ":/mnt/user/data/usenet/complete/books"
   books:
+    driver: local
     driver_opts:
-      type: "nfs"
-      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      type: nfs
+      o: addr=srv-unraid.local.darksaber.fyi,nfsvers=4,soft,rw
       device: ":/mnt/user/data/media/books"
