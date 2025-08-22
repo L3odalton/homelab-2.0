@@ -42,12 +42,14 @@ volumes:
       o: addr=10.0.100.2,nfsvers=4,soft,rw
       device: ":/mnt/user/data/media/audiobooks"
   podcasts:
+    driver: local
     driver_opts:
-      type: "nfs"
-      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      type: nfs
+      o: addr=srv-unraid.local.darksaber.fyi,nfsvers=4,soft,rw
       device: ":/mnt/user/data/media/podcasts"
   radioplays:
+    driver: local
     driver_opts:
-      type: "nfs"
-      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      type: nfs
+      o: addr=srv-unraid.local.darksaber.fyi,nfsvers=4,soft,rw
       device: ":/mnt/user/data/media/radioplays"
