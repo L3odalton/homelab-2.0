@@ -38,7 +38,7 @@ volumes:
   audiobooks:
     driver_opts:
       type: "nfs"
-      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      o: "addr=10.0.100.2,nolock,soft,nfsvers=4"
       device: ":/mnt/user/data/media/audiobooks"
   podcasts:
     driver_opts:
