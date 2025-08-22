@@ -9,6 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
+      - NETWORK_SHARE_MODE=true
     volumes:
       - /opt/stacks/calibre-web-automated/config:/config
       - ingest:/cwa-book-ingest
