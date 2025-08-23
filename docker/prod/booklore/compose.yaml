@@ -69,12 +69,14 @@ volumes:
   db_cmd:
   booklore_appdata:
   books:
+    driver: local
     driver_opts:
-      type: "nfs"
-      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      type: nfs
+      o: addr=srv-unraid.local.darksaber.fyi,nfsvers=4,soft,rw
       device: ":/mnt/user/data/media/books"
   bookdrop:
+    driver: local
     driver_opts:
-      type: "nfs"
-      o: "addr=srv-unraid.local.darksaber.fyi,nolock,soft,nfsvers=4"
+      type: nfs
+      o: addr=srv-unraid.local.darksaber.fyi,nfsvers=4,soft,rw
       device: ":/mnt/user/data/usenet/complete/books"
