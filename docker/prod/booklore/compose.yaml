@@ -26,15 +26,15 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.booklore.loadbalancer.server.port=6060"
-      - "traefik.http.routers.booklore.rule=Host(`booklore.darksaber.fyi`)"
+      - "traefik.http.routers.booklore.rule=Host(`booklore.prod.darksaber.fyi`)"
       - "traefik.http.routers.booklore.entrypoints=https"
       - "traefik.http.routers.booklore.tls=true"
       - "traefik.http.routers.booklore.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
       # Glance
-      - "glance.name=Audiobookshelf"
+      - "glance.name=Booklore"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/booklore.svg"
-      - "glance.url=https://booklore.darksaber.fyi"
+      - "glance.url=https://booklore.prod.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=player"
 
