@@ -15,8 +15,7 @@ services:
       - "/tmp:uid=1000,gid=1000"
     networks:
       - proxy
-    restart:
-      - unless-stopped
+    restart: unless-stopped
     labels:
       # Traefik
       - "traefik.enable=true"
