@@ -13,6 +13,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["crocodilestick/calibre-web-automated"],
       "versioning": "regex:^[vV]?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-.*)?$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["^ghcr.io/immich-app/immich"],
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
     }
   ],
   "customManagers": [
@@ -26,6 +31,18 @@
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "{{packageName}}"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^docker/prod/immich/compose\\.yaml$"
+      ],
+      "matchStrings": [
+        "ghcr\\.io/immich-app/immich-server:(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)",
+        "ghcr\\.io/immich-app/immich-machine-learning:(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)-openvino"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "ghcr.io/immich-app/immich"
     }
   ]
 }
