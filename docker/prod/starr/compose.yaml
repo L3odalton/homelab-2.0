@@ -1,16 +1,22 @@
 services:
+x-lockdown: &lockdown
+  read_only: true
+  security_opt:
+    - "no-new-privileges=true"
+
   prowlarr:
-    image: ghcr.io/hotio/prowlarr:release-2.0.5.5160
-    container_name: prowlarr
+    image: 11notes/prowlarr:2.0.5
+    <<: *lockdown
     environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK=002
-      - TZ=Europe/Berlin
+      TZ: Europe/Berlin
     volumes:
-      - /opt/stacks/starr/prowlarr/config:/config
+      - prowlarr.etc:/prowlarr/etc
+    tmpfs:
+      - "/tmp:uid=1000,gid=1000"
     networks:
       - proxy
+    restart:
+      - unless-stopped
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -34,7 +40,6 @@ services:
       - "glance.url=https://prowlarr.prod.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=automation"
-    restart: unless-stopped
 
   sonarr:
     image: ghcr.io/hotio/sonarr:release-4.0.15.2941
@@ -183,3 +188,6 @@ services:
 networks:
   proxy:
     external: true
+
+volumes:
+  prowlarr.etc:
