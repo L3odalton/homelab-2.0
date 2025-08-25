@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
 
   sabnzbd:
-    image: ghcr.io/hotio/sabnzbd:release-4.5.2
+    image: ghcr.io/hotio/sabnzbd:release-4.5.3
     container_name: sabnzbd
     environment:
       - PUID=1000
