@@ -131,7 +131,7 @@ services:
     restart: unless-stopped
 
   huntarr:
-    image: huntarr/huntarr:8.2.9
+    image: huntarr/huntarr:8.2.10
     container_name: huntarr
     environment:
       - TZ=Europe/Berlin
