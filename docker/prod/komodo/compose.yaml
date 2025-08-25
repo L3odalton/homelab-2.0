@@ -79,7 +79,7 @@ services:
         - /run
 
   periphery:
-    image: ghcr.io/moghtech/komodo-periphery:1.19.0
+    image: ghcr.io/moghtech/komodo-periphery:1.19.1
     container_name: komodo_periphery
     networks:
       - komodo_net
