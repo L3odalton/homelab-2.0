@@ -1,6 +1,6 @@
 services:
   booklore:
-    image: ghcr.io/booklore-app/booklore:v0.38.2
+    image: ghcr.io/booklore-app/booklore:v1.0.0
     container_name: booklore
     environment:
       - PUID=1000
