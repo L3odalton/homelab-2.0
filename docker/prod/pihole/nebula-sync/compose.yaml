@@ -1,7 +1,7 @@
 ---
 services:
   nebula-sync:
-    image: ghcr.io/lovelaze/nebula-sync:v0.11.0
+    image: ghcr.io/lovelaze/nebula-sync:v0.11.1
     container_name: nebula-sync
     environment:
     - PRIMARY=${PRIMARY}
