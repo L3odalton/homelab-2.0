@@ -64,7 +64,7 @@ services:
 
   dnscrypt-proxy-01:
     container_name: dnscrypt-proxy-01
-    image: ghcr.io/klutchell/dnscrypt-proxy:2.1.12
+    image: ghcr.io/klutchell/dnscrypt-proxy:2.1.14
     hostname: dnscrypt-proxy-01
     domainname: local.darksaber.fyi
     networks:
