@@ -16,7 +16,7 @@ services:
         condition: service_healthy
     volumes:
       - booklore_appdata:/app/data
-      - /mnt/data/media/books:/books
+      - /mnt/data/media/booklore:/books
       - /mnt/data/usenet/complete/books:/bookdrop
     networks:
       - booklore_net
