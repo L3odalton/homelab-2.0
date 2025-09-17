@@ -15,7 +15,7 @@ services:
       mariadb:
         condition: service_healthy
     volumes:
-      - booklore2_appdata:/app/data
+      - booklore_appdata:/app/data
       - /mnt/data/media/booklore:/books
       - /mnt/data/usenet/complete/books:/bookdrop
     networks:
@@ -46,10 +46,10 @@ services:
       - TZ=Europe/Berlin
       - MARIADB_PASSWORD=${DB_PW}
     volumes:
-      - "db2_etc:/mariadb/etc"
-      - "db2_var:/mariadb/var"
-      - "db2_backup:/mariadb/backup"
-      - "db2_cmd:/run/cmd"
+      - "db_etc:/mariadb/etc"
+      - "db_var:/mariadb/var"
+      - "db_backup:/mariadb/backup"
+      - "db_cmd:/run/cmd"
     networks:
       - booklore_net
     tmpfs:
