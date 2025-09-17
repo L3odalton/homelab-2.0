@@ -32,6 +32,12 @@ services:
       - komodo_net
     labels:
       komodo.skip:
+    # Glance
+      - "glance.name=Komodo"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/komodo.svg"
+      - "glance.url=https://komodo.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=misc"
     restart: unless-stopped
     depends_on:
       - mongo
@@ -46,13 +52,6 @@ services:
       - backups:/backups
     # extra_hosts:
     #   - host.docker.internal:host-gateway
-    labels:
-    # Glance
-      - "glance.name=Komodo"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/komodo.svg"
-      - "glance.url=https://komodo.darksaber.fyi"
-      - "glance.same-tab=true"
-      - "glance.category=misc"
 
   socket-proxy:
       image: lscr.io/linuxserver/socket-proxy:3.2.4
