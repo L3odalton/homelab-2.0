@@ -31,7 +31,7 @@ services:
       - proxy
       - komodo_net
     labels:
-    # Glance
+      # Glance
       - "glance.name=Komodo"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/komodo.svg"
       - "glance.url=https://komodo.darksaber.fyi"
