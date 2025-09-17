@@ -63,8 +63,8 @@ networks:
     internal: true
 
 volumes:
-  db2_etc:
-  db2_var:
-  db2_backup:
-  db2_cmd:
-  booklore2_appdata:
+  db_etc:
+  db_var:
+  db_backup:
+  db_cmd:
+  booklore_appdata:
