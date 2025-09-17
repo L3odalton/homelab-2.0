@@ -31,12 +31,14 @@ services:
       - proxy
       - komodo_net
     labels:
+      # Komodo
+      - "komodo.skip"
+      # Glance
       - "glance.name=Komodo"
       - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/komodo.svg"
       - "glance.url=https://komodo.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=misc"
-      komodo.skip:
     restart: unless-stopped
     depends_on:
       - mongo
