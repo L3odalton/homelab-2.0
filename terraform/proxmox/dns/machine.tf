@@ -59,7 +59,7 @@ resource "proxmox_vm_qemu" "srv-dns-01" {
 resource "proxmox_vm_qemu" "srv-dns-02" {
     name = "srv-dns-02"
     target_node = "pve-s13-01"
-    vmid = "50011"
+    vmid = "50012"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
