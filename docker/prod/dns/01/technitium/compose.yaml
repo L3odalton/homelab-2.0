@@ -4,8 +4,9 @@ services:
     image: technitium/dns-server:13.6.0
     hostname: technitium-01
     domainname: local.darksaber.fyi
+    networks:
+      - proxy
     ports:
-      - "5380:5380/tcp" #DNS web console (HTTP)
       - "53:53/udp" #DNS service
       - "53:53/tcp" #DNS service
     environment:
@@ -17,6 +18,19 @@ services:
     restart: unless-stopped
     sysctls:
       - net.ipv4.ip_local_port_range=1024 65000
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.dns.loadbalancer.server.port=5380"
+      - "traefik.http.routers.dns.rule=Host(`dns.dns-01.darksaber.fyi`)"
+      - "traefik.http.routers.dns.entrypoints=https"
+      - "traefik.http.routers.dns.tls=true"
+      - "traefik.http.routers.dns.middlewares=default-ipallowlist-RFC1918@docker"
+      - "traefik.docker.network=proxy"
 
 volumes:
   technitium.etc:
+
+networks:
+  proxy:
+    external: true
