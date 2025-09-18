@@ -2,7 +2,7 @@ services:
   technitium-01:
     container_name: technitium-01
     image: technitium/dns-server:13.6.0
-    hostname: technitium-01
+    hostname: ns1
     domainname: local.darksaber.fyi
     networks:
       - proxy
@@ -10,7 +10,7 @@ services:
       - "53:53/udp" #DNS service
       - "53:53/tcp" #DNS service
     environment:
-      - DNS_SERVER_DOMAIN=technitium-01.local.darksaber.fyi
+      - DNS_SERVER_DOMAIN=ns1.local.darksaber.fyi
       - DNS_SERVER_ADMIN_PASSWORD=${DNS_SERVER_ADMIN_PASSWORD}
       - DNS_SERVER_LOG_USING_LOCAL_TIME=true
     volumes:
@@ -22,7 +22,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.technitium.loadbalancer.server.port=5380"
-      - "traefik.http.routers.technitium.rule=Host(`technitium.dns-01.darksaber.fyi`)"
+      - "traefik.http.routers.technitium.rule=Host(`ns1.dns-01.darksaber.fyi`)"
       - "traefik.http.routers.technitium.entrypoints=https"
       - "traefik.http.routers.technitium.tls=true"
       - "traefik.docker.network=proxy"
