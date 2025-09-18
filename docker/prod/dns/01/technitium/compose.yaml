@@ -21,10 +21,10 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.services.dns.loadbalancer.server.port=5380"
-      - "traefik.http.routers.dns.rule=Host(`dns.dns-01.darksaber.fyi`)"
-      - "traefik.http.routers.dns.entrypoints=https"
-      - "traefik.http.routers.dns.tls=true"
+      - "traefik.http.services.technitium.loadbalancer.server.port=5380"
+      - "traefik.http.routers.technitium.rule=Host(`dns.dns-01.darksaber.fyi`)"
+      - "traefik.http.routers.technitium.entrypoints=https"
+      - "traefik.http.routers.technitium.tls=true"
       - "traefik.docker.network=proxy"
 
 volumes:
