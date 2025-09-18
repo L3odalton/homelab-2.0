@@ -32,6 +32,7 @@ resource "proxmox_vm_qemu" "srv-dns-01" {
 
     network {
         id = 0
+        tag = 50
         bridge = "vmbr0"
         model  = "virtio"
     }
@@ -41,7 +42,7 @@ resource "proxmox_vm_qemu" "srv-dns-01" {
             scsi0 {
                 disk {
                     storage = "local-zfs"
-                    size    = "20G"
+                    size    = "10G"
                     discard = "true"
                 }
             }
@@ -90,6 +91,7 @@ resource "proxmox_vm_qemu" "srv-dns-02" {
 
     network {
         id = 0
+        tag = 50
         bridge = "vmbr0"
         model  = "virtio"
     }
@@ -99,7 +101,7 @@ resource "proxmox_vm_qemu" "srv-dns-02" {
             scsi0 {
                 disk {
                     storage = "local-zfs"
-                    size    = "20G"
+                    size    = "10G"
                     discard = "true"
                 }
             }
