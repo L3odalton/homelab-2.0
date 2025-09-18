@@ -1,29 +1,9 @@
 services:
-  socket-proxy-dns-01:
-    image: lscr.io/linuxserver/socket-proxy:3.2.4
-    container_name: socket-proxy-dns-01
-    environment:
-      CONTAINERS: 1
-      NETWORKS: 1
-      SERVICES: 1
-      TASKS: 1
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    tmpfs:
-      - /run
-    restart: always
-
   technitium-01:
     container_name: technitium-01
     image: technitium/dns-server:13.6.0
     hostname: technitium-01
     domainname: local.darksaber.fyi
-    depends_on:
-      - pihole-01
-      - dnscrypt-proxy-01
-    networks:
-      dns-network:
-        ipv4_address: 172.21.0.254 
     ports:
       - "5380:5380/tcp" #DNS web console (HTTP)
       - "53:53/udp" #DNS service
@@ -31,58 +11,12 @@ services:
     environment:
       - DNS_SERVER_DOMAIN=technitium-01.local.darksaber.fyi
       - DNS_SERVER_ADMIN_PASSWORD=${DNS_SERVER_ADMIN_PASSWORD}
-      - DNS_SERVER_FORWARDERS=172.21.0.253
       - DNS_SERVER_LOG_USING_LOCAL_TIME=true
     volumes:
-      - /opt/stacks/technitium:/etc/dns
+      - technitium.etc:/etc/dns
     restart: unless-stopped
     sysctls:
       - net.ipv4.ip_local_port_range=1024 65000
 
-  pihole-01:
-    container_name: pihole-01
-    image: ghcr.io/pi-hole/pihole:2025.08.0
-    hostname: pihole-01
-    domainname: local.darksaber.fyi
-    depends_on:
-      - dnscrypt-proxy-01
-    networks:
-      dns-network:
-        ipv4_address: 172.21.0.253
-    ports:
-      - "80:80/tcp"
-    environment:
-      TZ: 'Europe/Berlin'
-      FTLCONF_webserver_api_password: '${FTLCONF_webserver_api_password}'
-      FTLCONF_dns_upstreams: '172.20.0.252#5053;'
-      FTLCONF_dns_listeningMode: 'all'
-    volumes:
-      - /opt/stacks/pihole:/etc/pihole
-    cap_add:
-      - SYS_NICE
-    restart: unless-stopped
-
-  dnscrypt-proxy-01:
-    container_name: dnscrypt-proxy-01
-    image: ghcr.io/klutchell/dnscrypt-proxy:2.1.14
-    hostname: dnscrypt-proxy-01
-    domainname: local.darksaber.fyi
-    networks:
-      dns-network:
-        ipv4_address: 172.21.0.252
-    healthcheck:
-      test: ["CMD", "/usr/local/bin/dnsprobe", "google.com", "127.0.0.1:5053"]
-      interval: 5s
-      timeout: 3s
-      retries: 3
-      start_period: 30s
-
-networks:
-  dns-network:
-    driver: bridge
-    driver_opts:
-      parent: eth0
-    ipam:
-      config:
-        - subnet: 172.21.0.0/24
-          gateway: 172.21.0.1
+volumes:
+  technitium.etc:
