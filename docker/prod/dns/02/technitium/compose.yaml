@@ -22,7 +22,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.technitium.loadbalancer.server.port=5380"
-      - "traefik.http.routers.technitium.rule=Host(`ns2.dns-02.darksaber.fyi`)"
+      - "traefik.http.routers.technitium.rule=Host(`dash.ns2.darksaber.fyi`)"
       - "traefik.http.routers.technitium.entrypoints=https"
       - "traefik.http.routers.technitium.tls=true"
       - "traefik.docker.network=proxy"
