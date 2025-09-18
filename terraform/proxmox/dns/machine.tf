@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "srv-dns-01" {
     name = "srv-dns-01"
     target_node = "pve-ugreen-03"
-    vmid = "100011"
+    vmid = "50011"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
@@ -17,8 +17,8 @@ resource "proxmox_vm_qemu" "srv-dns-01" {
     ciuser = "mgrsys"
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
-    nameserver = "10.0.100.253,10.0.100.254"
-    ipconfig0 = "ip=10.0.100.11/24,gw=10.0.100.1"
+    nameserver = "10.0.50.12,1.1.1.1"
+    ipconfig0 = "ip=10.0.50.11/24,gw=10.0.50.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuOhwlgxLF/4v06qha9jPQ4egOaW2nUFlC7988tPh9X
@@ -59,7 +59,7 @@ resource "proxmox_vm_qemu" "srv-dns-01" {
 resource "proxmox_vm_qemu" "srv-dns-02" {
     name = "srv-dns-02"
     target_node = "pve-s13-01"
-    vmid = "100012"
+    vmid = "50011"
     bios = "ovmf"
     onboot = true
     vm_state = "running"
@@ -75,8 +75,8 @@ resource "proxmox_vm_qemu" "srv-dns-02" {
     ciuser = "mgrsys"
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
-    nameserver = "10.0.100.253,10.0.100.254"
-    ipconfig0 = "ip=10.0.100.12/24,gw=10.0.100.1"
+    nameserver = "10.0.50.11,1.1.1.1"
+    ipconfig0 = "ip=10.0.50.12/24,gw=10.0.50.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuOhwlgxLF/4v06qha9jPQ4egOaW2nUFlC7988tPh9X
