@@ -25,7 +25,6 @@ services:
       - "traefik.http.routers.dns.rule=Host(`dns.dns-01.darksaber.fyi`)"
       - "traefik.http.routers.dns.entrypoints=https"
       - "traefik.http.routers.dns.tls=true"
-      - "traefik.http.routers.dns.middlewares=default-ipallowlist-RFC1918@docker"
       - "traefik.docker.network=proxy"
 
 volumes:
