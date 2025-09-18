@@ -53,7 +53,7 @@ services:
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.tls.certresolver=cloudflare"
       - "traefik.http.routers.dashboard.tls.domains[0].main=darksaber.fyi"
-      - "traefik.http.routers.dashboard.tls.domains[0].sans=*.darksaber.fyi,*.dns-01.darksaber.fyi"
+      - "traefik.http.routers.dashboard.tls.domains[0].sans=*.darksaber.fyi,*.ns1.darksaber.fyi"
 
       # default catch-all router
       - "traefik.http.routers.default.rule=HostRegexp(`.+`)"

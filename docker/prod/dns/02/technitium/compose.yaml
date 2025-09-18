@@ -1,9 +1,6 @@
 services:
-  technitium-01:
-    container_name: technitium-02
+  technitium:
     image: technitium/dns-server:13.6.0
-    hostname: ns2
-    domainname: local.darksaber.fyi
     networks:
       - proxy
     ports:

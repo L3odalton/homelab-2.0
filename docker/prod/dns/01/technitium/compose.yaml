@@ -1,9 +1,6 @@
 services:
-  technitium-01:
-    container_name: technitium-01
+  technitium:
     image: technitium/dns-server:13.6.0
-    hostname: ns1
-    domainname: local.darksaber.fyi
     networks:
       - proxy
     ports:
@@ -22,7 +19,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.technitium.loadbalancer.server.port=5380"
-      - "traefik.http.routers.technitium.rule=Host(`ns1.dns-01.darksaber.fyi`)"
+      - "traefik.http.routers.technitium.rule=Host(`dash.ns1.darksaber.fyi`)"
       - "traefik.http.routers.technitium.entrypoints=https"
       - "traefik.http.routers.technitium.tls=true"
       - "traefik.docker.network=proxy"
