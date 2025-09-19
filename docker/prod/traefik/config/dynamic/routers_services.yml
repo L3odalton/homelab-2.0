@@ -142,4 +142,4 @@ http:
       loadBalancer:
         servers:
           - url: "https://abs.unraid.darksaber.fyi"
-        passHostHeader: false
+        passHostHeader: true
