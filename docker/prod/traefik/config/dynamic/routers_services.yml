@@ -92,7 +92,7 @@ http:
     unraid:
       loadBalancer:
         servers:
-          - url: "http://srv-unraid.local.darksaber.fyi:81"
+          - url: "http://srv-unraid.local.darksaber.fyi:8080"
         passHostHeader: true
     dns-01:
       loadBalancer:
