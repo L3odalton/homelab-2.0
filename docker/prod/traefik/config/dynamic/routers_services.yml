@@ -82,6 +82,15 @@ http:
       tls:
         options: default
       service: plex
+    abs:
+      entryPoints:
+        - "https"
+      rule: "Host(`abs.darksaber.fyi`)"
+      middlewares:
+        - secured-external@file
+      tls:
+        options: default
+      service: abs
 
   services:
     komodo:
@@ -128,4 +137,9 @@ http:
       loadBalancer:
         servers:
           - url: "http://localhost:32400"
+        passHostHeader: true
+    abs:
+      loadBalancer:
+        servers:
+          - url: "https://abs.unraid.darksaber.fyi"
         passHostHeader: true
