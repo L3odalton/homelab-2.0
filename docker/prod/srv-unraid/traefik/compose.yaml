@@ -2,7 +2,7 @@ services:
   socket-proxy:
     image: "11notes/socket-proxy:2.1.4"
     read_only: true
-    user: "0:988" 
+    user: "0:281" 
     environment:
       TZ: "Europe/Berlin"
     volumes:
