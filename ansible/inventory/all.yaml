@@ -9,7 +9,7 @@ all:
     komodo:
       vars:
         enable_server_management: true
-        komodo_core_url: "http://10.0.110.10:9120"
+        komodo_core_url: "https://komodo.darksaber.fyi"
         generate_server_passkey: true
       children:
         core:
