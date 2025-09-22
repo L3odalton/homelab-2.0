@@ -1,5 +1,8 @@
 all:
   hosts:
+    komodo_core_host:
+      ansible_host: 10.0.110.10
+      server_name: "komodo-core-periphery"
 
     komodo_test_host:
       ansible_host: 10.0.100.80
