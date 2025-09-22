@@ -16,7 +16,6 @@ all:
           hosts:
             komodo_core_host:
               server_name: "srv-management"
-              komodo_core_url: "http://localhost:9120"
               server_address: https://host.docker.internal:8120
               komodo_bind_ip: "{{ ansible_docker0.ipv4.address}}"
         periphery:
