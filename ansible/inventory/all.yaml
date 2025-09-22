@@ -11,4 +11,5 @@ all:
   children:
     komodo:
       hosts:
+        komodo_core_host:
         komodo_test_host:
