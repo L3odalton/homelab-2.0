@@ -2,14 +2,22 @@ all:
   hosts:
     komodo_core_host:
       ansible_host: 10.0.110.10
-      server_name: "komodo-core-periphery"
 
     komodo_test_host:
       ansible_host: 10.0.100.80
-      server_name: "komodo-test"
 
   children:
     komodo:
-      hosts:
-        komodo_core_host:
-        komodo_test_host:
+      core:
+        hosts:
+          komodo_core_host:
+            server_name: "srv-management"
+            server_address: https://host.docker.internal:8120
+            komodo_bind_ip: "{{ ansible_docker0.ipv4.address}}"
+      periphery:
+        hosts:
+          komodo_test_host:
+            server_name: "komodo-test"
+            komodo_allowed_ips:
+                - "{{ hostvars['komodo_core_host'].ansible_host }}"
+            komodo_bind_ip: "{{ ansible_host }}"
