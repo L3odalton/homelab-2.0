@@ -76,7 +76,7 @@ resource "proxmox_vm_qemu" "srv-komodo-test" {
     ciuser = "mgrsys"
     ciupgrade = true
     searchdomain = "local.darksaber.fyi"
-    nameserver = "10.0.50.11,01.0.50.12"
+    nameserver = "10.0.50.11,10.0.50.12"
     ipconfig0 = "ip=10.0.100.80/24,gw=10.0.100.1"
     sshkeys = <<EOF
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK43atgPI2XVBwvSM5hGhbeokxgKuetThnThHEJRMiAK
