@@ -116,6 +116,8 @@ services:
     volumes:
       - "var:/traefik/var"
       - "plugins:/traefik/plugins"
+      # dynamic file provider
+      - "./dynamic:/traefik/var/dynamic"
       # access docker socket via proxy read-only
       - "socket-proxy.run:/var/run"
     networks:
@@ -145,5 +147,6 @@ volumes:
 
 networks:
   proxy:
+    external: true
   backend:
     internal: true
