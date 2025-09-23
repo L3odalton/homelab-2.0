@@ -4,6 +4,9 @@ all:
       ansible_host: 10.0.110.10
     komodo_test_host:
       ansible_host: 10.0.100.80
+    localhost:
+      ansible_host: localhost
+      connection: local
 
   children:
     komodo:
