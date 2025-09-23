@@ -1,0 +1,53 @@
+services:
+  mongo:
+    image: mongo
+    labels:
+      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+    command: --quiet --wiredTigerCacheSizeGB 0.25
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
+  
+  core:
+    image: ghcr.io/moghtech/komodo-core:1.19.4
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    networks:
+      - proxy
+      - backend
+    env_file: ./compose.env
+    environment:
+      KOMODO_DATABASE_ADDRESS: mongo:27017
+      KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
+      KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
+    volumes:
+      - ${COMPOSE_KOMODO_BACKUPS_PATH}:/backups
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    labels:
+      # Komodo
+      - "komodo.skip"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.komodo.loadbalancer.server.port=9120"
+      - "traefik.http.routers.komodo.rule=Host(`komodo2.darksaber.fyi`)"
+      - "traefik.http.routers.komodo.entrypoints=https"
+      - "traefik.http.routers.komodo.tls=true"
+      - "traefik.docker.network=proxy"
+
+volumes:
+  mongo-data:
+  mongo-config:
+
+networks:
+  proxy:
+    external: true
+  backend:
+    internal: true
