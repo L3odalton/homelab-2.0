@@ -1,6 +1,6 @@
 services:
   socket-proxy:
-    image: "11notes/socket-proxy:2.1.3"
+    image: "11notes/socket-proxy:2.1.4"
     read_only: true
     user: "0:988" 
     environment:
