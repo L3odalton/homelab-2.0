@@ -9,7 +9,7 @@ all:
     komodo:
       vars:
         enable_server_management: true
-        komodo_core_url: "https://komodo.darksaber.fyi"
+        komodo_core_url: "https://komodo2.darksaber.fyi"
         generate_server_passkey: true
       children:
         core:
