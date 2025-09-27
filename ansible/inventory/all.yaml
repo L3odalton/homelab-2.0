@@ -21,6 +21,10 @@ all:
               server_name: "srv-management"
               server_address: https://host.docker.internal:8120
               komodo_bind_ip: "{{ ansible_docker0.ipv4.address}}"
+              root_dir: "{{ komodo_home }}/.komodo"
+              repo_dir: "{{ root_dir }}/repos"
+              stack_dir: "{{ root_dir }}/stacks"
+              build_dir: "{{ root_dir }}/build"
         # periphery:
         #   hosts:
         #     komodo_test_host:
