@@ -146,35 +146,30 @@ services:
       backend:
     restart: "always"
 
-  valkey:
-    image: valkey/valkey:8
-    command: |
-      --requirepass "${REDIS_PW}"
-    volumes:
-      - valkey.data:/data
+  redis:
+    image: "11notes/redis:7.4.5"
+    read_only: true
+    environment:
+      TZ: "Europe/Berlin"
+      REDIS_PASSWORD: "${REDIS_PW}"
     networks:
       backend:
       proxy:
     ports:
       - 6379:6379
-    restart: unless-stopped
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - echo "auth default ${REDIS_PW}" | valkey-cli -h 'localhost' | grep 'OK'
-      interval: 1m
-      timeout: 30s
-      retries: 3
-      start_period: 60s
-    environment:
-      - VALKEY_PASS="${REDIS_PW}"
-      - VALKEY_DATABASE=0
+    volumes:
+      - "redis.etc:/redis/etc"
+      - "redis.var:/redis/var"
+    tmpfs:
+      - "/run:uid=1000,gid=1000"
+    restart: "always"
 
 volumes:
   var:
   plugins:
   socket-proxy.run:
-  valkey.data:
+  redis.etc:
+  redis.var:
 
 networks:
   proxy:
