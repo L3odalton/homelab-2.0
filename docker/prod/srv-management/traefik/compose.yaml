@@ -145,11 +145,37 @@ services:
     networks:
       backend:
     restart: "always"
+  
+services:
+  valkey:
+    image: valkey/valkey:8
+    command: |
+      --requirepass "${REDIS_PW}"
+    volumes:
+      - valkey.data:/data
+    networks:
+      backend:
+      proxy:
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - echo "auth default ${REDIS_PW}" | valkey-cli -h 'localhost' | grep 'OK'
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    environment:
+      - VALKEY_PASS="${REDIS_PW}"
+      - VALKEY_DATABASE=0
 
 volumes:
   var:
   plugins:
   socket-proxy.run:
+  valkey.data:
 
 networks:
   proxy:
