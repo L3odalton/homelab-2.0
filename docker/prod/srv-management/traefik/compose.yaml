@@ -145,8 +145,7 @@ services:
     networks:
       backend:
     restart: "always"
-  
-services:
+
   valkey:
     image: valkey/valkey:8
     command: |
