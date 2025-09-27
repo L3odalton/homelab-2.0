@@ -17,7 +17,7 @@ all:
       children:
         core:
           hosts:
-            srv-managementt:
+            srv-management:
               server_name: "srv-management"
               server_address: https://host.docker.internal:8120
               komodo_bind_ip: "{{ ansible_docker0.ipv4.address}}"
