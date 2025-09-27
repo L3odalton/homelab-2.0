@@ -79,6 +79,7 @@ services:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
       POCKET_ID_SECRET: "${POCKET_ID_SECRET}"
       POCKET_ID_CLIENT_SECRET: "${POCKET_ID_CLIENT_SECRET}"
+      REDIS_PW: "${REDIS_PW}"
     command:
       # ping is needed for the health check to work!
       - "--ping=true"
