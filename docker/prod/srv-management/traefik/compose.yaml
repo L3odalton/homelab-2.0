@@ -146,30 +146,10 @@ services:
       backend:
     restart: "always"
 
-  redis:
-    image: "11notes/redis:7.4.5"
-    read_only: true
-    environment:
-      TZ: "Europe/Berlin"
-      REDIS_PASSWORD: "${REDIS_PW}"
-    networks:
-      backend:
-      proxy:
-    ports:
-      - 6379:6379
-    volumes:
-      - "redis.etc:/redis/etc"
-      - "redis.var:/redis/var"
-    tmpfs:
-      - "/run:uid=1000,gid=1000"
-    restart: "always"
-
 volumes:
   var:
   plugins:
   socket-proxy.run:
-  redis.etc:
-  redis.var:
 
 networks:
   proxy:
