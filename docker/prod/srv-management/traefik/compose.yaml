@@ -1,6 +1,6 @@
 services:
   socket-proxy:
-    image: "11notes/socket-proxy:2.1.3"
+    image: "11notes/socket-proxy:2.1.4"
     read_only: true
     user: "0:988" 
     environment:
@@ -15,7 +15,7 @@ services:
       socket-proxy:
         condition: "service_healthy"
         restart: true
-    image: "11notes/traefik:3.5.0"
+    image: "11notes/traefik:3.5.3"
     read_only: true
     labels:
       - "traefik.enable=true"
@@ -34,7 +34,10 @@ services:
       - "traefik.http.middlewares.default-csp.headers.contentSecurityPolicy=default-src 'self' blob: data: 'unsafe-inline'"
 
       # default allowlist
-      - "traefik.http.middlewares.default-ipallowlist-RFC1918.ipallowlist.sourcerange=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+      - "traefik.http.middlewares.default-acl.ipallowlist.sourcerange=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+      # default allowlist + github
+      - "traefik.http.middlewares.github-acl.ipallowlist.sourcerange=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,192.30.252.0/22,185.199.108.0/22,140.82.112.0/20,143.55.64.0/20"
 
       # Pocket ID
       - "traefik.http.middlewares.pocket-id.plugin.traefik-oidc-auth.Secret=${POCKET_ID_SECRET}"
@@ -48,12 +51,12 @@ services:
       # example on how to secure the traefik dashboard and api
       - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_FQDN}`)"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.middlewares=pocket-id@docker"
+      - "traefik.http.routers.dashboard.middlewares=pocket-id@docker,default-acl@docker"
       - "traefik.http.routers.dashboard.entrypoints=https"
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.tls.certresolver=cloudflare"
       - "traefik.http.routers.dashboard.tls.domains[0].main=darksaber.fyi"
-      - "traefik.http.routers.dashboard.tls.domains[0].sans=*.darksaber.fyi,*.test.darksaber.fyi"
+      - "traefik.http.routers.dashboard.tls.domains[0].sans=*.darksaber.fyi"
 
       # default catch-all router
       - "traefik.http.routers.default.rule=HostRegexp(`.+`)"
@@ -90,11 +93,12 @@ services:
       - "--log.format=json"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.file.directory=/traefik/var"
+      - "--providers.redis.endpoints=redis:6379"
       - "--entrypoints.http.address=:80"
-      - "--entrypoints.http.http.middlewares=default-errors,default-ratelimit,default-ipallowlist-RFC1918,default-csp"
+      - "--entrypoints.http.http.middlewares=default-errors,default-ratelimit,default-csp"
       - "--entrypoints.https.address=:443"
       - "--entrypoints.https.http.tls=true"
-      - "--entrypoints.https.http.middlewares=default-errors,default-ratelimit,default-ipallowlist-RFC1918,default-csp"
+      - "--entrypoints.https.http.middlewares=default-errors,default-ratelimit,default-csp"
       # disable upstream HTTPS certificate checks (https > https)
       - "--serversTransport.insecureSkipVerify=true"
       # Plugins
@@ -139,11 +143,28 @@ services:
     networks:
       backend:
     restart: "always"
+  
+  redis:
+    image: "11notes/redis:7.4.5"
+    environment:
+      TZ: "Europe/Berlin"
+    networks:
+      backend:
+      proxy:
+    ports:
+      - 6379:6379
+    volumes:
+      - "redis.etc:/redis/etc"
+      - "redis.var:/redis/var"
+    tmpfs:
+      - "run:uid=1000,gid=1000"
 
 volumes:
   var:
   plugins:
   socket-proxy.run:
+  redis.etc:
+  redis.var:
 
 networks:
   proxy:
