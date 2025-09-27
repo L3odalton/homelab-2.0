@@ -94,6 +94,7 @@ services:
       - "--providers.docker.exposedByDefault=false"
       - "--providers.file.directory=/traefik/var"
       - "--providers.redis.endpoints=redis:6379"
+      - "--providers.redis.password=${REDIS_PW}"
       - "--entrypoints.http.address=:80"
       - "--entrypoints.http.http.middlewares=default-errors,default-ratelimit,default-csp"
       - "--entrypoints.https.address=:443"
@@ -149,6 +150,7 @@ services:
     read_only: true
     environment:
       TZ: "Europe/Berlin"
+      REDIS_PASSWORD: "${REDIS_PW}"
     networks:
       backend:
       proxy:
