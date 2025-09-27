@@ -146,6 +146,7 @@ services:
   
   redis:
     image: "11notes/redis:7.4.5"
+    read_only: true
     environment:
       TZ: "Europe/Berlin"
     networks:
