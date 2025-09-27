@@ -8,8 +8,8 @@ services:
     networks:
       - backend
     volumes:
-      - mongo-data:/data/db
-      - mongo-config:/data/configdb
+      - mongo.data:/data/db
+      - mongo.config:/data/configdb
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
@@ -37,14 +37,14 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.services.komodo.loadbalancer.server.port=9120"
-      - "traefik.http.routers.komodo.rule=Host(`komodo2.darksaber.fyi`)"
+      - "traefik.http.routers.komodo.rule=Host(`komodo.darksaber.fyi`)"
       - "traefik.http.routers.komodo.entrypoints=https"
       - "traefik.http.routers.komodo.tls=true"
       - "traefik.docker.network=proxy"
 
 volumes:
-  mongo-data:
-  mongo-config:
+  mongo.data:
+  mongo.config:
 
 networks:
   proxy:

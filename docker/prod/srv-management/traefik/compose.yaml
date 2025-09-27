@@ -2,11 +2,11 @@ services:
   socket-proxy:
     image: "11notes/socket-proxy:2.1.4"
     read_only: true
-    user: "0:988" 
+    user: "0:988"
     environment:
       TZ: "Europe/Berlin"
     volumes:
-      - "/run/docker.sock:/run/docker.sock:ro" 
+      - "/run/docker.sock:/run/docker.sock:ro"
       - "socket-proxy.run:/run/proxy"
     restart: "always"
 
@@ -143,7 +143,7 @@ services:
     networks:
       backend:
     restart: "always"
-  
+
   redis:
     image: "11notes/redis:7.4.5"
     read_only: true
@@ -158,7 +158,8 @@ services:
       - "redis.etc:/redis/etc"
       - "redis.var:/redis/var"
     tmpfs:
-      - "run:uid=1000,gid=1000"
+      - "/run:uid=1000,gid=1000"
+    restart: "always"
 
 volumes:
   var:
