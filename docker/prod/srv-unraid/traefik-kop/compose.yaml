@@ -1,0 +1,17 @@
+services:
+  traefik-kop:
+    image: ghcr.io/jittering/traefik-kop:0.17
+    restart: unless-stopped
+    networks:
+      proxy:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - KOP_HOSTNAME="srv-unraid"
+      - REDIS_ADDR=srv-management.local.darksaber.fyi:6379
+      - REDIS_USER="default"
+      - REDIS_PASS="${REDIS_PW}"
+
+networks:
+  proxy:
+    external: true
