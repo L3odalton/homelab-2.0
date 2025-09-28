@@ -7,12 +7,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - KOP_HOSTNAME="srv-unraid"
+      - KOP_HOSTNAME=srv-unraid
       - REDIS_ADDR=srv-management.local.darksaber.fyi:6379
-      - REDIS_PASS="${REDIS_PW}"
+      - REDIS_PASS=${REDIS_PW}
       - BIND_IP="0.0.0.0"
-      - DEBUG=1
-      
+
 networks:
   proxy:
     external: true
