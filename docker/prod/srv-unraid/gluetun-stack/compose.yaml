@@ -33,7 +33,7 @@ services:
     image: ghcr.io/hotio/sabnzbd:release-4.5.3
     container_name: sabnzbd
     environment:
-      - PUID=1000
+      - PUID=99
       - PGID=100
       - UMASK=002
       - TZ=Europe/Berlin
