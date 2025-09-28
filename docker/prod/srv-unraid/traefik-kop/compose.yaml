@@ -11,7 +11,8 @@ services:
       - REDIS_ADDR=srv-management.local.darksaber.fyi:6379
       - REDIS_PASS="${REDIS_PW}"
       - BIND_IP="0.0.0.0"
-
+      - DEBUG=1
+      
 networks:
   proxy:
     external: true
