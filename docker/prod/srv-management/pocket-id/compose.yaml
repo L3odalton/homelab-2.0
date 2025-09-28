@@ -1,0 +1,38 @@
+---
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v1.11.1
+    container_name: pocket-id
+    networks:
+      - proxy
+    env_file: .env
+    volumes:
+      - pocket-id.data:/app/data
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.pocket-id.loadbalancer.server.port=1411"
+      - "traefik.http.routers.pocket-id.rule=Host(`id.darksaber.fyi`)"
+      - "traefik.http.routers.pocket-id.entrypoints=https"
+      - "traefik.http.routers.pocket-id.tls=true"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Pocket-ID"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/pocket-id.svg"
+      - "glance.url=https://id.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=misc"
+    restart: unless-stopped
+    healthcheck:
+      test: "curl -f http://localhost:1411/healthz"
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  pocket-id.data:
