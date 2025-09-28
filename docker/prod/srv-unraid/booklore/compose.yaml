@@ -21,15 +21,17 @@ services:
     networks:
       - backend
       - proxy
+    ports:
+      - 6060:6060
     restart: unless-stopped
     labels:
       # Traefik
       - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
       - "traefik.http.services.booklore.loadbalancer.server.port=6060"
       - "traefik.http.routers.booklore.rule=Host(`booklore.darksaber.fyi`)"
       - "traefik.http.routers.booklore.entrypoints=https"
       - "traefik.http.routers.booklore.tls=true"
-      - "traefik.http.routers.booklore.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
       # Glance
       - "glance.name=Booklore"
