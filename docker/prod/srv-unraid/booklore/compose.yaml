@@ -4,7 +4,7 @@ services:
     container_name: booklore
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=100
       - TZ=Europe/Berlin
       - DATABASE_URL=jdbc:mariadb://mariadb:3306/mariadb
       - DATABASE_USERNAME=mariadb
