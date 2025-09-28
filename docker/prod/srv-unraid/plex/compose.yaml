@@ -1,28 +1,26 @@
-x-lockdown: &lockdown
-  # prevents write access to the image itself
-  read_only: true
-  # prevents any process within the container to gain more privileges
-  security_opt:
-    - "no-new-privileges=true"
-
+---
 services:
   plex:
-    image: "11notes/plex:1.42.1"
-    <<: *lockdown
-    environment:
-      TZ: "Europe/Berlin"
-    volumes:
-      - "plex.etc:/plex/etc"
-      - "/mnt/user/data/media/tv:/tv"
-      - "/mnt/user/data/media/movies:/movies"
-    tmpfs:
-      # /plex/tmp is required in read-only mode (can be used for transcode too)
-      - "/plex/tmp:size=8G,uid=1000,gid=100"
-    ports:
-      - "32400:32400/tcp"
+    image: lscr.io/linuxserver/plex:1.42.1
+    container_name: plex
     networks:
       proxy:
-    restart: "unless-stopped"
+    ports:
+      - 32400:32400
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/Berlin
+      - VERSION=docker
+      - PLEX_CLAIM=${CLAIM}
+    volumes:
+      - plex.config:/config
+      - /tmp/plex:/transcode
+      - /mnt/user/data/media/tv:/tv
+      - /mnt/user/data/media/movies:/movies
+    # devices:
+    #   - /dev/dri:/dev/dri
+    restart: unless-stopped
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -34,7 +32,7 @@ services:
       - "traefik.docker.network=proxy"
 
 volumes:
-  plex.etc:
+  plex.config:
 
 networks:
   proxy:
