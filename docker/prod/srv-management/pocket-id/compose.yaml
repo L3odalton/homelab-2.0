@@ -34,7 +34,7 @@ services:
     <<: *lockdown
     environment:
       TZ: "Europe/Berlin"
-      APP_URL: "${FQDN}"
+      APP_URL: "${APP_URL}"
       TRUST_PROXY: true
       DB_PROVIDER: "postgres"
       DB_CONNECTION_STRING: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres"
