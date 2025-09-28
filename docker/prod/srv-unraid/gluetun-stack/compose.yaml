@@ -48,8 +48,6 @@ services:
     tmpfs:
       # required for read-only image
       - "/tmp:uid=99,gid=100"
-    ports:
-      - "8181:8080/tcp"
     network_mode: "service:gluetun"
     restart: "unless-stopped"
 
