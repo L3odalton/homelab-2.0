@@ -1,0 +1,34 @@
+---
+services:
+  jellyseerr:
+    image: fallenbagel/jellyseerr:2.7.3
+    container_name: jellyseerr
+    networks:
+      - proxy
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/Berlin
+    volumes:
+      - jellyseerr.config:/app/config
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
+      - "traefik.http.routers.jellyseerr.rule=Host(`anfragen.darksaber.fyi`)"
+      - "traefik.http.routers.jellyseerr.entrypoints=https"
+      - "traefik.http.routers.jellyseerr.tls=true"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Jellyseerr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyseerr.svg"
+      - "glance.url=https://anfragen.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  jellyseerr.config:
