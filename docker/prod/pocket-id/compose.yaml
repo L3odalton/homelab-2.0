@@ -7,8 +7,7 @@ services:
       - proxy
     env_file: .env
     volumes:
-      # - /opt/stacks/pocket-id/data:/app/data
-      - pocket-id.data:/app/data
+      - /opt/stacks/pocket-id/data:/app/data
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -34,8 +33,4 @@ services:
 
 networks:
   proxy:
-    external: true
-
-volumes:
-  pocket-id.data:
     external: true
