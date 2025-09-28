@@ -1,13 +1,49 @@
 ---
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
 services:
-  pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v1.11.2
-    container_name: pocket-id
-    networks:
-      - proxy
-    env_file: .env
+  postgres:
+    image: "11notes/postgres:16"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Berlin"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
     volumes:
-      - pocket-id.data:/app/data
+      - "postgres.etc:/postgres/etc"
+      - "postgres.var:/postgres/var"
+      - "postgres.backup:/postgres/backup"
+    tmpfs:
+      - "/postgres/run:uid=1000,gid=1000"
+      - "/postgres/log:uid=1000,gid=1000"
+    networks:
+      backend:
+    restart: "always"
+
+  pocket-id:
+    depends_on:
+      postgres:
+        condition: "service_healthy"
+        restart: true
+    image: "11notes/pocket-id:1.11.2"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Berlin"
+      APP_URL: "${FQDN}"
+      TRUST_PROXY: true
+      DB_PROVIDER: "postgres"
+      DB_CONNECTION_STRING: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres"
+    volumes:
+      - "pocket-id.var:/pocket-id/var"
+    networks:
+      proxy:
+      backend:
+    restart: "always"
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -22,17 +58,15 @@ services:
       - "glance.url=https://id.darksaber.fyi"
       - "glance.same-tab=true"
       - "glance.category=misc"
-    restart: unless-stopped
-    healthcheck:
-      test: "curl -f http://localhost:1411/healthz"
-      interval: 1m30s
-      timeout: 5s
-      retries: 2
-      start_period: 10s
+
+volumes:
+  postgres.etc:
+  postgres.var:
+  postgres.backup:
+  pocket-id.var:
 
 networks:
   proxy:
     external: true
-
-volumes:
-  pocket-id.data:
+  backend:
+    internal: true
