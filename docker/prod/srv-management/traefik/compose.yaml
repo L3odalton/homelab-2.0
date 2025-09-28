@@ -94,7 +94,7 @@ services:
       - "--log.format=json"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.file.directory=/traefik/var"
-      - "--providers.redis.endpoints=redis:6379"
+      - "--providers.redis.endpoints=valkey:6379"
       - "--providers.redis.password=${REDIS_PW}"
       - "--entrypoints.http.address=:80"
       - "--entrypoints.http.http.middlewares=default-errors,default-ratelimit,default-csp"
@@ -146,30 +146,35 @@ services:
       backend:
     restart: "always"
 
-  redis:
-    image: "11notes/redis:7.4.5"
-    read_only: true
-    environment:
-      TZ: "Europe/Berlin"
-      REDIS_PASSWORD: "${REDIS_PW}"
+  valkey:
+    image: valkey/valkey:8
+    command: |
+      --requirepass "${REDIS_PW}"
+    volumes:
+      - valkey.data:/data
     networks:
       backend:
       proxy:
     ports:
       - 6379:6379
-    volumes:
-      - "redis.etc:/redis/etc"
-      - "redis.var:/redis/var"
-    tmpfs:
-      - "/run:uid=1000,gid=1000"
-    restart: "always"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - echo "auth default ${REDIS_PW}" | valkey-cli -h 'localhost' | grep 'OK'
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    environment:
+      - VALKEY_PASS="${REDIS_PW}"
+      - VALKEY_DATABASE=0
 
 volumes:
   var:
   plugins:
   socket-proxy.run:
-  redis.etc:
-  redis.var:
+  valkey.data:
 
 networks:
   proxy:
