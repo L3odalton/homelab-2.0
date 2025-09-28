@@ -9,6 +9,8 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       - proxy
+    ports:
+      - 8080:8080
     environment:
       - VPN_SERVICE_PROVIDER=mullvad
       - VPN_TYPE=wireguard
@@ -17,6 +19,7 @@ services:
       - SERVER_CITIES=${SERVER_CITIES}
     labels:
       - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
       # Sab
       - "traefik.http.routers.sab.service=sab"
       - "traefik.http.routers.sab.rule=Host(`sab.darksaber.fyi`)"
@@ -37,8 +40,8 @@ services:
       - WEBUI_PORTS=8080/tcp,8080/udp
     volumes:
       - sabnzbd.config:/config
-      - /mnt/data/usenet/complete:/data/usenet/complete
-      - /mnt/data/usenet/incomplete:/data/usenet/incomplete
+      - /mnt/user/data/usenet/complete:/data/usenet/complete
+      - /mnt/user/data/usenet/incomplete:/data/usenet/incomplete
     network_mode: "service:gluetun"
     restart: unless-stopped
     labels:
