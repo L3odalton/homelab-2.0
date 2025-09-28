@@ -18,8 +18,8 @@ services:
       - /tmp/plex:/transcode
       - /mnt/user/data/media/tv:/tv
       - /mnt/user/data/media/movies:/movies
-    # devices:
-    #   - /dev/dri:/dev/dri
+    devices:
+      - /dev/dri:/dev/dri
     restart: unless-stopped
     labels:
       # Traefik
