@@ -82,7 +82,7 @@ services:
       TZ: "Europe/Berlin"
     volumes:
       - "radarr.etc:/radarr/etc"
-      - "/mnt/User/data:/data"
+      - "/mnt/user/data:/data"
     tmpfs:
       # required for read-only image
       - "/tmp:uid=99,gid=100"
