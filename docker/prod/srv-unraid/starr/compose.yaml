@@ -1,0 +1,67 @@
+
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
+services:
+  prowlarr:
+    image: "11notes/prowlarr:2.0.5-unraid"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Berlin"
+    volumes:
+      - "prowlarr.etc:/prowlarr/etc"
+    tmpfs:
+      # required for read-only image
+      - "/tmp:uid=99,gid=100"
+    ports:
+      - "9696:9696/tcp"
+    networks:
+      proxy:
+    restart: "unless-stopped"
+
+  sonarr:
+    image: "11notes/sonarr:4.0.15-unraid"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Berlin"
+    volumes:
+      - "sonarr.etc:/sonarr/etc"
+      - "/mnt/user/data:/data"
+    tmpfs:
+      # required for read-only image
+      - "/tmp:uid=99,gid=100"
+    ports:
+      - "8989:8989/tcp"
+    networks:
+      proxy:
+    restart: "unless-stopped"
+
+  radarr:
+    image: "11notes/radarr:5.27.5-unraid"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Berlin"
+    volumes:
+      - "radarr.etc:/radarr/etc"
+      - "/mnt/User/data:/data"
+    tmpfs:
+      # required for read-only image
+      - "/tmp:uid=99,gid=100"
+    ports:
+      - "7877:7878/tcp"
+    networks:
+      frontend:
+    restart: "unless-stopped"
+
+volumes:
+  prowlarr.etc:
+  sonarr.etc:
+  radarr.etc:
+
+networks:
+  proxy:
+    external: true
