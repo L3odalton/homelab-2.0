@@ -110,6 +110,18 @@ services:
       - "traefik.http.routers.radarr-api.middlewares=default-acl@docker"
       - "traefik.http.routers.radarr-api.priority=3"
 
+  umlautadaptarr:
+    image: pcjones/umlautadaptarr:latest
+    container_name: umlautadaptarr
+    environment:
+      - TZ=Europe/Berlin
+      - SONARR__ENABLED=true
+      - SONARR__HOST=${SONARR_HOST}
+      - SONARR__APIKEY=${SONARR_APIKEY}
+    networks:
+      - proxy
+    restart: unless-stopped
+
 volumes:
   prowlarr.etc:
   sonarr.etc:
