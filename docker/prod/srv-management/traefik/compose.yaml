@@ -97,10 +97,10 @@ services:
       - "--providers.redis.endpoints=valkey:6379"
       - "--providers.redis.password=${REDIS_PW}"
       - "--entrypoints.http.address=:80"
-      - "--entrypoints.http.http.middlewares=default-errors@docker,default-ratelimit@docker,default-csp@docker"
+      - "--entrypoints.http.http.middlewares=default-errors@docker,default-ratelimit@docker"
       - "--entrypoints.https.address=:443"
       - "--entrypoints.https.http.tls=true"
-      - "--entrypoints.https.http.middlewares=default-errors@docker,default-ratelimit@docker,default-csp@docker"
+      - "--entrypoints.https.http.middlewares=default-errors@docker,default-ratelimit@docker"
       # disable upstream HTTPS certificate checks (https > https)
       - "--serversTransport.insecureSkipVerify=true"
       # Plugins
