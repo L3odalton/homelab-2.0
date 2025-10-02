@@ -32,13 +32,13 @@ services:
       - "traefik.http.routers.prowlarr.entrypoints=https"
       - "traefik.http.routers.prowlarr.tls=true"
       - "traefik.http.routers.prowlarr.middlewares=default-acl@docker,pocket-id@docker"
-      - "traefik.http.routers.prowlarr.priority=1"
+      #- "traefik.http.routers.prowlarr.priority=1"
       # API Service
       - "traefik.http.routers.prowlarr-api.rule=(Host(`prowlarr.darksaber.fyi`) && PathPrefix(`/api`))"
       - "traefik.http.routers.prowlarr-api.entrypoints=https"
       - "traefik.http.routers.prowlarr-api.tls=true"
       - "traefik.http.routers.prowlarr-api.middlewares=default-acl@docker"
-      - "traefik.http.routers.prowlarr-api.priority=3"
+      #- "traefik.http.routers.prowlarr-api.priority=3"
 
   sonarr:
     image: "11notes/sonarr:4.0.15-unraid"
@@ -67,13 +67,13 @@ services:
       - "traefik.http.routers.sonarr.entrypoints=https"
       - "traefik.http.routers.sonarr.tls=true"
       - "traefik.http.routers.sonarr.middlewares=default-acl@docker,pocket-id@docker"
-      - "traefik.http.routers.sonarr.priority=1"
+      #- "traefik.http.routers.sonarr.priority=1"
       # API Service
       - "traefik.http.routers.sonarr-api.rule=(Host(`sonarr.darksaber.fyi`) && PathPrefix(`/api`))"
       - "traefik.http.routers.sonarr-api.entrypoints=https"
       - "traefik.http.routers.sonarr-api.tls=true"
       - "traefik.http.routers.sonarr-api.middlewares=default-acl@docker"
-      - "traefik.http.routers.sonarr-api.priority=3"
+      #- "traefik.http.routers.sonarr-api.priority=3"
 
   radarr:
     image: "11notes/radarr:5.27.5-unraid"
@@ -102,13 +102,13 @@ services:
       - "traefik.http.routers.radarr.entrypoints=https"
       - "traefik.http.routers.radarr.tls=true"
       - "traefik.http.routers.radarr.middlewares=default-acl@docker,pocket-id@docker"
-      - "traefik.http.routers.radarr.priority=1"
+      #- "traefik.http.routers.radarr.priority=1"
       # API Service
       - "traefik.http.routers.radarr-api.rule=(Host(`radarr.darksaber.fyi`) && PathPrefix(`/api`))"
       - "traefik.http.routers.radarr-api.entrypoints=https"
       - "traefik.http.routers.radarr-api.tls=true"
       - "traefik.http.routers.radarr-api.middlewares=default-acl@docker"
-      - "traefik.http.routers.radarr-api.priority=3"
+      #- "traefik.http.routers.radarr-api.priority=3"
 
   umlautadaptarr:
     image: pcjones/umlautadaptarr:latest
