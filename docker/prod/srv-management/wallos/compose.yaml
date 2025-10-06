@@ -1,0 +1,30 @@
+---
+services:
+  wallos:
+    image: ghcr.io/ellite/wallos:4.3.0
+    container_name: wallos
+    networks:
+      - proxy
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/Berlin
+    volumes:
+      - wallos.db:/var/www/html/db
+      - wallos.logos:/var/www/html/images/uploads/logos
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.wallos.loadbalancer.server.port=80"
+      - "traefik.http.routers.wallos.rule=Host(`wallos.darksaber.fyi`)"
+      - "traefik.http.routers.wallos.entrypoints=https"
+      - "traefik.http.routers.wallos.tls=true"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  wallos.db:
+  wallos.logos:
