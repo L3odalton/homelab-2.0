@@ -11,7 +11,6 @@ services:
       - backend
     volumes:
       - db.data:/var/lib/postgresql/data
-      - /mnt/user/appdata/restore:/backup
     restart: always
 
 networks:
