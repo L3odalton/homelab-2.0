@@ -62,7 +62,7 @@ services:
       - "traefik.http.routers.sonarr.middlewares=default-acl@docker,pocket-id@docker"
 
   radarr:
-    image: "11notes/radarr:5.27.5-unraid"
+    image: "11notes/radarr:5.28.0-unraid"
     <<: *lockdown
     environment:
       TZ: "Europe/Berlin"
