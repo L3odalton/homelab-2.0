@@ -1,0 +1,17 @@
+services:
+  traefik-kop:
+    image: ghcr.io/jittering/traefik-kop:0.17
+    restart: unless-stopped
+    networks:
+      proxy:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - KOP_HOSTNAME=srv-dns-02
+      - REDIS_ADDR=srv-management.local.darksaber.fyi:6379
+      - REDIS_PASS=${REDIS_PW}
+      - BIND_IP="srv-dns-02.local.darksaber.fyi"
+
+networks:
+  proxy:
+    external: true

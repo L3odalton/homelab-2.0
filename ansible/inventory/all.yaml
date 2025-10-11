@@ -2,8 +2,8 @@ all:
   hosts:
     srv-management:
       ansible_host: srv-management.local.darksaber.fyi
-    # komodo_test_host:
-    #   ansible_host: 10.0.100.80
+    srv-dns-02:
+      ansible_host: srv-dns-02.local.darksaber.fyi
     localhost:
       ansible_host: localhost
       connection: local
@@ -25,10 +25,13 @@ all:
               repo_dir: "{{ root_dir }}/repos"
               stack_dir: "{{ root_dir }}/stacks"
               build_dir: "{{ root_dir }}/build"
-        # periphery:
-        #   hosts:
-        #     komodo_test_host:
-        #       server_name: "komodo-test"
-        #       komodo_allowed_ips:
-        #           - "{{ hostvars['komodo_core_host'].ansible_host }}"
-        #       komodo_bind_ip: "{{ ansible_host }}"
+        periphery:
+          hosts:
+            srv-dns-02:
+              server_name: "srv-dns-02"
+              server_address: "https://srv-dns-02.local.darksaber.fyi:8120"
+              komodo_bind_ip: "{{ ansible_host }}"
+              root_dir: "{{ komodo_home }}/.komodo"
+              repo_dir: "{{ root_dir }}/repos"
+              stack_dir: "{{ root_dir }}/stacks"
+              build_dir: "{{ root_dir }}/build"

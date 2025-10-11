@@ -1,6 +1,6 @@
 ---
 - name: Post-provisioning setup for VM
-  hosts: docker-install-dns-periphery
+  hosts: docker-install-dns
   become: true
 
   tasks:
@@ -93,48 +93,11 @@
                   addresses: [127.0.0.1]
       notify: Apply netplan
 
-    - name: Remove existing periphery.config.toml
-      ansible.builtin.file:
-        path: /etc/komodo/periphery.config.toml
-        state: absent
-
-    - name: Download setup-periphery script
-      ansible.builtin.get_url:
-        url: https://raw.githubusercontent.com/moghtech/komodo/main/scripts/setup-periphery.py
-        dest: /tmp/setup-periphery.py
-        mode: '0755'
-
-    - name: Execute setup-periphery script
-      ansible.builtin.command: python3 /tmp/setup-periphery.py
-      args:
-        chdir: /tmp
-
-    - name: Set allowed_ips in periphery.config.toml
-      ansible.builtin.lineinfile:
-        path: /etc/komodo/periphery.config.toml
-        regexp: '^allowed_ips = \[\]'
-        line: 'allowed_ips = ["::ffff:10.0.100.101"]'
-        state: present
-
-    - name: Enable periphery.service
-      ansible.builtin.systemd:
-        name: periphery.service
-        enabled: true
-        state: started
-
     - name: Allow mgrsys to run sudo without password
       copy:
         dest: /etc/sudoers.d/mgrsys
         content: "mgrsys ALL=(ALL) NOPASSWD:ALL"
         mode: 0440
-
-    - name: Create /opt/stacks directory and set ownership
-      ansible.builtin.file:
-        path: /opt/stacks
-        state: directory
-        owner: mgrsys
-        group: mgrsys
-        mode: '0755'
 
     - name: Disable SSH password authentication
       lineinfile:
