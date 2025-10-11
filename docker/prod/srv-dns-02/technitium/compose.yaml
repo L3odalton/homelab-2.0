@@ -19,6 +19,7 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
+      - "kop.bind.ip=srv-dns-02.local.darksaber.fyi"
       - "traefik.http.services.technitium.loadbalancer.server.port=5380"
       - "traefik.http.routers.technitium.rule=Host(`ns2.darksaber.fyi`)"
       - "traefik.http.routers.technitium.entrypoints=https"
