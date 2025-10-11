@@ -16,6 +16,8 @@ services:
     networks:
       - backend
       - proxy
+    ports:
+      - 2283:2283
     depends_on:
       - redis
       - database
@@ -25,11 +27,11 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
       - "traefik.http.services.immich.loadbalancer.server.port=2283"
       - "traefik.http.routers.immich.rule=Host(`immich.darksaber.fyi`)"
       - "traefik.http.routers.immich.entrypoints=https"
       - "traefik.http.routers.immich.tls=true"
-      - "traefik.http.routers.immich.middlewares=secured-external@file"
       - "traefik.docker.network=proxy"
 
   immich-machine-learning:
