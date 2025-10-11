@@ -1,6 +1,6 @@
 services:
   backrest:
-    image: garethgeorge/garethgeorge/backrest:v1.9.2
+    image: garethgeorge/backrest:v1.9.2
     volumes:
       - backrest.data:/data
       - backrest.config:/config
