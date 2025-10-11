@@ -1,0 +1,40 @@
+services:
+  backrest:
+    image: garethgeorge/garethgeorge/backrest:v1.9.2
+    volumes:
+      - backrest.data:/data
+      - backrest.config:/config
+      - backrest.cache:/cache
+      - backrest.tmp:/tmp
+      - /mnt/user/data:/userdata
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      - TZ=America/Los_Angeles
+    networks:
+      - proxy
+    ports:
+      - "9898:9898"
+    restart: unless-stopped
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
+      - "traefik.http.services.backrest.loadbalancer.server.port=8200"
+      - "traefik.http.routers.backrest.rule=Host(`backrest.darksaber.fyi`)"
+      - "traefik.http.routers.backrest.entrypoints=https"
+      - "traefik.http.routers.backrest.tls=true"
+      - "traefik.http.routers.backrest.middlewares=default-acl@docker"
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  backrest.data:
+  backrest.config:
+  backrest.cache:
+  backrest.tmp:
