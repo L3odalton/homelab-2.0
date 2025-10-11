@@ -5,19 +5,9 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["^ghcr.io/hotio/"],
-      "versioning": "regex:^release-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:\\.(?<build>\\d+))?$"
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["crocodilestick/calibre-web-automated"],
-      "versioning": "regex:^[vV]?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-.*)?$"
-    },
-    {
       "matchManagers": ["docker-compose"],
       "matchDatasources": ["docker"],
-      "matchFileNames": ["docker/prod/immich/compose.yaml"],
+      "matchFileNames": ["docker/prod/srv-unraid/immich/compose.yaml"],
       "matchPackageNames": [
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/immich-app/immich-machine-learning"
@@ -30,9 +20,6 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "^docker/traefik-stack/traefik/config/traefik\\.yml$"
-      ],
       "matchStrings": [
         "\\s+moduleName: \"?github\\.com\\/(?<packageName>[^\\/\"\\s]+\\/[^\\/\"\\s]+)\"?[\\r\\n\\s]+version: \"?(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)\"?"
       ],
