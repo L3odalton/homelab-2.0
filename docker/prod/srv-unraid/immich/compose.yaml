@@ -1,0 +1,24 @@
+services:
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:17-vectorchord0.4.3-pgvectors0.3.0
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    networks:
+      - immich_net
+    volumes:
+      - db.data:/var/lib/postgresql/data
+      - /mnt/user/appdata/restore:/backup
+    restart: always
+
+networks:
+  proxy:
+    external: true
+  backend:
+    internal: true
+
+volumes:
+  db.data:
