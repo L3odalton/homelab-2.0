@@ -1,7 +1,7 @@
 ---
 services:
   duplicati:
-    image: duplicati/duplicati:2.1.2.3
+    image: linuxserver/duplicati:2.1.0
     container_name: duplicati
     environment:
       - PUID=99
