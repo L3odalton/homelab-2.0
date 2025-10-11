@@ -141,12 +141,6 @@ services:
       - "traefik.http.routers.huntarr.tls=true"
       - "traefik.http.routers.huntarr.middlewares=default-acl@docker,pocket-id@docker"
       - "traefik.docker.network=proxy"
-      # Glance
-      - "glance.name=Huntarr"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/png/huntarr.png"
-      - "glance.url=https://huntarr.prod.darksaber.fyi"
-      - "glance.same-tab=true"
-      - "glance.category=automation"
     restart: unless-stopped
 
 volumes:
