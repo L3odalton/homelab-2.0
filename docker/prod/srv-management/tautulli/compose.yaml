@@ -1,0 +1,28 @@
+services:
+  tautulli:
+    image: tautulli/tautulli:v2.16.0
+    container_name: tautulli
+    networks:
+      - proxy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - tautulli.config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
+      - "traefik.http.routers.tautulli.rule=Host(`tautulli.darksaber.fyi`)"
+      - "traefik.http.routers.tautulli.entrypoints=https"
+      - "traefik.http.routers.tautulli.tls=true"
+      - "traefik.http.routers.tautulli.middlewares=default-acl@docker"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  tautulli.config:
