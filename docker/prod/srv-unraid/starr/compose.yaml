@@ -129,6 +129,8 @@ services:
       - TZ=Europe/Berlin
     networks:
       - proxy
+    ports:
+      - 9705:9705
     volumes:
       - huntarr.config:/config
     labels:
