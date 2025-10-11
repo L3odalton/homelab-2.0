@@ -17,6 +17,7 @@
   "customManagers": [
     {
       "customType": "regex",
+      "managerFilePatterns": ["**/*.yaml", "**/*.yml", "**/*.json", "**/*.txt"],
       "matchStrings": [
         "\\s*moduleName:\\s*\"?github\\.com/(?<packageName>[\\w.-]+/[\\w.-]+)\"?[\\r\\n\\s]+version:\\s*\"?(?<currentValue>v?\\d+\\.\\d+\\.\\d+)\"?"
       ],
