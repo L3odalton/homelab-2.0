@@ -8,7 +8,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
     networks:
-      - immich_net
+      - backend
     volumes:
       - db.data:/var/lib/postgresql/data
       - /mnt/user/appdata/restore:/backup
