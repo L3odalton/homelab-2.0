@@ -22,7 +22,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
-      - "traefik.http.services.backrest.loadbalancer.server.port=8200"
+      - "traefik.http.services.backrest.loadbalancer.server.port=9898"
       - "traefik.http.routers.backrest.rule=Host(`backrest.darksaber.fyi`)"
       - "traefik.http.routers.backrest.entrypoints=https"
       - "traefik.http.routers.backrest.tls=true"
