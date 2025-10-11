@@ -5,6 +5,8 @@ services:
     container_name: jellyseerr
     networks:
       - proxy
+    ports:
+      - 5055:5055
     environment:
       - LOG_LEVEL=info
       - TZ=Europe/Berlin
@@ -13,17 +15,12 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
       - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
       - "traefik.http.routers.jellyseerr.rule=Host(`anfragen.darksaber.fyi`)"
       - "traefik.http.routers.jellyseerr.entrypoints=https"
       - "traefik.http.routers.jellyseerr.tls=true"
       - "traefik.docker.network=proxy"
-      # Glance
-      - "glance.name=Jellyseerr"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyseerr.svg"
-      - "glance.url=https://anfragen.darksaber.fyi"
-      - "glance.same-tab=true"
-      - "glance.category=automation"
     restart: unless-stopped
 
 networks:
