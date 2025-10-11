@@ -1,6 +1,6 @@
 services:
   broker:
-    image: docker.io/library/redis:8.2.1
+    image: docker.io/library/redis:8.2.2
     container_name: paperless_redis
     networks:
       - paperless_net
