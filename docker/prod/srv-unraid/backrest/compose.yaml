@@ -12,7 +12,7 @@ services:
       - BACKREST_CONFIG=/config/config.json
       - XDG_CACHE_HOME=/cache
       - TMPDIR=/tmp
-      - TZ=America/Los_Angeles
+      - TZ=Europe/Berlin
     networks:
       - proxy
     ports:
