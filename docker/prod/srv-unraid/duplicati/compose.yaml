@@ -1,7 +1,7 @@
 ---
 services:
   duplicati:
-    image: linuxserver/duplicati:2.1.0
+    image: duplicati/duplicati:2.1.2.3
     container_name: duplicati
     environment:
       - PUID=99
@@ -10,7 +10,7 @@ services:
       - SETTINGS_ENCRYPTION_KEY=${SETTINGS_ENCRYPTION_KEY}
       - DUPLICATI__WEBSERVICE_PASSWORD=${WEBSERVICE_PASSWORD}
     volumes:
-      - /opt/stacks/duplicati/config:/config
+      - duplicati.config:/config
       - /mnt/user/data:/source
     networks:
       - proxy
@@ -31,3 +31,6 @@ services:
 networks:
   proxy:
     external: true
+
+volumes:
+  duplicati.config:
