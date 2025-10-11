@@ -1,4 +1,65 @@
 services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:v1.142.1
+    user: 99:100
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /mnt/user/data/immich/upload:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Berlin
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_DATABASE_NAME=${DB_DATABASE_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    networks:
+      - backend
+      - proxy
+    depends_on:
+      - redis
+      - database
+    restart: always
+    healthcheck:
+      disable: false
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.immich.loadbalancer.server.port=2283"
+      - "traefik.http.routers.immich.rule=Host(`immich.darksaber.fyi`)"
+      - "traefik.http.routers.immich.entrypoints=https"
+      - "traefik.http.routers.immich.tls=true"
+      - "traefik.http.routers.immich.middlewares=secured-external@file"
+      - "traefik.docker.network=proxy"
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:v1.142.1-openvino
+    device_cgroup_rules:
+      - 'c 189:* rmw'
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - immich.modelcache:/cache
+      - /dev/bus/usb:/dev/bus/usb
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - backend
+      - proxy
+    restart: always
+    healthcheck:
+      disable: false
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:8.1.3-bookworm
+    healthcheck:
+      test: redis-cli ping || exit 1
+    networks:
+      - backend
+    restart: always
+
   database:
     container_name: immich_postgres
     image: ghcr.io/immich-app/postgres:17-vectorchord0.4.3-pgvectors0.3.0
@@ -21,3 +82,4 @@ networks:
 
 volumes:
   db.data:
+  immich.modelcache:
