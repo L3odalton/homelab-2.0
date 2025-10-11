@@ -122,10 +122,38 @@ services:
       - proxy
     restart: unless-stopped
 
+  huntarr:
+    image: huntarr/huntarr:8.2.10
+    container_name: huntarr
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - proxy
+    volumes:
+      - huntarr.config:/config
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
+      - "traefik.http.services.huntarr.loadbalancer.server.port=9705"
+      - "traefik.http.routers.huntarr.rule=Host(`huntarr.darksaber.fyi`)"
+      - "traefik.http.routers.huntarr.entrypoints=https"
+      - "traefik.http.routers.huntarr.tls=true"
+      - "traefik.http.routers.huntarr.middlewares=default-acl@docker,pocket-id@docker"
+      - "traefik.docker.network=proxy"
+      # Glance
+      - "glance.name=Huntarr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/png/huntarr.png"
+      - "glance.url=https://huntarr.prod.darksaber.fyi"
+      - "glance.same-tab=true"
+      - "glance.category=automation"
+    restart: unless-stopped
+
 volumes:
   prowlarr.etc:
   sonarr.etc:
   radarr.etc:
+  huntarr.config:
 
 networks:
   proxy:
