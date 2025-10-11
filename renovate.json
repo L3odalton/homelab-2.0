@@ -1,11 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
   "packageRules": [
     {
-      "matchManagers": ["docker-compose"],
+      "matchManagers": ["docker-compose", "compose"],
       "matchDatasources": ["docker"],
       "matchFileNames": ["docker/prod/srv-unraid/immich/compose.yaml"],
       "matchPackageNames": [
@@ -13,15 +11,14 @@
         "ghcr.io/immich-app/immich-machine-learning"
       ],
       "groupName": "Immich images (server + ML)",
-      "groupSlug": "immich",
-      "separateMinorPatch": false
+      "groupSlug": "immich"
     }
   ],
   "customManagers": [
     {
       "customType": "regex",
       "matchStrings": [
-        "\\s+moduleName: \"?github\\.com\\/(?<packageName>[^\\/\"\\s]+\\/[^\\/\"\\s]+)\"?[\\r\\n\\s]+version: \"?(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)\"?"
+        "\\s*moduleName:\\s*\"?github\\.com/(?<packageName>[\\w.-]+/[\\w.-]+)\"?[\\r\\n\\s]+version:\\s*\"?(?<currentValue>v?\\d+\\.\\d+\\.\\d+)\"?"
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "{{packageName}}"
