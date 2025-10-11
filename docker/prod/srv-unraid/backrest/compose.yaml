@@ -26,7 +26,7 @@ services:
       - "traefik.http.routers.backrest.rule=Host(`backrest.darksaber.fyi`)"
       - "traefik.http.routers.backrest.entrypoints=https"
       - "traefik.http.routers.backrest.tls=true"
-      - "traefik.http.routers.backrest.middlewares=default-acl@docker"
+      - "traefik.http.routers.backrest.middlewares=default-acl@docker,pocket-id@docker"
       - "traefik.docker.network=proxy"
 
 networks:

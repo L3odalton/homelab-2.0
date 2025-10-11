@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.technitium-srv-dns-01.rule=Host(`dns1.darksaber.fyi`)"
       - "traefik.http.routers.technitium-srv-dns-01.entrypoints=https"
       - "traefik.http.routers.technitium-srv-dns-01.tls=true"
-      - "traefik.http.routers.technitium-srv-dns-01.middlewares=default-acl@docker"
+      - "traefik.http.routers.technitium-srv-dns-01.middlewares=default-acl@docker,pocket-id@docker"
       - "traefik.docker.network=proxy"
 
 volumes:

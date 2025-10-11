@@ -146,7 +146,7 @@ services:
       - "traefik.http.routers.notifiarr.rule=Host(`notifiarr.darksaber.fyi`)"
       - "traefik.http.routers.notifiarr.entrypoints=https"
       - "traefik.http.routers.notifiarr.tls=true"
-      - "traefik.http.routers.notifiarr.middlewares=default-acl@docker"
+      - "traefik.http.routers.notifiarr.middlewares=default-acl@docker,pocket-id@docker"
       - "traefik.docker.network=proxy"
     restart: unless-stopped
 

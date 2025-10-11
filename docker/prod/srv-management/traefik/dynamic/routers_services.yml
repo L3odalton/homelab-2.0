@@ -6,6 +6,7 @@ http:
       rule: "Host(`unraid.darksaber.fyi`)"
       middlewares:
         - default-acl@docker
+        - pocket-id@docker
       tls:
         options: default
       service: unraid
