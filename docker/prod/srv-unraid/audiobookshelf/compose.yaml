@@ -23,12 +23,6 @@ services:
       - "traefik.http.routers.abs.rule=Host(`abs.darksaber.fyi`)"
       - "traefik.http.routers.abs.entrypoints=https"
       - "traefik.http.routers.abs.tls=true"
-      # Glance
-      - "glance.name=Audiobookshelf"
-      - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/audiobookshelf.svg"
-      - "glance.url=https://abs.darksaber.fyi"
-      - "glance.same-tab=true"
-      - "glance.category=player"
     restart: unless-stopped
 
 networks:
