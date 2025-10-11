@@ -2,7 +2,7 @@ services:
   netdata:
     image: netdata/netdata:v2.7.1
     container_name: netdata
-    hostname: srv-docker-prod
+    hostname: srv-management
     pid: host
     network_mode: host
     restart: unless-stopped
