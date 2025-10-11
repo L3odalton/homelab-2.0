@@ -130,6 +130,7 @@ services:
     hostname: notifiarr
     environment:
       - DN_API_KEY=${NOTIFIARR_API_KEY}
+      - DN_UI_PASSWORD=${DN_UI_PASSWORD}
     volumes:
       - notifiarr.config:/config
       - /etc/machine-id:/etc/machine-id
