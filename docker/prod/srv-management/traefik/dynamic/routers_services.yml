@@ -1,0 +1,46 @@
+http:
+  routers:
+    unraid:
+      entryPoints:
+        - "https"
+      rule: "Host(`unraid.darksaber.fyi`)"
+      middlewares:
+        - default-acl@docker
+      tls:
+        options: default
+      service: unraid
+    homeassistant:
+      entryPoints:
+        - "https"
+      rule: "Host(`ha.darksaber.fyi`)"
+      middlewares:
+        - default-acl@docker
+      tls:
+        options: default
+      service: homeassistant
+    semaphore:
+      entryPoints:
+        - "https"
+      rule: "Host(`semaphore.darksaber.fyi`)"
+      middlewares:
+        - default-acl@docker
+      tls:
+        options: default
+      service: semaphore
+
+  services:
+    unraid:
+      loadBalancer:
+        servers:
+          - url: "http://srv-unraid.local.darksaber.fyi:8080"
+        passHostHeader: true
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://homeassistant.local.darksaber.fyi:8123"
+        passHostHeader: true
+    semaphore:
+      loadBalancer:
+        servers:
+          - url: "http://srv-semaphore.local.darksaber.fyi:3000"
+        passHostHeader: true
