@@ -2,6 +2,8 @@ all:
   hosts:
     srv-management:
       ansible_host: srv-management.local.darksaber.fyi
+    srv-dns-01:
+      ansible_host: srv-dns-01.local.darksaber.fyi
     srv-dns-02:
       ansible_host: srv-dns-02.local.darksaber.fyi
     localhost:
@@ -28,6 +30,14 @@ all:
         periphery:
           hosts:
             srv-dns-02:
+              server_name: "{{ inventory_hostname }}"
+              server_address: "https://{{ ansible_host }}:8120"
+              komodo_bind_ip: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address | default(ansible_host) }}"
+              root_dir: "{{ komodo_home }}/.komodo"
+              repo_dir: "{{ root_dir }}/repos"
+              stack_dir: "{{ root_dir }}/stacks"
+              build_dir: "{{ root_dir }}/build"
+            srv-dns-01:
               server_name: "{{ inventory_hostname }}"
               server_address: "https://{{ ansible_host }}:8120"
               komodo_bind_ip: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address | default(ansible_host) }}"

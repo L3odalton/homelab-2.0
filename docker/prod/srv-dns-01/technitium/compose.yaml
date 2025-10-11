@@ -1,0 +1,35 @@
+services:
+  technitium:
+    image: technitium/dns-server:13.6.0
+    networks:
+      - proxy
+    ports:
+      - "53:53/udp" #DNS service
+      - "53:53/tcp" #DNS service
+      - "5380:5380"
+    environment:
+      - DNS_SERVER_DOMAIN=ns1.local.darksaber.fyi
+      - DNS_SERVER_ADMIN_PASSWORD=${DNS_SERVER_ADMIN_PASSWORD}
+      - DNS_SERVER_LOG_USING_LOCAL_TIME=true
+    volumes:
+      - technitium.etc:/etc/dns
+    restart: unless-stopped
+    sysctls:
+      - net.ipv4.ip_local_port_range=1024 65000
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "kop.bind.ip=srv-dns-01.local.darksaber.fyi"
+      - "traefik.http.services.technitium-srv-dns-01.loadbalancer.server.port=5380"
+      - "traefik.http.routers.technitium-srv-dns-01.rule=Host(`dns1.darksaber.fyi`)"
+      - "traefik.http.routers.technitium-srv-dns-01.entrypoints=https"
+      - "traefik.http.routers.technitium-srv-dns-01.tls=true"
+      - "traefik.http.routers.technitium-srv-dns-01.middlewares=default-acl@docker"
+      - "traefik.docker.network=proxy"
+
+volumes:
+  technitium.etc:
+
+networks:
+  proxy:
+    external: true
