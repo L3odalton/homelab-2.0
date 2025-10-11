@@ -1,0 +1,40 @@
+- name: Media
+  # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
+  # hide-desktop-navigation: true
+  columns:
+    - size: small
+      widgets:
+        - type: calendar
+          first-day-of-week: monday
+        
+    - size: full
+      widgets:
+        - type: docker-containers
+          title: Player
+          category: player
+          sock-path: tcp://socket-proxy:2375
+        - type: docker-containers
+          title: Automation
+          category: automation
+          sock-path: tcp://socket-proxy:2375
+        - type: docker-containers
+          title: Photos
+          category: photos
+          sock-path: tcp://socket-proxy:2375
+        - type: docker-containers
+          title: Monitoring
+          category: monitoring
+          sock-path: tcp://socket-proxy:2375
+
+    - size: small
+      widgets:
+        - type: weather
+          units: metric
+          hour-format: 24h
+          location: Hannover, Germany
+        - type: server-stats
+          servers:
+            - type: local
+              name: srv-docker
+        - type: repository
+          repository: L3odalton/homelab-2.0
