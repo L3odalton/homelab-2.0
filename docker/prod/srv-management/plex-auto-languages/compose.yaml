@@ -1,0 +1,15 @@
+---
+services:
+  plexautolanguages:
+    image: remirigal/plex-auto-languages:v1.2.3
+    container_name: plexautolanguages
+    environment:
+      - PLEX_URL=${PLEX_URL}
+      - PLEX_TOKEN=${PLEX_TOKEN}
+      - TZ=Europe/Berlin
+    volumes:
+      - plex-auto-languages.config:/config
+    restart: unless-stopped
+
+volumes:
+  plex-auto-languages.config:
