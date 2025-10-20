@@ -157,6 +157,8 @@ services:
       - maintainerr.data:/opt/data
     environment:
       - TZ=Europe/Berlin
+    networks:
+      proxy:
     ports:
       - 6246:6246
     labels:
