@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
   
   sabnzbd:
-    image: "11notes/sabnzbd:4.5.3-unraid"
+    image: "11notes/sabnzbd:4.5.5-unraid"
     <<: *lockdown
     environment:
       TZ: "Europe/Berlin"
