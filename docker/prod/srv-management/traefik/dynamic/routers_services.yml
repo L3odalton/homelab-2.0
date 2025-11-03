@@ -28,6 +28,15 @@ http:
       tls:
         options: default
       service: semaphore
+    kasm:
+      entryPoints:
+        - "https"
+      rule: "Host(`kasm.darksaber.fyi`)"
+      middlewares:
+        - default-acl@docker
+      tls:
+        options: default
+      service: kasm
 
   services:
     unraid:
@@ -44,4 +53,9 @@ http:
       loadBalancer:
         servers:
           - url: "http://srv-semaphore.local.darksaber.fyi:3000"
+        passHostHeader: true
+    kasm:
+      loadBalancer:
+        servers:
+          - url: "https://srv-kasm.local.darksaber.fyi:443"
         passHostHeader: true
