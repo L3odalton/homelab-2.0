@@ -34,7 +34,7 @@ services:
       - "traefik.http.routers.prowlarr.middlewares=default-acl@docker,pocket-id@docker"
 
   sonarr:
-    image: "11notes/sonarr:4.0.15-unraid"
+    image: "11notes/sonarr:4.0.16-unraid"
     <<: *lockdown
     environment:
       TZ: "Europe/Berlin"
