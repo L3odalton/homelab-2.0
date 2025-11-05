@@ -32,8 +32,6 @@ http:
       entryPoints:
         - "https"
       rule: "Host(`kasm.darksaber.fyi`)"
-      middlewares:
-        - default-acl@docker
       tls:
         options: default
       service: kasm
