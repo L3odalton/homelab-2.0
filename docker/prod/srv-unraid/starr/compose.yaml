@@ -7,7 +7,7 @@ x-lockdown: &lockdown
 
 services:
   prowlarr:
-    image: "11notes/prowlarr:2.1.5-unraid"
+    image: "11notes/prowlarr:2.3.0-unraid"
     <<: *lockdown
     environment:
       TZ: "Europe/Berlin"
