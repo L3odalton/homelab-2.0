@@ -1,0 +1,35 @@
+---
+services:
+  youtrack:
+    image: jetbrains/youtrack:2025.3.108924
+    container_name: youtrack
+    networks:
+      - proxy
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/Berlin
+    volumes:
+      - youtrack.data:/opt/youtrack/data
+      - youtrack.conf:/opt/youtrack/conf
+      - youtrack.logs:/opt/youtrack/logs
+      - youtrack.backups:/opt/youtrack/backups
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.youtrack.loadbalancer.server.port=8080"
+      - "traefik.http.routers.youtrack.rule=Host(`youtrack.darksaber.fyi`)"
+      - "traefik.http.routers.youtrack.entrypoints=https"
+      - "traefik.http.routers.youtrack.tls=true"
+      - "traefik.http.routers.youtrack.middlewares=default-acl@docker"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  youtrack.data:
+  youtrack.conf:
+  youtrack.logs:
+  youtrack.backups:
