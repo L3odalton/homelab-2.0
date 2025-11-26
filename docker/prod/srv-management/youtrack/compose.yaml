@@ -20,7 +20,6 @@ services:
       - "traefik.http.routers.youtrack.rule=Host(`youtrack.darksaber.fyi`)"
       - "traefik.http.routers.youtrack.entrypoints=https"
       - "traefik.http.routers.youtrack.tls=true"
-      - "traefik.http.routers.youtrack.middlewares=default-acl@docker"
       - "traefik.docker.network=proxy"
     restart: unless-stopped
 
