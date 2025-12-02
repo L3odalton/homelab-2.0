@@ -12,7 +12,7 @@ services:
     environment:
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - DOMAINS=ip.darksaber.fyi
-      - PROXIED=true
+      - PROXIED=false
       - IP6_PROVIDER=none
 
 networks:
