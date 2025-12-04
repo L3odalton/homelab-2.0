@@ -147,7 +147,7 @@ services:
     restart: "always"
 
   valkey:
-    image: valkey/valkey:8.1.4
+    image: valkey/valkey:8.1.5
     command: |
       --requirepass "${REDIS_PW}"
     volumes:
