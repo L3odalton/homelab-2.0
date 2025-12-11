@@ -68,31 +68,6 @@
         src: /run/systemd/resolve/resolv.conf
         force: true
 
-    - name: Set interface facts with hardcoded /24 prefix
-      ansible.builtin.set_fact:
-        interface: "{{ ansible_default_ipv4.interface }}"
-        ip_address: "{{ ansible_default_ipv4.address }}"
-        prefix: 24
-        gateway: "{{ ansible_default_ipv4.gateway }}"
-
-    - name: Write netplan config with current IP and static DNS (no template)
-      copy:
-        dest: /etc/netplan/99-custom.yaml
-        owner: root
-        group: root
-        mode: '0644'
-        content: |
-          network:
-            version: 2
-            ethernets:
-              {{ interface }}:
-                addresses:
-                  - {{ ip_address }}/{{ prefix }}
-                gateway4: {{ gateway }}
-                nameservers:
-                  addresses: [127.0.0.1]
-      notify: Apply netplan
-
     - name: Allow mgrsys to run sudo without password
       copy:
         dest: /etc/sudoers.d/mgrsys
