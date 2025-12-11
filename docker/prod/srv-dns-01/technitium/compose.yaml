@@ -6,7 +6,8 @@ services:
     ports:
       - "53:53/udp" #DNS service
       - "53:53/tcp" #DNS service
-      - "5380:5380"
+      - "5380:5380" #HTTP
+      - "53443:53443/tcp" #HTTPS
     environment:
       - DNS_SERVER_DOMAIN=ns1.local.darksaber.fyi
       - DNS_SERVER_ADMIN_PASSWORD=${DNS_SERVER_ADMIN_PASSWORD}
