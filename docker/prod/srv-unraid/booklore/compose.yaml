@@ -23,7 +23,7 @@ services:
       - proxy
     ports:
       - 6060:6060
-    restart: unless-stopped
+    restart: always
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -56,7 +56,7 @@ services:
       - backend
     tmpfs:
       - "/run/mariadb:uid=1000,gid=100"
-    restart: unless-stopped
+    restart: always
 
 networks:
   proxy:

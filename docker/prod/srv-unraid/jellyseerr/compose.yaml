@@ -21,7 +21,7 @@ services:
       - "traefik.http.routers.jellyseerr.entrypoints=https"
       - "traefik.http.routers.jellyseerr.tls=true"
       - "traefik.docker.network=proxy"
-    restart: unless-stopped
+    restart: always
 
 networks:
   proxy:

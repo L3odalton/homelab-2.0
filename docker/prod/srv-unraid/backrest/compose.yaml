@@ -17,7 +17,7 @@ services:
       - proxy
     ports:
       - "9898:9898"
-    restart: unless-stopped
+    restart: always
     labels:
       # Traefik
       - "traefik.enable=true"

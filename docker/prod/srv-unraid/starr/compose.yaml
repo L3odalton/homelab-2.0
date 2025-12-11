@@ -20,7 +20,7 @@ services:
       - "9696:9696/tcp"
     networks:
       proxy:
-    restart: "unless-stopped"
+    restart: "always"
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -48,7 +48,7 @@ services:
       - "8989:8989/tcp"
     networks:
       proxy:
-    restart: "unless-stopped"
+    restart: "always"
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -76,7 +76,7 @@ services:
       - "7878:7878/tcp"
     networks:
       proxy:
-    restart: "unless-stopped"
+    restart: "always"
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -99,7 +99,7 @@ services:
       - SONARR__APIKEY=${SONARR_APIKEY}
     networks:
       - proxy
-    restart: unless-stopped
+    restart: always
 
   huntarr:
     image: huntarr/huntarr:8.2.10
@@ -122,7 +122,7 @@ services:
       - "traefik.http.routers.huntarr.tls=true"
       - "traefik.http.routers.huntarr.middlewares=default-acl@docker,pocket-id@docker"
       - "traefik.docker.network=proxy"
-    restart: unless-stopped
+    restart: always
 
   notifiarr:
     image: golift/notifiarr:0.9.1
@@ -148,7 +148,7 @@ services:
       - "traefik.http.routers.notifiarr.tls=true"
       - "traefik.http.routers.notifiarr.middlewares=default-acl@docker,pocket-id@docker"
       - "traefik.docker.network=proxy"
-    restart: unless-stopped
+    restart: always
 
   maintainerr:
     image: ghcr.io/jorenn92/maintainerr:2.19
@@ -171,7 +171,7 @@ services:
       - "traefik.http.routers.maintainerr.tls=true"
       - "traefik.http.routers.maintainerr.middlewares=default-acl@docker,pocket-id@docker"
       - "traefik.docker.network=proxy"
-    restart: unless-stopped
+    restart: always
 
 volumes:
   prowlarr.etc:

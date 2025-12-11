@@ -23,7 +23,7 @@ services:
       - "traefik.http.routers.abs.rule=Host(`abs.darksaber.fyi`)"
       - "traefik.http.routers.abs.entrypoints=https"
       - "traefik.http.routers.abs.tls=true"
-    restart: unless-stopped
+    restart: always
 
 networks:
   proxy:

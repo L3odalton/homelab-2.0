@@ -20,7 +20,7 @@ services:
       - /mnt/user/data/media/movies:/movies
     devices:
       - /dev/dri:/dev/dri
-    restart: unless-stopped
+    restart: always
     labels:
       # Traefik
       - "traefik.enable=true"
