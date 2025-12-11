@@ -34,7 +34,7 @@ services:
       - "traefik.http.routers.sab.tls=true"
       - "traefik.http.routers.sab.middlewares=default-acl@docker"
       - "traefik.http.services.sab.loadbalancer.server.port=8181"  
-    restart: unless-stopped
+    restart: always
   
   sabnzbd:
     image: "11notes/sabnzbd:4.5.5-unraid"
@@ -43,13 +43,14 @@ services:
       TZ: "Europe/Berlin"
     volumes:
       - "sabnzbd.etc:/sabnzbd/etc"
+      - /mnt/user/data-ssd/usenet/complete:/data-ssd/usenet/complete
       - /mnt/user/data/usenet/complete:/data/usenet/complete
-      - /mnt/user/data/usenet/incomplete:/data/usenet/incomplete
+      - /mnt/user/data-ssd/usenet/incomplete:/data/usenet/incomplete
     tmpfs:
       # required for read-only image
       - "/tmp:uid=99,gid=100"
     network_mode: "service:gluetun"
-    restart: "unless-stopped"
+    restart: "always"
 
 networks:
   proxy:
