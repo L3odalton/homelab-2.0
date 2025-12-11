@@ -16,8 +16,8 @@ services:
         condition: service_healthy
     volumes:
       - booklore.appdata:/app/data
-      - /mnt/user/data/media/booklore:/books
-      - /mnt/user/data/usenet/complete/books:/bookdrop
+      - /mnt/user/data-ssd/media/booklore:/books
+      - /mnt/user/data-ssd/usenet/complete/books:/bookdrop
     networks:
       - backend
       - proxy
