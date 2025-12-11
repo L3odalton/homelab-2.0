@@ -91,6 +91,20 @@
       community.general.timezone:
         name: Europe/Berlin
 
+    - name: Create Proxy network
+      community.docker.docker_network:
+        name: proxy
+        state: present
+        driver: bridge
+
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
+    
+    - name: Reboot the server
+      ansible.builtin.reboot:
+        msg: "Reboot triggered by Ansible playbook"
+        reboot_timeout: 600
+
   handlers:
     - name: Restart SSH
       service:

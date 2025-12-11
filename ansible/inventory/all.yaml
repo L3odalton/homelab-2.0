@@ -8,9 +8,6 @@ all:
       ansible_host: srv-dns-02.local.darksaber.fyi
     srv-dns-03:
       ansible_host: srv-dns-03.local.darksaber.fyi
-    localhost:
-      ansible_host: localhost
-      connection: local
 
   children:
     komodo:
