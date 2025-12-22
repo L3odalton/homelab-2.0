@@ -1,6 +1,6 @@
 services:
   technitium:
-    image: technitium/dns-server:14.2.0
+    image: technitium/dns-server:14.3.0
     networks:
       - proxy
     ports:
