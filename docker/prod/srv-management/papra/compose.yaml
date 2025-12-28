@@ -8,6 +8,7 @@ services:
     environment:
       - AUTH_SECRET=${AUTH_SECRET}
       - AUTH_PROVIDERS_CUSTOMS=${AUTH_PROVIDERS_CUSTOMS}
+      - AUTH_PROVIDERS_EMAIL_IS_ENABLED=false
       - APP_BASE_URL=https://documents.darksaber.fyi
     volumes:
       - papra.data:/app/app-data
