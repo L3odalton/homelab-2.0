@@ -11,6 +11,14 @@ services:
     volumes:
       - papra.data:/app/app-data
     user: 1000:1000
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.services.papra.loadbalancer.server.port=1221"
+      - "traefik.http.routers.papra.rule=Host(`documents.darksaber.fyi`)"
+      - "traefik.http.routers.papra.entrypoints=https"
+      - "traefik.http.routers.papra.tls=true"
+      - "traefik.docker.network=proxy"
 
 volumes:
   papra.data:
