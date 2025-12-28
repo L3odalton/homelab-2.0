@@ -1,7 +1,7 @@
 ---
 services:
   youtrack:
-    image: jetbrains/youtrack:2025.3.112453
+    image: jetbrains/youtrack:2025.3.114121
     container_name: youtrack
     networks:
       - proxy
