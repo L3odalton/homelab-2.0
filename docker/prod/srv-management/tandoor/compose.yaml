@@ -1,0 +1,72 @@
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
+services:
+  postgres_tandoor:
+    image: "11notes/postgres:16"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Berlin"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # make a full and compressed database backup each day at 03:00
+      POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
+      # only keep the last five backups
+      POSTGRES_BACKUP_RETENTION: 5
+    networks:
+      - backend
+    volumes:
+      - "postgres.etc:/postgres/etc"
+      - "postgres.var:/postgres/var"
+      - "postgres.backup:/postgres/backup"
+    tmpfs:
+      # needed for read-only
+      - "/postgres/run:uid=1000,gid=1000"
+      - "/postgres/log:uid=1000,gid=1000"
+    restart: "unless-stopped"
+
+  tandoor:
+    image: ghcr.io/tandoorrecipes/recipes:2.3.6
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      TZ: "Europe/Berlin"
+      ALLOWED_HOSTS: "rezepte.darksaber.fyi"
+      DB_ENGINE: "django.db.backends.postgresql"
+      POSTGRES_HOST: "postgres_tandoor"
+      POSTGRES_DB: "postgres"
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SOCIAL_PROVIDERS: "allauth.socialaccount.providers.openid_connect"
+      SOCIALACCOUNT_PROVIDERS: ${SOCIALACCOUNT_PROVIDERS}
+    networks:
+      - backend
+      - proxy
+    volumes:
+      - tandoor.staticfiles:/opt/recipes/staticfiles
+      - tandoor.mediafiles:/opt/recipes/mediafiles
+    depends_on:
+      - postgres_tandoor
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.tandoor.loadbalancer.server.port=80"
+      - "traefik.http.routers.tandoor.rule=Host(`rezepte.darksaber.fyi`)"
+      - "traefik.http.routers.tandoor.entrypoints=https"
+      - "traefik.http.routers.tandoor.tls=true"
+      - "traefik.http.routers.tandoor.middlewares=default-acl@docker"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+
+volumes:
+  postgres.etc:
+  postgres.var:
+  postgres.backup:
+  tandoor.staticfiles:
+  tandoor.mediafiles:
+
+networks:
+  proxy:
+    external: true
