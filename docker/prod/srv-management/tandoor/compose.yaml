@@ -70,3 +70,5 @@ volumes:
 networks:
   proxy:
     external: true
+  backend:
+    internal: true
