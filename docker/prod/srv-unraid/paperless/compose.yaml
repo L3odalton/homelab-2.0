@@ -53,11 +53,15 @@ services:
       PAPERLESS_OCR_LANGUAGE: "deu"
       PAPERLESS_SECRET_KEY: ${PAPERLESS_NGX_SECRET_KEY}
       PAPERLESS_TIME_ZONE: "Europe/Berlin"
-      PAPERLESS_URL: "https://${PAPERLESS_NGX_FQDN}"
+      PAPERLESS_FILENAME_FORMAT: "{created_year}/{title}-{tag_list}"
+      PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: "True"
+      PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS: ${PAPERLESS_SOCIALACCOUNT_PROVIDERS}
+      PAPERLESS_URL: "https://paperless.darksaber.fyi"
     volumes:
       - "/mnt/user/data-ssd/paperless/consume:/usr/src/paperless/consume"
       - "/mnt/user/data-ssd/paperless/originals:/usr/src/paperless/media/documents/originals"
-      - "paperless-ngx.archive:/usr/src/paperless/media/documents/archive"
+      - "/mnt/user/data-ssd/paperless/archive:/usr/src/paperless/media/documents/archive"
       - "paperless-ngx.data:/usr/src/paperless/data"
       - "paperless-ngx.export:/usr/src/paperless/export"
       - "paperless-ngx.thumbnails:/usr/src/paperless/media/documents/thumbnails"
@@ -83,7 +87,6 @@ volumes:
   postgres.backup:
   redis.etc:
   redis.var:
-  paperless-ngx.archive:
   paperless-ngx.data:
   paperless-ngx.export:
   paperless-ngx.thumbnails:  
