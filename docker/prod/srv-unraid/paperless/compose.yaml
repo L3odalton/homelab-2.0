@@ -20,7 +20,7 @@ services:
     restart: "always"
 
   redis:
-    image: "11notes/redis:7.4.4"
+    image: "11notes/redis:7.4.7"
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       TZ: Europe/Berlin
