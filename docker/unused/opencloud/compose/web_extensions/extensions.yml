@@ -1,7 +1,0 @@
-services:
-  opencloud:
-    volumes:
-      - opencloud-apps:/var/lib/opencloud/web/assets/apps
-
-volumes:
-  opencloud-apps:

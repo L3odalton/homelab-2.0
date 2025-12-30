@@ -1,0 +1,95 @@
+services:
+  postgres:
+    image: "11notes/postgres:16"
+    read_only: true
+    environment:
+      TZ: "Europe/Berlin"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # make a full and compressed database backup each day at 03:00
+      POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
+    volumes:
+      - "postgres.etc:/postgres/etc"
+      - "postgres.var:/postgres/var"
+      - "postgres.backup:/postgres/backup"
+    tmpfs:
+      # needed for read-only
+      - "/postgres/run:uid=1000,gid=1000"
+      - "/postgres/log:uid=1000,gid=1000"
+    networks:
+      backend:
+    restart: "always"
+
+  redis:
+    image: "11notes/redis:7.4.0"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      TZ: Europe/Berlin
+    volumes:
+      - "redis.etc:/redis/etc"
+      - "redis.var:/redis/var"
+    networks:
+      backend:
+    restart: always
+
+  paperless-ngx:
+    depends_on:
+      postgres:
+        condition: "service_healthy"
+        restart: true
+      redis:
+        condition: "service_healthy"
+        restart: true
+    image: "11notes/paperless-ngx:2.20.3"
+    environment:
+      TZ: "Europe/Berlin"
+      PAPERLESS_REDIS: "redis://:${REDIS_PASSWORD}@redis:6379"
+      PAPERLESS_DBPASS: ${POSTGRES_PASSWORD}
+      PAPERLESS_CONSUMER_POLLING: "60"
+      PAPERLESS_CONSUMER_POLLING_DELAY: "30"
+      PAPERLESS_CONSUMER_POLLING_RETRY_COUNT: "3"
+      PAPERLESS_OCR_SKIP_ARCHIVE_FILE: "never"
+      PAPERLESS_CONSUMER_RECURSIVE: "false"
+      PAPERLESS_OCR_LANGUAGES: "eng deu"
+      PAPERLESS_OCR_LANGUAGE: "deu"
+      PAPERLESS_SECRET_KEY: ${PAPERLESS_NGX_SECRET_KEY}
+      PAPERLESS_TIME_ZONE: "Europe/Berlin"
+      PAPERLESS_URL: "https://${PAPERLESS_NGX_FQDN}"
+    volumes:
+      - "/mnt/user/data-ssd/paperless/consume:/usr/src/paperless/consume"
+      - "/mnt/user/data-ssd/paperless/originals:/usr/src/paperless/media/documents/originals"
+      - "paperless-ngx.archive:/usr/src/paperless/media/documents/archive"
+      - "paperless-ngx.data:/usr/src/paperless/data"
+      - "paperless-ngx.export:/usr/src/paperless/export"
+      - "paperless-ngx.thumbnails:/usr/src/paperless/media/documents/thumbnails"
+    networks:
+      proxy:
+      backend:
+    ports:
+      - "3000:8000/tcp"
+    restart: "always"
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
+      - "traefik.http.services.paperless.loadbalancer.server.port=3000"
+      - "traefik.http.routers.paperless.rule=Host(`paperless.darksaber.fyi`)"
+      - "traefik.http.routers.paperless.entrypoints=https"
+      - "traefik.http.routers.paperless.tls=true"
+      - "traefik.docker.network=proxy"
+
+volumes:
+  postgres.etc:
+  postgres.var:
+  postgres.backup:
+  redis.etc:
+  redis.var:
+  paperless-ngx.archive:
+  paperless-ngx.data:
+  paperless-ngx.export:
+  paperless-ngx.thumbnails:  
+
+networks:
+  proxy:
+    external: true
+  backend:
+    internal: true
