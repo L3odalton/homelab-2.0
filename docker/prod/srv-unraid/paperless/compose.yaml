@@ -1,4 +1,19 @@
 services:
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: "alpine"
+    entrypoint: ["/bin/ash", "-c"]
+    command:
+      - |
+        chown -R ${UID}:${GID} /sonarr
+    volumes:
+      - "paperless-ngx.consume:/usr/src/paperless/consume"
+      - "paperless-ngx.originals:/usr/src/paperless/media/documents/originals"
+      - "paperless-ngx.archive:/usr/src/paperless/media/documents/archive"
+      - "paperless-ngx.data:/usr/src/paperless/data"
+      - "paperless-ngx.export:/usr/src/paperless/export"
+      - "paperless-ngx.thumbnails:/usr/src/paperless/media/documents/thumbnails"
+
   postgres:
     image: "11notes/postgres:16"
     read_only: true
@@ -20,7 +35,7 @@ services:
     restart: "always"
 
   redis:
-    image: "11notes/redis:7.4.4"
+    image: "11notes/redis:7.4.7"
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       TZ: Europe/Berlin
@@ -39,8 +54,10 @@ services:
       redis:
         condition: "service_healthy"
         restart: true
-    image: "ghcr.io/l3odalton/paperless-ngx-unraid:2.20.3"
-    user: "99:100"
+      chown:
+        condition: service_completed_successfully
+    image: "11notes/paperless-ngx:2.20.3"
+    user: "${UID}:${GID}"
     environment:
       TZ: "Europe/Berlin"
       PAPERLESS_REDIS: "redis://:${REDIS_PASSWORD}@redis:6379"
@@ -60,9 +77,9 @@ services:
       PAPERLESS_SOCIALACCOUNT_PROVIDERS: ${PAPERLESS_SOCIALACCOUNT_PROVIDERS}
       PAPERLESS_URL: "https://paperless.darksaber.fyi"
     volumes:
-      - "/mnt/user/data-ssd/paperless/consume:/usr/src/paperless/consume"
-      - "/mnt/user/data-ssd/paperless/originals:/usr/src/paperless/media/documents/originals"
-      - "/mnt/user/data-ssd/paperless/archive:/usr/src/paperless/media/documents/archive"
+      - "paperless-ngx.consume:/usr/src/paperless/consume"
+      - "paperless-ngx.originals:/usr/src/paperless/media/documents/originals"
+      - "paperless-ngx.archive:/usr/src/paperless/media/documents/archive"
       - "paperless-ngx.data:/usr/src/paperless/data"
       - "paperless-ngx.export:/usr/src/paperless/export"
       - "paperless-ngx.thumbnails:/usr/src/paperless/media/documents/thumbnails"
@@ -88,6 +105,21 @@ volumes:
   postgres.backup:
   redis.etc:
   redis.var:
+  paperless-ngx.consume:
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/user/data-ssd/paperless/consume
+  paperless-ngx.originals:
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/user/data-ssd/paperless/originals
+  paperless-ngx.archive:
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/user/data-ssd/paperless/archive
   paperless-ngx.data:
   paperless-ngx.export:
   paperless-ngx.thumbnails:  
