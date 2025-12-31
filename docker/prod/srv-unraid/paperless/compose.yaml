@@ -5,14 +5,13 @@ services:
     entrypoint: ["/bin/ash", "-c"]
     command:
       - |
-        chown -R ${UID}:${GID} /usr/src/paperless
+        chown -R ${UID}:${GID} /usr/src/paperless/consume
+        chown -R ${UID}:${GID} /usr/src/paperless/media/documents/originals
+        chown -R ${UID}:${GID} /usr/src/paperless/media/documents/archive
     volumes:
       - "paperless-ngx.consume:/usr/src/paperless/consume"
       - "paperless-ngx.originals:/usr/src/paperless/media/documents/originals"
       - "paperless-ngx.archive:/usr/src/paperless/media/documents/archive"
-      - "paperless-ngx.data:/usr/src/paperless/data"
-      - "paperless-ngx.export:/usr/src/paperless/export"
-      - "paperless-ngx.thumbnails:/usr/src/paperless/media/documents/thumbnails"
 
   postgres:
     image: "11notes/postgres:16"
@@ -57,7 +56,6 @@ services:
       chown:
         condition: service_completed_successfully
     image: "11notes/paperless-ngx:2.20.3"
-    user: "${UID}:${GID}"
     environment:
       TZ: "Europe/Berlin"
       PAPERLESS_REDIS: "redis://:${REDIS_PASSWORD}@redis:6379"
