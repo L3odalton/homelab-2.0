@@ -5,7 +5,7 @@ services:
     entrypoint: ["/bin/ash", "-c"]
     command:
       - |
-        chown -R ${UID}:${GID} /sonarr
+        chown -R ${UID}:${GID} /usr/src/paperless
     volumes:
       - "paperless-ngx.consume:/usr/src/paperless/consume"
       - "paperless-ngx.originals:/usr/src/paperless/media/documents/originals"
