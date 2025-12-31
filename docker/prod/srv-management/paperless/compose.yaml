@@ -58,6 +58,9 @@ services:
       PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
       PAPERLESS_SOCIALACCOUNT_PROVIDERS: ${PAPERLESS_SOCIALACCOUNT_PROVIDERS}
       PAPERLESS_URL: "https://paperless.darksaber.fyi"
+      USERMAP_UID: 99
+      USERMAP_GID: 100
+      user: 99:100
     volumes:
       - "paperless-ngx.consume:/usr/src/paperless/consume"
       - "paperless-ngx.originals:/usr/src/paperless/media/documents/originals"
@@ -87,32 +90,32 @@ volumes:
   paperless-ngx.consume:
     driver_opts:
       type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=1000,gid=1000,dir_mode=0700,file_mode=0700
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
       device: //srv-unraid/containers/paperless/consume
   paperless-ngx.originals:
     driver_opts:
       type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=1000,gid=1000,dir_mode=0700,file_mode=0700
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
       device: //srv-unraid/containers/paperless/originals
   paperless-ngx.archive:
     driver_opts:
       type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=1000,gid=1000,dir_mode=0700,file_mode=0700
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
       device: //srv-unraid/containers/paperless/archive
   paperless-ngx.data:
     driver_opts:
       type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=1000,gid=1000,dir_mode=0700,file_mode=0700
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
       device: //srv-unraid/containers/paperless/data
   paperless-ngx.export:
     driver_opts:
       type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=1000,gid=1000,dir_mode=0700,file_mode=0700
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
       device: //srv-unraid/containers/paperless/export
   paperless-ngx.thumbnails:
     driver_opts:
       type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=1000,gid=1000,dir_mode=0700,file_mode=0700
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
       device: //srv-unraid/containers/paperless/thumbnails
 
 networks:
