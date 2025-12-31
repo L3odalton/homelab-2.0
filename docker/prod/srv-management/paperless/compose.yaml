@@ -1,16 +1,4 @@
 services:
-  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
-  chown:
-    image: "alpine"
-    entrypoint: ["/bin/ash", "-c"]
-    command:
-      - |
-        chown -R ${UID}:${GID} /usr/src/paperless/consume && chown -R ${UID}:${GID} /usr/src/paperless/media/documents/originals && chown -R ${UID}:${GID} /usr/src/paperless/media/documents/archive && chmod -R 777 /usr/src/paperless/consume && chmod -R 777 /usr/src/paperless/media/documents/originals && chmod -R 777 /usr/src/paperless/media/documents/archive
-    volumes:
-      - "paperless-ngx.consume:/usr/src/paperless/consume"
-      - "paperless-ngx.originals:/usr/src/paperless/media/documents/originals"
-      - "paperless-ngx.archive:/usr/src/paperless/media/documents/archive"
-
   postgres:
     image: "11notes/postgres:16"
     read_only: true
@@ -82,13 +70,10 @@ services:
     networks:
       proxy:
       backend:
-    ports:
-      - "3000:8000/tcp"
     restart: "always"
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
       - "traefik.http.services.paperless.loadbalancer.server.port=3000"
       - "traefik.http.routers.paperless.rule=Host(`paperless.darksaber.fyi`)"
       - "traefik.http.routers.paperless.entrypoints=https"
@@ -103,22 +88,34 @@ volumes:
   redis.var:
   paperless-ngx.consume:
     driver_opts:
-      type: none
-      o: bind
-      device: /mnt/user/data-ssd/paperless/consume
+      type: cifs
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0777,file_mode=0777
+      device: //srv-unraid/containers/paperless/consume
   paperless-ngx.originals:
     driver_opts:
-      type: none
-      o: bind
-      device: /mnt/user/data-ssd/paperless/originals
+      type: cifs
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0777,file_mode=0777
+      device: //srv-unraid/containers/paperless/originals
   paperless-ngx.archive:
     driver_opts:
-      type: none
-      o: bind
-      device: /mnt/user/data-ssd/paperless/archive
+      type: cifs
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0777,file_mode=0777
+      device: //srv-unraid/containers/paperless/archive
   paperless-ngx.data:
+    driver_opts:
+      type: cifs
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0777,file_mode=0777
+      device: //srv-unraid/containers/paperless/data
   paperless-ngx.export:
-  paperless-ngx.thumbnails:  
+    driver_opts:
+      type: cifs
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0777,file_mode=0777
+      device: //srv-unraid/containers/paperless/export
+  paperless-ngx.thumbnails:
+    driver_opts:
+      type: cifs
+      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0777,file_mode=0777
+      device: //srv-unraid/containers/paperless/thumbnails
 
 networks:
   proxy:
