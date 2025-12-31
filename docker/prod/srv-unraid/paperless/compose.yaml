@@ -8,6 +8,9 @@ services:
         chown -R ${UID}:${GID} /usr/src/paperless/consume
         chown -R ${UID}:${GID} /usr/src/paperless/media/documents/originals
         chown -R ${UID}:${GID} /usr/src/paperless/media/documents/archive
+        chmod -R 777 /usr/src/paperless/consume
+        chmod -R 777 /usr/src/paperless/media/documents/originals
+        chmod -R 777 /usr/src/paperless/media/documents/archive
     volumes:
       - "paperless-ngx.consume:/usr/src/paperless/consume"
       - "paperless-ngx.originals:/usr/src/paperless/media/documents/originals"
