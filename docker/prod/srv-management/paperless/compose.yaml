@@ -39,8 +39,6 @@ services:
       redis:
         condition: "service_healthy"
         restart: true
-      chown:
-        condition: service_completed_successfully
     image: "11notes/paperless-ngx:2.20.3"
     environment:
       TZ: "Europe/Berlin"
