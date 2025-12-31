@@ -40,6 +40,7 @@ services:
         condition: "service_healthy"
         restart: true
     image: "ghcr.io/l3odalton/paperless-ngx-unraid:2.20.3"
+    user: "99:100"
     environment:
       TZ: "Europe/Berlin"
       PAPERLESS_REDIS: "redis://:${REDIS_PASSWORD}@redis:6379"
