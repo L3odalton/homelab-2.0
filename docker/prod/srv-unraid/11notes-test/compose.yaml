@@ -1,0 +1,64 @@
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
+services:
+  # This image will mount the volume and then simply execute chown on the parent folder for the UID/GID specified.
+  chown:
+    image: "alpine"
+    entrypoint: ["/bin/ash", "-c"]
+    command:
+      - |
+        chown -R 99:100 /postgres
+    volumes:
+      - "postgres.etc:/postgres/etc"
+
+  postgres:
+    depends_on:
+      chown:
+        condition: service_completed_successfully
+    image: "11notes/postgres:18"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Zurich"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # make a full and compressed database backup each day at 03:00
+      POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
+      # only keep the last five backups
+      POSTGRES_BACKUP_RETENTION: 5
+    ports:
+      - "5432:5432/tcp"
+    networks:
+      proxy:
+    volumes:
+      - "postgres.etc:/postgres/etc"
+      - "postgres.var:/postgres/var"
+      - "postgres.backup:/postgres/backup"
+    tmpfs:
+      # needed for read-only
+      - "/postgres/run:uid=99,gid=100"
+      - "/postgres/log:uid=99,gid=100"
+    restart: "always"
+
+volumes:
+  postgres.etc:
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/user/containers/11notes-test/postgres/etc
+  postgres.var:
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/user/containers/11notes-test/postgres/var
+  postgres.backup:
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/user/containers/11notes-test/postgres/backup
+
+networks:
+  proxy:
