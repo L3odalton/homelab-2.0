@@ -14,8 +14,6 @@ services:
       - |
         chown -R 99:100 /postgres
     volumes:
-      - "postgres.etc:/postgres/etc"
-      - "postgres.var:/postgres/var"
       - "postgres.backup:/postgres/backup"
 
   postgres:
