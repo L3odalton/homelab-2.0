@@ -68,10 +68,13 @@ services:
     networks:
       proxy:
       backend:
+    ports:
+      - "3000:8000/tcp"
     restart: "always"
     labels:
       # Traefik
       - "traefik.enable=true"
+      - "kop.bind.ip=srv-unraid.local.darksaber.fyi"
       - "traefik.http.services.paperless.loadbalancer.server.port=3000"
       - "traefik.http.routers.paperless.rule=Host(`paperless.darksaber.fyi`)"
       - "traefik.http.routers.paperless.entrypoints=https"
@@ -86,24 +89,24 @@ volumes:
   redis.var:
   paperless-ngx.data:
     driver_opts:
-      type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
-      device: //srv-unraid/containers/paperless/data
+      type: none
+      o: bind
+      device: /mnt/user/containers/paperless/data
   paperless-ngx.media:
     driver_opts:
-      type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
-      device: //srv-unraid/containers/paperless/media
+      type: none
+      o: bind
+      device: /mnt/user/containers/paperless/media
   paperless-ngx.consume:
     driver_opts:
-      type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
-      device: //srv-unraid/containers/paperless/consume
+      type: none
+      o: bind
+      device: /mnt/user/containers/paperless/consume
   paperless-ngx.export:
     driver_opts:
-      type: cifs
-      o: username=smbuser,password=${PASSWORD},uid=99,gid=100,dir_mode=0700,file_mode=0700
-      device: //srv-unraid/containers/paperless/export
+      type: none
+      o: bind
+      device: /mnt/user/containers/paperless/export
 networks:
   proxy:
     external: true
