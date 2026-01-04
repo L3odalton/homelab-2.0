@@ -28,7 +28,7 @@ services:
       TZ: "Europe/Zurich"
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       # make a full and compressed database backup each day at 03:00
-      POSTGRES_BACKUP_SCHEDULE: "46 22 * * *"
+      POSTGRES_BACKUP_SCHEDULE: "20 23 * * *"
       # only keep the last five backups
       POSTGRES_BACKUP_RETENTION: 5
     ports:
