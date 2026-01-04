@@ -43,6 +43,9 @@ services:
     environment:
       TZ: "Europe/Berlin"
       PAPERLESS_REDIS: "redis://:${REDIS_PASSWORD}@redis:6379"
+      PAPERLESS_DBHOST: "postgres"
+      PAPERLESS_DBNAME: "postgres"
+      PAPERLESS_DBUSER: "postgres"
       PAPERLESS_DBPASS: ${POSTGRES_PASSWORD}
       PAPERLESS_CONSUMER_POLLING: "60"
       PAPERLESS_CONSUMER_POLLING_DELAY: "30"
