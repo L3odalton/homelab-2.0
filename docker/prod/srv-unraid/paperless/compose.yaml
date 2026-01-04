@@ -56,7 +56,7 @@ services:
       PAPERLESS_OCR_LANGUAGE: "deu"
       PAPERLESS_SECRET_KEY: ${PAPERLESS_NGX_SECRET_KEY}
       PAPERLESS_TIME_ZONE: "Europe/Berlin"
-      PAPERLESS_FILENAME_FORMAT: "{{ created_year }}/{{ title }}-{{ tag_list }}"
+      PAPERLESS_FILENAME_FORMAT: "{{ added_year }}/{{ correspondent }}/{{ title }}-{{ tag_list }}"
       PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: "True"
       PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
       PAPERLESS_SOCIALACCOUNT_PROVIDERS: ${PAPERLESS_SOCIALACCOUNT_PROVIDERS}
