@@ -61,8 +61,8 @@ services:
       PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
       PAPERLESS_SOCIALACCOUNT_PROVIDERS: ${PAPERLESS_SOCIALACCOUNT_PROVIDERS}
       PAPERLESS_URL: "https://paperless.darksaber.fyi"
-      PUID: "99"
-      GUID: "100"
+      USERMAP_UID: "99"
+      USERMAP_GID: "100"
     volumes:
       - "paperless-ngx.data:/usr/src/paperless/data"
       - "paperless-ngx.media:/usr/src/paperless/media"
