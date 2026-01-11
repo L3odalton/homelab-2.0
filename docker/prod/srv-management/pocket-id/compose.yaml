@@ -36,8 +36,8 @@ services:
       TZ: "Europe/Berlin"
       APP_URL: "${APP_URL}"
       TRUST_PROXY: true
-      DB_PROVIDER: "postgres"
       DB_CONNECTION_STRING: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres"
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
     volumes:
       - "pocket-id.var:/pocket-id/var"
     networks:
