@@ -30,14 +30,14 @@ services:
       postgres:
         condition: "service_healthy"
         restart: true
-    image: "11notes/pocket-id:1.16.0"
+    image: "11notes/pocket-id:2.1.0"
     <<: *lockdown
     environment:
       TZ: "Europe/Berlin"
       APP_URL: "${APP_URL}"
       TRUST_PROXY: true
-      DB_PROVIDER: "postgres"
       DB_CONNECTION_STRING: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres"
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
     volumes:
       - "pocket-id.var:/pocket-id/var"
     networks:
