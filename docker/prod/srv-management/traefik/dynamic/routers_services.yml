@@ -75,10 +75,10 @@ http:
     s3kb:
       loadBalancer:
         servers:
-          - url: "https://192.168.60.5:9000"
+          - url: "http://192.168.60.5:9000"
         passHostHeader: true
     s3kbconsole:
       loadBalancer:
         servers:
-          - url: "https://192.168.60.5:9001"
+          - url: "http://192.168.60.5:9001"
         passHostHeader: true
