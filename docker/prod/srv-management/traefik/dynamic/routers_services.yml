@@ -35,6 +35,14 @@ http:
       tls:
         options: default
       service: kasm
+    s3kb:
+      entryPoints:
+        - "https"
+      rule: "Host(`s3-kb.darksaber.fyi`)"
+      tls:
+        options: default
+      service: s3kb
+      
 
   services:
     unraid:
@@ -56,4 +64,9 @@ http:
       loadBalancer:
         servers:
           - url: "https://srv-kasm.local.darksaber.fyi:443"
+        passHostHeader: true
+    s3kb:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.60.5:9000"
         passHostHeader: true
