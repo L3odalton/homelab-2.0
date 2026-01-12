@@ -42,6 +42,13 @@ http:
       tls:
         options: default
       service: s3kb
+    s3kbconsole:
+      entryPoints:
+        - "https"
+      rule: "Host(`s3-kb-console.darksaber.fyi`)"
+      tls:
+        options: default
+      service: s3kbconsole
       
 
   services:
@@ -69,4 +76,9 @@ http:
       loadBalancer:
         servers:
           - url: "https://192.168.60.5:9000"
+        passHostHeader: true
+    s3kbconsole:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.60.5:9001"
         passHostHeader: true
