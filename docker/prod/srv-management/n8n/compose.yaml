@@ -86,7 +86,7 @@ services:
       - n8n
 
   n8n-runner:
-    image: docker.n8n.io/n8nio/runners:2.4.2
+    image: n8nio/runners:2.4.2
     networks:
       - backend
     environment:
