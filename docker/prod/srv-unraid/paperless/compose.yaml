@@ -39,7 +39,7 @@ services:
       redis:
         condition: "service_healthy"
         restart: true
-    image: "ghcr.io/paperless-ngx/paperless-ngx:2.20.5"
+    image: "ghcr.io/paperless-ngx/paperless-ngx:2.20.6"
     environment:
       TZ: "Europe/Berlin"
       PAPERLESS_REDIS: "redis://:${REDIS_PASSWORD}@redis:6379"
