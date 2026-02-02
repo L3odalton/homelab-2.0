@@ -7,7 +7,7 @@ x-lockdown: &lockdown
 
 services:
   postgres_tandoor:
-    image: "11notes/postgres:16"
+    image: "11notes/postgres:18"
     <<: *lockdown
     environment:
       TZ: "Europe/Berlin"
