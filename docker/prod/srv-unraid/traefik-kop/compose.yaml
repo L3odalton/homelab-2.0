@@ -1,6 +1,6 @@
 services:
   traefik-kop:
-    image: ghcr.io/jittering/traefik-kop:0.19.3
+    image: ghcr.io/jittering/traefik-kop:0.19.4
     restart: always
     networks:
       proxy:
