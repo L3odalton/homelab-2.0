@@ -7,6 +7,7 @@ services:
       - backrest.cache:/cache
       - backrest.tmp:/tmp
       - /mnt/user/data:/userdata
+      - /mnt/user/containers:/containers
     environment:
       - BACKREST_DATA=/data
       - BACKREST_CONFIG=/config/config.json
