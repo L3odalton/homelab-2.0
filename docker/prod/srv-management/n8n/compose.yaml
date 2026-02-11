@@ -45,7 +45,7 @@ services:
       retries: 10
 
   redis:
-    image: redis:6.2.21-alpine
+    image: redis:8.6.0-alpine
     restart: always
     networks:
       - backend
