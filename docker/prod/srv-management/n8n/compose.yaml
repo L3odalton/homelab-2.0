@@ -25,7 +25,7 @@ x-shared: &shared
 
 services:
   postgres:
-    image: postgres:16.11
+    image: postgres:18.2
     restart: always
     networks:
       - backend
