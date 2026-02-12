@@ -1,6 +1,6 @@
 services:
   stirling-pdf:
-    image: ghcr.io/stirling-tools/stirling-pdf:2.2.1
+    image: ghcr.io/stirling-tools/stirling-pdf:2.4.6
     volumes:
       - stirlingpdf.trainingData:/usr/share/tessdata
       - stirlingpdf.extraConfigs:/configs
