@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: "11notes/postgres:16"
+    image: "11notes/postgres:18"
     read_only: true
     environment:
       TZ: "Europe/Berlin"
